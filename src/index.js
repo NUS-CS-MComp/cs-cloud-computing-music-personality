@@ -2,20 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import Home from "./Home";
-import Categories from "./Categories/Categories";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
 const App = () => (
   <Switch>
     <Route exact path="/" component={Home} />
-    <Route path="/categories" component={Categories} />
   </Switch>
 );
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </BrowserRouter>,
   document.getElementById("root")
 );

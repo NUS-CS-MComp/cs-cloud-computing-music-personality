@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { connect } from "react-redux";
 import { addAccessToken } from "./actions/actions";
@@ -19,52 +19,42 @@ const hash = window.location.hash
     return initial;
   }, {});
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: null
-    };
-  }
-  componentDidMount() {
+const Home = props => {
+  const [categories, setCategories] = useState(0);
+  useEffect(() => {
     let _token = hash.access_token;
     if (_token) {
-      this.props.addAccessToken(_token);
+      props.addAccessToken(_token);
     }
-  }
-  handleClick = event => {
+  });
+  const handleClick = event => {
     event.preventDefault();
-    fetch(`/categories?token=${encodeURIComponent(this.props.accessToken)}`)
+    fetch(`/categories?token=${encodeURIComponent(props.accessToken)}`)
       .then(response => response.json())
       .then(state => {
-        this.setState({
-          categories: state.data.categories.items.map(v => v.name)
-        });
+        setCategories(state.data.categories.items.map(v => v.name));
       });
   };
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          {!this.props.accessToken && (
-            <a
-              href={`https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`}
-              className="btn"
-            >
-              Login
-            </a>
-          )}
-          {this.props.accessToken && (
-            <form onSubmit={this.handleClick}>
-              <button type="submit">Submit</button>
-            </form>
-          )}
-          <Categories data={this.state.categories} />
-        </header>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      <header className="App-header">
+        {!props.accessToken ? (
+          <a
+            href={`https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`}
+            className="btn"
+          >
+            Login
+          </a>
+        ) : (
+          <form onSubmit={handleClick}>
+            <button type="submit">Submit</button>
+          </form>
+        )}
+        <Categories data={categories} />
+      </header>
+    </div>
+  );
+};
 
 const mapDispatchToProps = {
   addAccessToken: addAccessToken

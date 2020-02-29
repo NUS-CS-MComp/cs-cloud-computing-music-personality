@@ -1,6 +1,6 @@
 ### Running the project
 
-On first run, run `npm install`
+On first run, run `npm install`  
 Open a terminal and run `npm run dev` to run both the frontend and backend together
 
 ### Register the app to spotify

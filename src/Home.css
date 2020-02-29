@@ -1,5 +1,13 @@
+html,
+body,
 .Home {
-  text-align: center;
+  background-color: #bdcad4;
+  height: 100%;
+  color: #282c34;
+}
+
+.Home {
+  padding: 10px;
 }
 
 .Home-logo {
@@ -21,7 +29,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #f5f8fa;
 }
 
 .Home-link {
@@ -35,4 +43,31 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.navbar-logo-parent {
+  height: 60%;
+  width: 50px;
+  margin-right: 0px;
+}
+
+.navbar-logo {
+  height: 100%;
+  width: 100%;
+}
+a:link {
+  text-decoration: none;
+  color: white;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
 }

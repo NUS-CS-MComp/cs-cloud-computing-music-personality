@@ -19,8 +19,8 @@ app.get("/categories", (req, res) => {
     .then(resp => {
       res.send(stringifySafe(resp));
     })
-    .catch("error", err => {
-      console.log("Error: " + err.message);
+    .catch(err => {
+      console.error("Error: " + err.message);
     });
 });
 

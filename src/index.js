@@ -3,15 +3,11 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import Home from "./Home";
 import * as serviceWorker from "./serviceWorker";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 
-const App = () => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-  </Switch>
-);
+const App = () => <Home />;
 
 ReactDOM.render(
   <BrowserRouter>

@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { addAccessToken } from "./actions/actions";
+import {
+  addSpotifyAccessToken,
+  addFBAccessToken,
+  addFBUserId
+} from "./actions/actions";
 import Categories from "./Categories/Categories";
+import FBPosts from "./facebook/FBPosts";
+import FacebookLogin from "react-facebook-login";
 import {
   Alignment,
   Navbar,
@@ -37,9 +43,10 @@ const Home = props => {
   useEffect(() => {
     let _token = hash.access_token;
     if (_token) {
-      props.addAccessToken(_token);
+      props.addSpotifyAccessToken(_token);
     }
   });
+
   return (
     <div className="bp3-dark">
       <div>
@@ -53,7 +60,22 @@ const Home = props => {
             </NavbarGroup>
             <NavbarGroup align={Alignment.RIGHT}>
               <NavbarDivider />
-              {!props.accessToken ? (
+              {!props.fbAccessToken ? (
+                <FacebookLogin
+                  appId="<your fb app id here>"
+                  fields="name,email,picture"
+                  scope="user_posts"
+                  callback={response => {
+                    props.addFBAccessToken(response.accessToken);
+                    props.addFBUserId(response.userID);
+                  }}
+                  cssClass="navbar-fb-login"
+                />
+              ) : (
+                "Logged In FB"
+              )}
+              <NavbarDivider />
+              {!props.spotifyAccessToken ? (
                 <a
                   href={`https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`}
                 >
@@ -64,21 +86,32 @@ const Home = props => {
                   />
                 </a>
               ) : (
-                "Logged In"
+                "Logged In SP"
               )}
             </NavbarGroup>
           </Navbar>
         </Example>
       </div>
       <div className="Home">
-        {!props.accessToken && "Please log in to Spotify first"}
-        {props.accessToken && (
+        {!props.spotifyAccessToken && "Please log in to Spotify first"}
+        {!props.addFBAccessToken && "Please log in to Facebook first"}
+        {props.spotifyAccessToken && (
           <div>
             <Link to="/category">
               <Button>Get Categories</Button>
             </Link>
           </div>
         )}
+        {props.fbAccessToken && (
+          <div>
+            <Link to="/fbposts">
+              <Button>Get Posts</Button>
+            </Link>
+          </div>
+        )}
+        <Switch>
+          <Route exact path="/fbposts" component={FBPosts} />
+        </Switch>
         <Switch>
           <Route exact path="/category" component={Categories} />
         </Switch>
@@ -88,12 +121,16 @@ const Home = props => {
 };
 
 const mapDispatchToProps = {
-  addAccessToken: addAccessToken
+  addSpotifyAccessToken: addSpotifyAccessToken,
+  addFBAccessToken: addFBAccessToken,
+  addFBUserId: addFBUserId
 };
 
 const mapStateToProps = state => {
   return {
-    accessToken: state.accessToken
+    spotifyAccessToken: state.spotifyAccessToken,
+    fbAccessToken: state.fbAccessToken,
+    fbUserId: state.fbUserId
   };
 };
 

@@ -24,6 +24,23 @@ app.get("/categories", (req, res) => {
     });
 });
 
+app.get("/fbposts", (req, res) => {
+  axios
+    .get(
+      "https://graph.facebook.com/" +
+        req.query.userId +
+        "/feed?access_token=" +
+        req.query.accessToken
+    )
+    .then(resp => {
+      res.send(stringifySafe(resp));
+    })
+    .catch(err => {
+      console.log(req.userId);
+      console.log(req.accessToken);
+      console.error("Error: " + err.message);
+    });
+});
 app.listen(3001, () =>
   console.log("Express server is running on localhost:3001")
 );

@@ -8,7 +8,6 @@ const Categories = props => {
     fetch(`/categories?token=${encodeURIComponent(props.accessToken)}`)
       .then(response => response.json())
       .then(state => {
-        console.log(state);
         setCategories(state.data.categories.items.map(v => v.name));
       });
   }, [props.accessToken]);

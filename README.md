@@ -1,10 +1,10 @@
 ### Running the project
 
-On first run, run `npm install`, and run [#python-install](Python installation and setup)  
+On first run, run `npm install`, and run [Python installation and setup](#python-installation-and-setup)  
 Open a terminal and run `npm start` to run the frontend  
 Open another terminal and run `npm run start-python` to run the backend
 
-### Python installation and setup {: #python-install }
+### Python installation and setup
 
 1. Download and install anaconda
 2. Create the virtual environment in Backend/venv by running `python -m venv venv`. Run this at the Backend folder.

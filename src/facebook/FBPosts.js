@@ -5,10 +5,10 @@ const FBPosts = props => {
     const [posts, setPosts] = useState(0);
 
     useEffect(() => {
-        fetch(`/fbPosts?accessToken=${props.fbAccessToken}&userId=${props.fbUserId}`)
+        fetch(`/getFacebookPosts?accessToken=${props.fbAccessToken}&userId=${props.fbUserId}`)
             .then(response => response.json())
             .then(state => {
-                setPosts(state.data.data.map(v => v.message));
+                setPosts(state.data.map(v => v.message));
             });
     }, [props.fbAccessToken, props.fbUserId]);
 

@@ -26,13 +26,12 @@
     },
     "scripts": {
         "start": "react-scripts start",
+        "start-python": "Backend\\venv\\Scripts\\flask.exe run",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "server": "node server --exec nodemon | pino-colada",
-        "dev": "run-p server start"
+        "eject": "react-scripts eject"
     },
-    "proxy": "http://localhost:3001",
+    "proxy": "http://localhost:5000",
     "browserslist": {
         "production": [
             ">0.2%",

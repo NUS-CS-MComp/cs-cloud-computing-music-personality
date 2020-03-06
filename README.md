@@ -1,7 +1,22 @@
 ### Running the project
 
-On first run, run `npm install`  
-Open a terminal and run `npm run dev` to run both the frontend and backend together
+On first run, run `npm install`, and run [#python-install](Python installation and setup)  
+Open a terminal and run `npm start` to run the frontend  
+Open another terminal and run `npm run start-python` to run the backend
+
+### Python installation and setup {: #python-install }
+
+1. Download and install anaconda
+2. Create the virtual environment in Backend/venv by running `python -m venv venv`. Run this at the Backend folder.
+3. Activate the environment with `venv\Scripts\activate`
+4. The dependencies required are in setup.py &rarr; install_requires. To install the dependencies, run `pip install -e .`. Note the dot at the end
+5. Run the backend with `npm run start-python`
+
+For point 4, if you get "pip is configured with locations that require TLS/SSL, however the ssl module in Python is not available", ensure that your environment variables path have the following:
+
+-   C:\Users\Public\Anaconda3\Scripts
+-   C:\Users\Public\Anaconda3
+-   C:\Users\Public\Anaconda3\Library\bin
 
 ### Register the app to spotify
 

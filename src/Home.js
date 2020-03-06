@@ -58,7 +58,7 @@ const Home = props => {
                             <NavbarDivider />
                             {!props.fbAccessToken ? (
                                 <FacebookLogin
-                                    appId="<your fb app id here>"
+                                    appId="1041946872841143"
                                     fields="name,email,picture"
                                     scope="user_posts"
                                     callback={response => {

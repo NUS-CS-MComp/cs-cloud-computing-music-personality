@@ -5,19 +5,19 @@ const Categories = props => {
     const [categories, setCategories] = useState(0);
 
     useEffect(() => {
-        fetch(`/categories?token=${encodeURIComponent(props.accessToken)}`)
+        fetch(`/getSpotifyCategories?token=${encodeURIComponent(props.spotifyAccessToken)}`)
             .then(response => response.json())
             .then(state => {
-                setCategories(state.data.categories.items.map(v => v.name));
+                setCategories(state.categories.items.map(v => v.name));
             });
-    }, [props.accessToken]);
+    }, [props.spotifyAccessToken]);
 
     return <div>{categories ? categories.map(item => <div key={item}>{item}</div>) : ''}</div>;
 };
 
 const mapStateToProps = state => {
     return {
-        accessToken: state.accessToken,
+        spotifyAccessToken: state.spotifyAccessToken,
     };
 };
 

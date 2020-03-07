@@ -14,18 +14,26 @@ import { Example } from '@blueprintjs/docs-theme';
 import { Switch, Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { addSpotifyAccessToken, addFBAccessToken, addFBUserId } from './actions/actions';
-import Categories from './Categories/Categories';
+import Categories from './spotify/categories';
+import RecentlyPlayed from './spotify/recentlyPlayed';
 import FBPosts from './facebook/FBPosts';
 import { ReactComponent as Logo } from './icons/spotlights.svg';
 
 import '@blueprintjs/core/lib/css/blueprint.css';
 import './Home.css';
 
-const clientId = 'ff7fe21803c54a3e8bac44b4add23e3b';
-const redirectUri = 'http://localhost:3000';
-const responseType = 'token';
+// For Spotify Login
+const spotifyClientId = 'ff7fe21803c54a3e8bac44b4add23e3b';
+const spotifyRedirectUri = 'http://localhost:3000';
+const spotifyResponseType = 'token';
+const spotifyScopes = 'user-read-recently-played';
 
-const hash = window.location.hash
+// For Facebook Login
+const facebookAppId = '1041946872841143';
+const facebookFields = 'name,email,picture';
+const facebookScopes = 'user_posts';
+
+const parseForSpotifyToken = window.location.hash
     .substring(1)
     .split('&')
     .reduce((initial, item) => {
@@ -40,7 +48,7 @@ const hash = window.location.hash
 
 const Home = props => {
     useEffect(() => {
-        const token = hash.access_token;
+        const token = parseForSpotifyToken.access_token;
         if (token) {
             props.addSpotifyAccessToken(token);
         }
@@ -62,9 +70,9 @@ const Home = props => {
                             <NavbarDivider />
                             {!fbAccessToken ? (
                                 <FacebookLogin
-                                    appId="1041946872841143"
-                                    fields="name,email,picture"
-                                    scope="user_posts"
+                                    appId={facebookAppId}
+                                    fields={facebookFields}
+                                    scope={facebookScopes}
                                     callback={response => {
                                         props.addFBAccessToken(response.accessToken);
                                         props.addFBUserId(response.userID);
@@ -78,7 +86,7 @@ const Home = props => {
                             {!spotifyAccessToken ? (
                                 <a
                                     // eslint-disable-next-line max-len
-                                    href={`https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`}
+                                    href={`https://accounts.spotify.com/authorize?client_id=${spotifyClientId}&redirect_uri=${spotifyRedirectUri}&response_type=${spotifyResponseType}&scope=${spotifyScopes}`}
                                 >
                                     <Button
                                         className={Classes.MINIMAL}
@@ -94,15 +102,19 @@ const Home = props => {
                 </Example>
             </div>
             <div className="Home">
-                <div>
-                    {spotifyAccessToken ? (
+                {spotifyAccessToken ? (
+                    <div>
                         <Link to="/category">
                             <Button>Get Categories</Button>
                         </Link>
-                    ) : (
-                        'Please log in to Spotify first'
-                    )}
-                </div>
+                        <Link to="/recentlyplayed">
+                            <Button>Get Recently Played</Button>
+                        </Link>
+                    </div>
+                ) : (
+                    <div>Please log in to Spotify first</div>
+                )}
+
                 <div>
                     {fbAccessToken ? (
                         <Link to="/fbposts">
@@ -117,6 +129,9 @@ const Home = props => {
                 </Switch>
                 <Switch>
                     <Route exact path="/category" component={Categories} />
+                </Switch>
+                <Switch>
+                    <Route exact path="/recentlyplayed" component={RecentlyPlayed} />
                 </Switch>
             </div>
         </div>

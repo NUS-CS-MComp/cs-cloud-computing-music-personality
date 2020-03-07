@@ -7,12 +7,18 @@ const FBPosts = props => {
     const { fbAccessToken, fbUserId } = props;
 
     useEffect(() => {
-        fetch(`/getFacebookPosts?accessToken=${fbAccessToken}&userId=${fbUserId}`)
-            .then(response => response.json())
-            .then(state => {
-                setPosts(state.data.map(v => v.message));
-            });
+        if (fbAccessToken) {
+            fetch(`/getFacebookPosts?accessToken=${fbAccessToken}&userId=${fbUserId}`)
+                .then(response => response.json())
+                .then(state => {
+                    setPosts(state.data.map(v => v.message));
+                });
+        }
     }, [fbAccessToken, fbUserId]);
+
+    if (!fbAccessToken) {
+        return null;
+    }
 
     return <div>{posts ? posts.map(item => <div key={item}>{item}</div>) : ''}</div>;
 };

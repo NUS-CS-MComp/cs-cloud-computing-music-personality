@@ -7,12 +7,18 @@ const Categories = props => {
     const { spotifyAccessToken } = props;
 
     useEffect(() => {
-        fetch(`/getSpotifyCategories?token=${encodeURIComponent(spotifyAccessToken)}`)
-            .then(response => response.json())
-            .then(state => {
-                setCategories(state.categories.items.map(v => v.name));
-            });
+        if (spotifyAccessToken) {
+            fetch(`/getSpotifyCategories?token=${encodeURIComponent(spotifyAccessToken)}`)
+                .then(response => response.json())
+                .then(state => {
+                    setCategories(state.categories.items.map(v => v.name));
+                });
+        }
     }, [spotifyAccessToken]);
+
+    if (!spotifyAccessToken) {
+        return null;
+    }
 
     return <div>{categories ? categories.map(item => <div key={item}>{item}</div>) : ''}</div>;
 };

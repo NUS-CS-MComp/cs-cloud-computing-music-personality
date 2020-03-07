@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import { addSpotifyAccessToken, addFBAccessToken, addFBUserId } from './actions/actions';
 import Categories from './spotify/categories';
 import RecentlyPlayed from './spotify/recentlyPlayed';
+import RecentlyPlayedFeatures from './spotify/recentlyPlayedFeatures';
 import FBPosts from './facebook/FBPosts';
 import { ReactComponent as Logo } from './icons/spotlights.svg';
 
@@ -110,6 +111,9 @@ const Home = props => {
                         <Link to="/recentlyplayed">
                             <Button>Get Recently Played</Button>
                         </Link>
+                        <Link to="/recentlyplayedFeatures">
+                            <Button>Get Recently Played Features</Button>
+                        </Link>
                     </div>
                 ) : (
                     <div>Please log in to Spotify first</div>
@@ -132,6 +136,13 @@ const Home = props => {
                 </Switch>
                 <Switch>
                     <Route exact path="/recentlyplayed" component={RecentlyPlayed} />
+                </Switch>
+                <Switch>
+                    <Route
+                        exact
+                        path="/recentlyplayedFeatures"
+                        component={RecentlyPlayedFeatures}
+                    />
                 </Switch>
             </div>
         </div>

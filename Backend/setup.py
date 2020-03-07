@@ -7,6 +7,6 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'flask','python-dotenv', 'requests'
+        'flask', 'python-dotenv', 'requests', 'pylint', 'autopep8'
     ],
 )

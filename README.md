@@ -6,11 +6,23 @@ Open another terminal and run `npm run start-python` to run the backend
 
 ### Python installation and setup
 
-1. Download and install anaconda
+1. Download and install anaconda, or just install Python 3
+2. The dependencies required are in setup.py &rarr; install_requires. To install the dependencies, run `pip install -e .`. Note the dot at the end
+3. Run the backend with `npm run start-python`
+4. (If using VSCode) Add the Python extension (ms-python.python) for linting. If you have multiple Python versions installed, open the command palette and search for `Python select interpreter`. Select the one used to run this project.
+5. (If using VSCode) Add the Python-autopep8 extension (himanoa.python-autopep8) for formatting. You might want to enable format on save on your editor
+
+(Optional)
+
+1. Download and install anaconda, or just install Python 3
 2. Create the virtual environment in Backend/venv by running `python -m venv venv`. Run this at the Backend folder.
 3. Activate the environment with `venv\Scripts\activate`
 4. The dependencies required are in setup.py &rarr; install_requires. To install the dependencies, run `pip install -e .`. Note the dot at the end
 5. Run the backend with `npm run start-python`
+
+Note:
+
+-   Might need to install pylint globally
 
 For point 4, if you get "pip is configured with locations that require TLS/SSL, however the ssl module in Python is not available", ensure that your environment variables path have the following:
 

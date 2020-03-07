@@ -75,6 +75,7 @@
             "eslint",
             "stylelint",
             "pretty-quick --staged"
-        ]
+        ],
+        "Backend/**/*.py": "pylint"
     }
 }

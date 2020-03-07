@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const FBPosts = props => {
     const [posts, setPosts] = useState(0);
+    const { fbAccessToken, fbUserId } = props;
 
     useEffect(() => {
-        fetch(`/getFacebookPosts?accessToken=${props.fbAccessToken}&userId=${props.fbUserId}`)
+        fetch(`/getFacebookPosts?accessToken=${fbAccessToken}&userId=${fbUserId}`)
             .then(response => response.json())
             .then(state => {
                 setPosts(state.data.map(v => v.message));
             });
-    }, [props.fbAccessToken, props.fbUserId]);
+    }, [fbAccessToken, fbUserId]);
 
     return <div>{posts ? posts.map(item => <div key={item}>{item}</div>) : ''}</div>;
 };
@@ -20,6 +22,11 @@ const mapStateToProps = state => {
         fbAccessToken: state.fbAccessToken,
         fbUserId: state.fbUserId,
     };
+};
+
+FBPosts.propTypes = {
+    fbAccessToken: PropTypes.string.isRequired,
+    fbUserId: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, null)(FBPosts);

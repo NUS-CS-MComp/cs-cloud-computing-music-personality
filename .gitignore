@@ -27,3 +27,4 @@ package-lock.json
 # python
 /Backend/spotlight.egg-info
 /Backend/venv
+/Backend/api/__pycache__

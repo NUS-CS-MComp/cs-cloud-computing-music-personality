@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { addSpotifyAccessToken, addFBAccessToken, addFBUserId } from './actions/actions';
-import Categories from './Categories/Categories';
-import FBPosts from './facebook/FBPosts';
 import FacebookLogin from 'react-facebook-login';
 import {
     Alignment,
@@ -14,8 +11,12 @@ import {
     Classes,
 } from '@blueprintjs/core';
 import { Example } from '@blueprintjs/docs-theme';
-import { ReactComponent as Logo } from './icons/spotlights.svg';
 import { Switch, Route, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { addSpotifyAccessToken, addFBAccessToken, addFBUserId } from './actions/actions';
+import Categories from './Categories/Categories';
+import FBPosts from './facebook/FBPosts';
+import { ReactComponent as Logo } from './icons/spotlights.svg';
 
 import '@blueprintjs/core/lib/css/blueprint.css';
 import './Home.css';
@@ -27,21 +28,24 @@ const responseType = 'token';
 const hash = window.location.hash
     .substring(1)
     .split('&')
-    .reduce(function(initial, item) {
+    .reduce((initial, item) => {
         if (item) {
-            var parts = item.split('=');
-            initial[parts[0]] = decodeURIComponent(parts[1]);
+            const parts = item.split('=');
+            const temp = { ...initial };
+            temp[parts[0]] = decodeURIComponent(parts[1]);
+            return temp;
         }
         return initial;
     }, {});
 
 const Home = props => {
     useEffect(() => {
-        let _token = hash.access_token;
-        if (_token) {
-            props.addSpotifyAccessToken(_token);
+        const token = hash.access_token;
+        if (token) {
+            props.addSpotifyAccessToken(token);
         }
     });
+    const { fbAccessToken, spotifyAccessToken } = props;
 
     return (
         <div className="bp3-dark">
@@ -56,7 +60,7 @@ const Home = props => {
                         </NavbarGroup>
                         <NavbarGroup align={Alignment.RIGHT}>
                             <NavbarDivider />
-                            {!props.fbAccessToken ? (
+                            {!fbAccessToken ? (
                                 <FacebookLogin
                                     appId="1041946872841143"
                                     fields="name,email,picture"
@@ -71,8 +75,9 @@ const Home = props => {
                                 'Logged In FB'
                             )}
                             <NavbarDivider />
-                            {!props.spotifyAccessToken ? (
+                            {!spotifyAccessToken ? (
                                 <a
+                                    // eslint-disable-next-line max-len
                                     href={`https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`}
                                 >
                                     <Button
@@ -89,22 +94,24 @@ const Home = props => {
                 </Example>
             </div>
             <div className="Home">
-                {!props.spotifyAccessToken && 'Please log in to Spotify first'}
-                {!props.addFBAccessToken && 'Please log in to Facebook first'}
-                {props.spotifyAccessToken && (
-                    <div>
+                <div>
+                    {spotifyAccessToken ? (
                         <Link to="/category">
                             <Button>Get Categories</Button>
                         </Link>
-                    </div>
-                )}
-                {props.fbAccessToken && (
-                    <div>
+                    ) : (
+                        'Please log in to Spotify first'
+                    )}
+                </div>
+                <div>
+                    {fbAccessToken ? (
                         <Link to="/fbposts">
                             <Button>Get Posts</Button>
                         </Link>
-                    </div>
-                )}
+                    ) : (
+                        'Please log in to Facebook first'
+                    )}
+                </div>
                 <Switch>
                     <Route exact path="/fbposts" component={FBPosts} />
                 </Switch>
@@ -117,9 +124,9 @@ const Home = props => {
 };
 
 const mapDispatchToProps = {
-    addSpotifyAccessToken: addSpotifyAccessToken,
-    addFBAccessToken: addFBAccessToken,
-    addFBUserId: addFBUserId,
+    addSpotifyAccessToken,
+    addFBAccessToken,
+    addFBUserId,
 };
 
 const mapStateToProps = state => {
@@ -128,6 +135,19 @@ const mapStateToProps = state => {
         fbAccessToken: state.fbAccessToken,
         fbUserId: state.fbUserId,
     };
+};
+
+Home.propTypes = {
+    addSpotifyAccessToken: PropTypes.func.isRequired,
+    addFBAccessToken: PropTypes.func.isRequired,
+    addFBUserId: PropTypes.func.isRequired,
+    fbAccessToken: PropTypes.string,
+    spotifyAccessToken: PropTypes.string,
+};
+
+Home.defaultProps = {
+    fbAccessToken: null,
+    spotifyAccessToken: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

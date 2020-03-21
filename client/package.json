@@ -24,9 +24,9 @@
         "eject": "react-scripts eject",
         "lint:all:prettier": "prettier --write **/* --loglevel warn",
         "lint:eslint": "eslint --fix",
+        "lint:staged": "lint-staged",
         "lint:stylelint": "stylelint --fix",
         "lint:prettier": "prettier --write --loglevel warn",
-        "lint-staged": "lint-staged",
         "start": "react-scripts start",
         "test": "react-scripts test"
     },

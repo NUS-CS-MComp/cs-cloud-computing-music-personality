@@ -7,8 +7,12 @@
         "./server"
     ],
     "scripts": {
-        "start:backend": "cd ./server/flask && flask run",
-        "pre-commit": "cd ./client && npm run lint-staged"
+        "install:all": "npm install && npm run install:frontend && npm run install:backend",
+        "install:frontend": "cd ./client && npm install",
+        "install:backend": "cd ./server && pipenv install --dev",
+        "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgCyan.bold,bgBlue.bold\" \"npm run start:backend\" \"npm run start:frontend\"",
+        "start:backend": "cd ./server && pipenv run server",
+        "start:frontend": "cd ./client && npm start"
     },
     "repository": {
         "type": "git",
@@ -31,7 +35,7 @@
     "homepage": "https://github.com/terryluzj/cs-spotlight-personality-in-music#readme",
     "husky": {
         "hooks": {
-            "pre-commit": "npm run pre-commit"
+            "pre-commit": "cd ./client && npm run lint:staged"
         }
     },
     "devDependencies": {

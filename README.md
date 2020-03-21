@@ -1,7 +1,15 @@
+# SpotLight: Shed Light on your Personality with Spotify
+
+> Picture this: You are in a social gathering with an unfamiliar stranger, and you do not really how to continue the conversation. The background music changes to a cheery song, ”Happy” to liven the atmosphere. You may find yourself nodding and smiling to the rhythm, and the stranger smilingly comments: ”Nice song right, what kind of artists or songs are you into”. The conversation can then pick up from there, as you both start to find similar interests together.
+
+Interestingly, in a fast-changing world, the appreciation of music still remains a very relevant theme across diﬀerent generations. Researchers have concluded that an individ-ual’s taste in music is in fact related to his or her own personality and attitudes.1 This exciting insight motivated our group to embark on this project, where we want to make use of a person’s Spotify music feed to shed light on his or her personality; therefore, SpotLight!
+
+## Getting Started
+
 ### Running the project
 
-On first run, run `npm install`, and run [Python installation and setup](#python-installation-and-setup)  
-Open a terminal and run `npm start` to run the frontend  
+On first run, run `npm install`, and run [Python installation and setup](#python-installation-and-setup)
+Open a terminal and run `npm start` to run the frontend
 Open another terminal and run `npm run start-python` to run the backend
 
 ### Python installation and setup

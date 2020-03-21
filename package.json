@@ -1,81 +1,42 @@
 {
-    "name": "spotlight",
+    "name": "cs-spotlight-personality-in-music",
     "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "@blueprintjs/core": "^3.24.0",
-        "@blueprintjs/docs-theme": "^3.4.0",
-        "@testing-library/jest-dom": "^4.2.4",
-        "@testing-library/react": "^9.3.2",
-        "@testing-library/user-event": "^7.1.2",
-        "axios": "^0.19.2",
-        "body-parser": "^1.19.0",
-        "express": "^4.17.1",
-        "express-pino-logger": "^4.0.0",
-        "nodemon": "^2.0.2",
-        "npm-run-all": "^4.1.5",
-        "pino-colada": "^1.5.1",
-        "prop-types": "^15.7.2",
-        "react": "^16.13.0",
-        "react-dom": "^16.13.0",
-        "react-facebook-login": "^4.1.1",
-        "react-redux": "^7.2.0",
-        "react-router-dom": "^5.1.2",
-        "react-scripts": "3.4.0",
-        "redux": "^4.0.5",
-        "styled-components": "^5.0.1"
-    },
+    "description": "SpotLight: Shed Light on your Personality with Spotify",
+    "workspaces": [
+        "./client",
+        "./server"
+    ],
     "scripts": {
-        "start": "react-scripts start",
-        "start-python": "Backend\\venv\\Scripts\\flask.exe run",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "start:backend": "cd ./server/flask && flask run",
+        "pre-commit:backend": "cd ./server && black . && flake8 .",
+        "pre-commit:frontend": "cd ./client && npm run lint-staged"
     },
-    "proxy": "http://localhost:5000",
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/terryluzj/cs-spotlight-personality-in-music.git"
     },
-    "devDependencies": {
-        "@types/jest": "^25.1.2",
-        "babel-eslint": "^10.0.3",
-        "chai": "^4.2.0",
-        "concurrently": "^5.1.0",
-        "eslint": "^6.8.0",
-        "eslint-config-airbnb": "^18.0.1",
-        "eslint-config-prettier": "^6.10.0",
-        "eslint-plugin-import": "^2.20.1",
-        "eslint-plugin-react": "^7.18.3",
-        "husky": "^4.2.1",
-        "lint-staged": "^10.0.7",
-        "nodemon": "^2.0.2",
-        "prettier": "^1.19.1",
-        "pretty-quick": "^2.0.1",
-        "stylelint": "^13.1.0",
-        "stylelint-config-recommended": "^3.0.0",
-        "stylelint-config-styled-components": "^0.1.1",
-        "stylelint-processor-styled-components": "^1.9.0"
+    "keywords": [
+        "aws",
+        "flask",
+        "natural-language-processing",
+        "personality-insights",
+        "reactjs",
+        "recommendation-system",
+        "spotify"
+    ],
+    "author": "Chua Beverly Julia, Lu Zijian, Ng Keng Hwee, Yap Ying Ying",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/terryluzj/cs-spotlight-personality-in-music/issues"
     },
+    "homepage": "https://github.com/terryluzj/cs-spotlight-personality-in-music#readme",
     "husky": {
         "hooks": {
-            "pre-commit": "npm test -- --watchAll=false --passWithNoTests && lint-staged && git add ."
+            "pre-commit": "npm run pre-commit:backend && npm run pre-commit:frontend"
         }
     },
-    "lint-staged": {
-        "src/**/*.{js,jsx}": [
-            "eslint",
-            "stylelint",
-            "pretty-quick --staged"
-        ],
-        "Backend/**/*.py": "pylint"
+    "devDependencies": {
+        "concurrently": "^5.1.0",
+        "husky": "^4.2.3"
     }
 }

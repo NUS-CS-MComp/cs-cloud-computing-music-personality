@@ -1,0 +1,10 @@
+{
+    "eslint.workingDirectories": ["./client"],
+    "python.autoComplete.extraPaths": ["./server/api"],
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "python.pythonPath": "C:\\Users\\luter\\.virtualenvs\\server-f_wZNgN0\\Scripts\\python.exe",
+    "cSpell.words": ["spotify"],
+    "python.linting.pylintEnabled": false
+}

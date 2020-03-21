@@ -1,17 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
+# Dependencies
+.pnp
 .pnp.js
+node_modules
+package-lock.json
 
-# testing
-/coverage
+# Logs
+*.log
 
-# production
-/build
-
-# misc
+# Misc
 .DS_Store
 .env.local
 .env.development.local
@@ -22,9 +20,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-package-lock.json
+# Production
+build
+dist
 
-# python
-/Backend/spotlight.egg-info
-/Backend/venv
-/Backend/api/__pycache__
+# Python
+__pycache__
+Pipfile.lock
+
+# Testing
+coverage

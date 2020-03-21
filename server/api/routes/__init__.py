@@ -1,0 +1,4 @@
+from .social import SOCIAL_MEDIA_BLUEPRINT
+from .spotify import SPOTIFY_BLUEPRINT
+
+__all__ = ["SOCIAL_MEDIA_BLUEPRINT", "SPOTIFY_BLUEPRINT"]

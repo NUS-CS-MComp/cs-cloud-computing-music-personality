@@ -1,0 +1,6 @@
+*.ico
+*.png
+*.svg
+*.txt
+.eslintignore
+.prettierignore

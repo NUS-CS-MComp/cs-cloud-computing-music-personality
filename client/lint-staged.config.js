@@ -4,4 +4,5 @@ module.exports = {
         'npm run lint:stylelint',
         'npm run lint:prettier',
     ],
+    '../server/**/*.py': ['black', 'flake8'],
 }

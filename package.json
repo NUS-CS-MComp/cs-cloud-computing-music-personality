@@ -8,8 +8,7 @@
     ],
     "scripts": {
         "start:backend": "cd ./server/flask && flask run",
-        "pre-commit:backend": "cd ./server && black . && flake8 .",
-        "pre-commit:frontend": "cd ./client && npm run lint-staged"
+        "pre-commit": "cd ./client && npm run lint-staged"
     },
     "repository": {
         "type": "git",
@@ -32,7 +31,7 @@
     "homepage": "https://github.com/terryluzj/cs-spotlight-personality-in-music#readme",
     "husky": {
         "hooks": {
-            "pre-commit": "npm run pre-commit:backend && npm run pre-commit:frontend"
+            "pre-commit": "npm run pre-commit"
         }
     },
     "devDependencies": {

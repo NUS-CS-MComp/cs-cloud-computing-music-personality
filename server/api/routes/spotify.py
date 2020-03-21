@@ -11,7 +11,7 @@ from resources.spotify import (
 SPOTIFY_BLUEPRINT = Blueprint("spotify", __name__, url_prefix="/spotify")
 Api(SPOTIFY_BLUEPRINT).add_resource(AudioFeatures, "/audio-features")
 Api(SPOTIFY_BLUEPRINT).add_resource(CategoryList, "/category")
-Api(SPOTIFY_BLUEPRINT).add_resource(RecentHistory, "/me/recent")
+Api(SPOTIFY_BLUEPRINT).add_resource(RecentHistory, "/recent")
 Api(SPOTIFY_BLUEPRINT).add_resource(
-    RecentHistoryWithAudioFeatures, "/me/recent/audio-features"
+    RecentHistoryWithAudioFeatures, "/recent/audio-features"
 )

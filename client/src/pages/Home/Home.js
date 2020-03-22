@@ -17,15 +17,15 @@ import {
     addSpotifyAccessToken,
     addFBAccessToken,
     addFBUserId,
-} from './actions/actions'
-import Categories from './spotify/categories'
-import RecentlyPlayed from './spotify/recentlyPlayed'
-import RecentlyPlayedFeatures from './spotify/recentlyPlayedFeatures'
-import FBPosts from './facebook/FBPosts'
-import { ReactComponent as Logo } from './icons/spotlights.svg'
+} from '../../redux/actions/actions'
+import Categories from '../../hooks/spotify/categories'
+import RecentlyPlayed from '../../hooks/spotify/recentlyPlayed'
+import RecentlyPlayedFeatures from '../../hooks/spotify/recentlyPlayedFeatures'
+import FBPosts from '../../hooks/facebook/FBPosts'
+import { ReactComponent as Logo } from '../../assets/spotlights.svg'
 
 import '@blueprintjs/core/lib/css/blueprint.css'
-import './Home.css'
+import './Home.scss'
 
 // For Spotify Login
 const spotifyClientId = 'ff7fe21803c54a3e8bac44b4add23e3b'

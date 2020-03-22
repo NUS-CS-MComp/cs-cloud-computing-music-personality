@@ -1,5 +1,5 @@
 import { createStore, combineReducers } from 'redux'
-import { spotifyAccessToken, fbAccessToken, fbUserId } from './actions/reducer'
+import { spotifyAccessToken, fbAccessToken, fbUserId } from './reducer'
 
 export default createStore(
     combineReducers({

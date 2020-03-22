@@ -9,6 +9,7 @@
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
         "axios": "^0.19.2",
+        "node-sass": "^4.13.1",
         "prop-types": "^15.7.2",
         "react": "^16.13.0",
         "react-dom": "^16.13.0",
@@ -25,7 +26,7 @@
         "lint:all:prettier": "prettier --write **/* --loglevel warn",
         "lint:eslint": "eslint --fix",
         "lint:staged": "lint-staged",
-        "lint:stylelint": "stylelint --fix",
+        "lint:stylelint": "stylelint",
         "lint:prettier": "prettier --write --loglevel warn",
         "start": "react-scripts start",
         "test": "react-scripts test"

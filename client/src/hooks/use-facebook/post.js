@@ -29,12 +29,10 @@ const FBPosts = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        fbAccessToken: state.fbAccessToken,
-        fbUserId: state.fbUserId,
-    }
-}
+const mapStateToProps = (state) => ({
+    fbAccessToken: state.fbAccessToken,
+    fbUserId: state.fbUserId,
+})
 
 FBPosts.propTypes = {
     fbAccessToken: PropTypes.string.isRequired,

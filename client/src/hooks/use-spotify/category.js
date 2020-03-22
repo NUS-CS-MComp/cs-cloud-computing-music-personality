@@ -33,11 +33,9 @@ const Categories = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        spotifyAccessToken: state.spotifyAccessToken,
-    }
-}
+const mapStateToProps = (state) => ({
+    spotifyAccessToken: state.spotifyAccessToken,
+})
 
 Categories.propTypes = {
     spotifyAccessToken: PropTypes.string.isRequired,

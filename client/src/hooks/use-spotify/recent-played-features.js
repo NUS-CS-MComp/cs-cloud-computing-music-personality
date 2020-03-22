@@ -26,9 +26,9 @@ const RecentlyPlayedFeatures = (props) => {
     const parseToTable = (obj) => (
         <tr>
             {/* eslint-disable no-unused-vars */}
-            {Object.entries(obj).map(([key, value]) => {
-                return <td>{value}</td>
-            })}
+            {Object.entries(obj).map(([key, value]) => (
+                <td>{value}</td>
+            ))}
         </tr>
     )
 
@@ -68,11 +68,9 @@ const RecentlyPlayedFeatures = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        spotifyAccessToken: state.spotifyAccessToken,
-    }
-}
+const mapStateToProps = (state) => ({
+    spotifyAccessToken: state.spotifyAccessToken,
+})
 
 RecentlyPlayedFeatures.propTypes = {
     spotifyAccessToken: PropTypes.string,

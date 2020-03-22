@@ -14,7 +14,7 @@ Interestingly, in a fast-changing world, the appreciation of music still remains
 
 **[Miscellaneous](#miscellaneous)**
 
-- **[To-dos](#to-dos)**
+-   **[To-dos](#to-dos)**
 
 ## Before Starting the Project
 
@@ -92,6 +92,7 @@ npm start
 3. Set the formatter to be `black` for this project. You might want to enable format on save on your editor.
 
 #### SSL Module in `pip`
+
 If you get "pip is configured with locations that require TLS/SSL, however the ssl module in Python is not available", ensure that your environment variables path have the following:
 
 -   `$USER_HOME\Anaconda3`
@@ -102,25 +103,27 @@ If you get "pip is configured with locations that require TLS/SSL, however the s
 
 ### Register the app to spotify
 
-- Follow https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app
-- Whitelist the redirectUri in Home.js
-- Replace `spotifyClientId` with your clientId
+-   Follow https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app
+-   Whitelist the redirectUri in Home.js
+-   Replace `spotifyClientId` with your clientId
 
 ### Register the app to Facebook
 
-- Go to https://developers.facebook.com/apps to create a Facebook application
-- Get your `facebookAppId` and insert it into Home.js
+-   Go to https://developers.facebook.com/apps to create a Facebook application
+-   Get your `facebookAppId` and insert it into Home.js
 
 ## Miscellaneous
 
 ### To-dos
-- :white_check_mark: Modularize Flask app code
-- :white_large_square: Refinement on React code (Migrating to React Hooks)
-- :white_large_square: Connection to AWS services for testing
-- :white_large_square: Deployment to AWS Elastic Beanstalk
-- :white_large_square: Enable CI/CD
-- :white_large_square: TDD
+
+-   :white_check_mark: Modularize Flask app code
+-   :white_large_square: Refinement on React code (migrating to React Hooks)
+-   :white_large_square: Connection to AWS services for testing
+-   :white_large_square: Deployment to AWS Elastic Beanstalk
+-   :white_large_square: Enable CI/CD
+-   :white_large_square: TDD
+-   :white_large_square: Move from SCSS and Styled Components to Tailwind CSS (including staged linting, configurations etc.)
 
 ### Things to note
 
-- Ensure that the project resides in a place that does not have spaces in the path. The project will not run if there are spaces.
+-   Ensure that the project resides in a place that does not have spaces in the path. The project will not run if there are spaces.

@@ -4,3 +4,7 @@
 *.txt
 .eslintignore
 .prettierignore
+
+build
+config
+scripts

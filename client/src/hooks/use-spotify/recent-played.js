@@ -32,11 +32,9 @@ const RecentlyPlayed = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        spotifyAccessToken: state.spotifyAccessToken,
-    }
-}
+const mapStateToProps = (state) => ({
+    spotifyAccessToken: state.spotifyAccessToken,
+})
 
 RecentlyPlayed.propTypes = {
     spotifyAccessToken: PropTypes.string,

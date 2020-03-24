@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 
 import Header from '@containers/Layout/Header'
 
+/**
+ * Default layout container for rendering of any children page component
+ */
 const Layout = ({ children }) => (
     <div>
         <Header />
@@ -11,6 +14,9 @@ const Layout = ({ children }) => (
 )
 
 Layout.propTypes = {
+    /**
+     * React children node
+     */
     children: PropTypes.node.isRequired,
 }
 

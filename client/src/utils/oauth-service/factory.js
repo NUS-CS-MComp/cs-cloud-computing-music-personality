@@ -1,4 +1,4 @@
-import OAuthService from './service'
+import OAuthService from '.'
 
 import OAUTH_CONFIG from './config'
 

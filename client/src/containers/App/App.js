@@ -11,7 +11,7 @@ import AuthCallbackPage from '@containers/AuthCallbackPage'
 import NotFoundPage from '@components/NotFoundPage'
 import OverviewPage from '@containers/OverviewPage'
 
-import OAUTH_CONFIG from '@/utils/oauth-service/config'
+import OAUTH_CONFIG from '@utils/oauth-service/config'
 
 /**
  * Define routes using fallback layout, e.g. authentication, callback etc.
@@ -41,6 +41,9 @@ const PublicLayoutComponent = () => (
     </Layout>
 )
 
+/**
+ * Top-level application container
+ */
 export default () => (
     <BrowserRouter>
         <Provider store={store}>

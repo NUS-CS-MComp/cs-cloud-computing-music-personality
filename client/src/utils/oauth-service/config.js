@@ -1,5 +1,8 @@
-const CALL_BACK_ROUTE = 'auth-callback'
+const CALL_BACK_ROUTE = 'oauth-callback'
 
+/**
+ * @type {import("./config").IOAuthConfig}
+ */
 const FACEBOOK_OAUTH_CONFIG = {
     providerName: 'facebook',
     oauthURL: 'https://www.facebook.com/v6.0/dialog/oauth',
@@ -9,9 +12,12 @@ const FACEBOOK_OAUTH_CONFIG = {
         scope: 'user_posts',
         display: 'popup',
     },
-    search: ['#access_token'],
+    search: ['access_token'],
 }
 
+/**
+ * @type {import("./config").IOAuthConfig}
+ */
 const SPOTIFY_OAUTH_CONFIG = {
     providerName: 'spotify',
     oauthURL: 'https://accounts.spotify.com/authorize',
@@ -20,7 +26,7 @@ const SPOTIFY_OAUTH_CONFIG = {
         responseType: 'token',
         scope: 'user-read-recently-played',
     },
-    search: ['#access_token'],
+    search: ['access_token'],
 }
 
 export default { CALL_BACK_ROUTE, FACEBOOK_OAUTH_CONFIG, SPOTIFY_OAUTH_CONFIG }

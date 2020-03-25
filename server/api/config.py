@@ -1,3 +1,7 @@
+"""
+Application configuration variables
+"""
+
 import logging
 import os
 
@@ -6,6 +10,9 @@ from pathlib import Path
 
 DEBUG = os.getenv("ENVIRONEMENT") == "DEV"
 
+"""
+Load local environment variables if any, which ends with .local suffix
+"""
 LOCAL_ENV_PATH = Path(".") / ".env.local"
 if load_dotenv(LOCAL_ENV_PATH) and Path.is_file(LOCAL_ENV_PATH):
     print(" * Loading local environment variables in .env.local")

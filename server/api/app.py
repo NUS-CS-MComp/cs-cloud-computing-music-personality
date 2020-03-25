@@ -1,3 +1,7 @@
+"""
+Main thread code for server application
+"""
+
 from flask import Flask
 from flask.blueprints import Blueprint
 
@@ -15,12 +19,18 @@ app.debug = config.DEBUG
 # db.app = app
 
 for blueprint in vars(routes).values():
+    """
+    Dynamically parse Blueprint class from routes folder and add corresponding url prefix
+    """
     if isinstance(blueprint, Blueprint):
         app.register_blueprint(blueprint, url_prefix=blueprint.url_prefix)
 
 
 @app.errorhandler(404)
 def endpoint_not_found(e):
+    """
+    Fallback request handler
+    """
     return "Endpoint not found."
 
 

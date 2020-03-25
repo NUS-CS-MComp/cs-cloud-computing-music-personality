@@ -10,7 +10,7 @@
         "install:all": "npm install && npm run install:frontend && npm run install:backend",
         "install:frontend": "cd ./client && npm install",
         "install:backend": "cd ./server && pipenv install --dev",
-        "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgCyan.bold,bgBlue.bold\" \"npm run start:backend\" \"npm run start:frontend\"",
+        "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgCyan.bold,bgBlue.bold\" --restart-tries 99 \"npm run start:backend\" \"npm run start:frontend\"",
         "start:backend": "cd ./server && pipenv run server",
         "start:frontend": "cd ./client && npm start"
     },

@@ -5,7 +5,7 @@ from flask import jsonify
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
-from utils import auth_header, parse_params
+from utils import construct_auth_bearer, parse_params
 
 
 API_BASE_URL = "https://api.spotify.com/v1"
@@ -22,7 +22,9 @@ class CategoryList(Resource):
     @staticmethod
     @spotify_token_required()
     def get(token):
-        response = requests.get(API_URL_CATEGORIES, headers=auth_header(token))
+        response = requests.get(
+            API_URL_CATEGORIES, headers=construct_auth_bearer(token)
+        )
         return response.content
 
 
@@ -30,7 +32,9 @@ class RecentHistory(Resource):
     @staticmethod
     @spotify_token_required()
     def get(token):
-        response = requests.get(API_URL_RECENTLY_PLAYED, headers=auth_header(token))
+        response = requests.get(
+            API_URL_RECENTLY_PLAYED, headers=construct_auth_bearer(token)
+        )
         return response.content
 
 
@@ -39,7 +43,7 @@ class AudioFeatures(Resource):
     @spotify_token_required()
     def get(track_id, token):
         response = requests.get(
-            f"{API_URL_AUDIO_FEATURES}/{track_id}", headers=auth_header(token)
+            f"{API_URL_AUDIO_FEATURES}/{track_id}", headers=construct_auth_bearer(token)
         )
         return response.content
 

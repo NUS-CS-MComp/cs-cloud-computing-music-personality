@@ -1,7 +1,17 @@
 import logging
 import os
 
-DEBUG = os.getenv("ENVIRONEMENT", "DEV") == "DEV"
+from dotenv import load_dotenv
+from pathlib import Path
+
+DEBUG = os.getenv("ENVIRONEMENT") == "DEV"
+
+LOCAL_ENV_PATH = Path(".") / ".env.local"
+if load_dotenv(LOCAL_ENV_PATH) and Path.is_file(LOCAL_ENV_PATH):
+    print(" * Loading local environment variables in .env.local")
+else:
+    print(" ! .env.local is missing for development mode")
+
 APPLICATION_ROOT = os.getenv("APPLICATION_APPLICATION_ROOT", "/")
 HOST = os.getenv("APPLICATION_HOST", "localhost")
 PORT = int(os.getenv("APPLICATION_PORT", "5000"))

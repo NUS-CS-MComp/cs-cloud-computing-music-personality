@@ -30,3 +30,6 @@ Pipfile.lock
 
 # Testing
 coverage
+
+# VSCode
+.vscode

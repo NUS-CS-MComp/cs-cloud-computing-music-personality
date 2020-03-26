@@ -7,11 +7,11 @@ import store from '@redux/store'
 import Layout from '@containers/Layout'
 import FallbackLayout from '@components/FallbackLayout'
 
-import AuthCallbackPage from '@containers/AuthCallbackPage'
+import OAuthCallbackPage from '@/containers/OAuthCallbackPage'
 import NotFoundPage from '@components/NotFoundPage'
 import OverviewPage from '@containers/OverviewPage'
 
-import OAUTH_CONFIG from '@utils/oauth-service/config'
+import OAUTH_CONFIG from '@services/oauth/config'
 
 /**
  * Define routes using fallback layout, e.g. authentication, callback etc.
@@ -22,7 +22,7 @@ const FallbackLayoutComponent = () => (
             <Route
                 exact
                 path={`/${OAUTH_CONFIG.CALL_BACK_ROUTE}`}
-                component={AuthCallbackPage}
+                component={OAuthCallbackPage}
             />
         </Switch>
     </FallbackLayout>

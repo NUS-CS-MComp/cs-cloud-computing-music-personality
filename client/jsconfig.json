@@ -8,6 +8,7 @@
             "@containers/*": ["src/containers/*"],
             "@hooks/*": ["src/hooks/*"],
             "@redux/*": ["src/redux/*"],
+            "@services/*": ["src/services/*"],
             "@utils/*": ["src/utils/*"]
         }
     },

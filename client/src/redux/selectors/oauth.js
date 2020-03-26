@@ -1,8 +1,9 @@
+import lodash from 'lodash'
 import { createSelector } from 'reselect'
 
 /**
  * Selector for all provider tokens
- * @param {any} state
+ * @param {Record<string, string>} state
  */
 export const tokenSelector = (state) => state.oauth
 
@@ -18,7 +19,7 @@ export const providerTokenSelector = (provider) => (state) =>
  */
 export const providerStatusSelector = createSelector(tokenSelector, (tokens) =>
     Object.keys(tokens).reduce((acc, tokenProvider) => {
-        if (tokens[tokenProvider] === null) return acc
+        if (lodash.isEqual(tokens[tokenProvider], {})) return acc
         return Object.assign(acc, { [tokenProvider]: true })
     }, {})
 )

@@ -25,14 +25,14 @@ export default class OAuthResult {
      * Set status to a success status string
      */
     setSuccessStatus() {
-        this.status = OAUTH_SUCCESS
+        this.status = `${this.provider.toUpperCase()}_${OAUTH_SUCCESS}`
     }
 
     /**
      * Set status to a failure status string
      */
     setFailureStatus() {
-        this.status = OAUTH_FAILURE
+        this.status = `${this.provider.toUpperCase()}_${OAUTH_FAILURE}`
     }
 
     get output() {

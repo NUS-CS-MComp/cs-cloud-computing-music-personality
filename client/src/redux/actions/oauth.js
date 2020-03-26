@@ -6,19 +6,19 @@ export const OAUTH_FAILURE = 'OAUTH_FAILURE'
  * Action to start OAuth process
  * @param {string} provider Name of OAuth provider
  */
-export const oauthStart = (provider) => ({
-    type: OAUTH_START,
-    provider,
+export const startOAuth = (provider) => ({
+    type: `${provider.toUpperCase()}_${OAUTH_START}`,
+    oauth_provider: provider,
 })
 
 /**
  * Action to dispatch OAuth process success event
  * @param {string} provider Name of OAuth provider
- * @param {any} data Payload data from OAuth process
+ * @param {Record<string, string>} data Payload data from OAuth process
  */
-export const oauthSuccess = (provider, data) => ({
-    type: OAUTH_SUCCESS,
-    provider,
+export const endOAuthSuccess = (provider, data) => ({
+    type: `${provider.toUpperCase()}_${OAUTH_SUCCESS}`,
+    oauth_provider: provider,
     data,
 })
 
@@ -26,7 +26,7 @@ export const oauthSuccess = (provider, data) => ({
  * Action to dispatch OAuth process failure event
  * @param {string} provider Name of OAuth provider
  */
-export const oauthFailure = (provider) => ({
-    type: OAUTH_FAILURE,
-    provider,
+export const endOAuthFailure = (provider) => ({
+    type: `${provider.toUpperCase()}_${OAUTH_FAILURE}`,
+    oauth_provider: provider,
 })

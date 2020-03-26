@@ -22,4 +22,4 @@ For Spotify resource related endpoints:
 -   `GET /spotify/audio-features` Audio features of song track
 -   `GET /spotify/category` Category list of songs
 -   `GET /spotify/recent` Recent listening history of user
--   `GET /spotify/recent/audio-feature` Aggregated audio features of recent played tracks of user
+-   `GET /spotify/recent/audio-features` Aggregated audio features of recent played tracks of user

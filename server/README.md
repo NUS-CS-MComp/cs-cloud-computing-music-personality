@@ -10,7 +10,7 @@
 
 For social media content related endpoints, supplemented with OAuth handling endpoints:
 
--   `GET /social/facebook/post` Facebook user posts
+-   `GET /social/{provider_name}/posts` Fetch user posts from a provider platform
 -   `POST /social/reddit/oauth` Reddit OAuth handler for access token retrieval
 -   `POST /social/twitter/oauth` Twitter OAuth handler for oauth token generation
 -   `POST /social/twitter/oauth/verify` Twitter OAuth verifier for oauth token retrieval
@@ -23,3 +23,9 @@ For Spotify resource related endpoints:
 -   `GET /spotify/category` Category list of songs
 -   `GET /spotify/recent` Recent listening history of user
 -   `GET /spotify/recent/audio-features` Aggregated audio features of recent played tracks of user
+
+### `/user`
+
+For user information related endpoints:
+
+-   `GET /user/profile/{provider_name}` Retrieve user information from OAuth provider

@@ -62,7 +62,8 @@ const SPOTIFY_OAUTH_CONFIG = {
 const TWITTER_OAUTH_CONFIG = {
     providerName: 'twitter',
     oauthURL: 'https://api.twitter.com/oauth/authenticate',
-    search: ['oauth_token', 'oauth_secret'],
+    search: ['oauth_token', 'oauth_verifier'],
+    resolveMap: {},
 }
 
 export default {

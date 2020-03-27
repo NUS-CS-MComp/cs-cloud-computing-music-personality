@@ -24,7 +24,7 @@ class OAuthServiceFactory {
 
     /**
      * Return service from the service directory
-     * @param {string} providerName
+     * @param {string} providerName OAuth provider name
      * @returns {OAuthService} OAuthService instance
      */
     getOAuthService(providerName) {

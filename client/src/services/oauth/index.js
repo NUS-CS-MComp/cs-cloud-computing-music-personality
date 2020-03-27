@@ -7,8 +7,8 @@ import OAuthResult from './result'
  * Constants for OAuth flows
  */
 
-const POPUP_WIDTH = window.screen.width / (3 * 1.618)
-const POPUP_HEIGHT = window.screen.width / 3
+const POPUP_WIDTH = window.screen.width / (2 * 1.618)
+const POPUP_HEIGHT = window.screen.width / 2
 
 const OPEN_POPUP_WINDOW = 'OPEN_POPUP_WINDOW'
 const OPEN_REDIRECT = 'OPEN_REDIRECT'
@@ -40,6 +40,7 @@ export default class OAuthService {
         this.result = new OAuthResult(this.processor.provider)
 
         this.fullURL = null
+        this.popup = null
         this.state = null
     }
 
@@ -54,23 +55,37 @@ export default class OAuthService {
     }
 
     /**
+     * Helper function to construct full OAuth URL
+     */
+    constructFullURL() {
+        const searchParams = this.processor.generateParamString()
+        this.fullURL = `${this.processor.url}?${searchParams}`
+    }
+
+    /**
      * Function to prepare parameters for starting OAuth process
      * Resolve OAuth URL by supplementing parameters based on current window context
      */
     prepareParams() {
         this.processor.addParams('state', this.generateState())
-        const searchParams = this.processor.generateParamString()
-        this.fullURL = `${this.processor.url}?${searchParams}`
+        this.constructFullURL()
     }
 
     /**
      * Function to start OAuth process
      * Determine user experience type and handle OAuth process accordingly
      */
-    startOAuth() {
+    async startOAuth() {
         const flowType = getUserOAuthFlowType()
         if (flowType === OPEN_POPUP_WINDOW) {
-            return this.handlePopup(this.launchPopup())
+            let result
+            try {
+                result = await this.handlePopup(this.launchPopup())
+            } catch (e) {
+                this.result.setCancelStatus()
+                result = this.result.output
+            }
+            return result
         }
         if (flowType === OPEN_REDIRECT) {
             localStorage.setItem(
@@ -80,7 +95,7 @@ export default class OAuthService {
             window.location.href = this.fullURL
             return undefined
         }
-        throw new Error('Unidentified flow type.')
+        throw new Error('Unidentified flow type')
     }
 
     /**
@@ -109,7 +124,9 @@ export default class OAuthService {
      * Helper function to generate state string
      */
     generateState() {
-        const nonce = NonceGenerator.generate()
+        const nonce =
+            localStorage.getItem(this.processor.nonceKey) ||
+            NonceGenerator.generate()
         localStorage.setItem(this.processor.nonceKey, nonce)
         this.state = nonce
         return this.state
@@ -117,17 +134,27 @@ export default class OAuthService {
 
     /**
      * Promise wrapper to handle message event from pop-up window
-     * @param {Window} popupWindow Pop-up Window object
+     * @param {Window} popup Pop-up Window object
      */
-    handlePopup(popupWindow) {
-        return new Promise((resolve) => {
+    handlePopup(popup) {
+        return new Promise((resolve, reject) => {
             const messageEventHandler = (event) => {
                 if (OAuthResult.isResult(event.data)) resolve(event.data)
             }
             const popupTick = setInterval(() => {
-                if (popupWindow.closed) {
+                const cleanup = () => {
                     clearInterval(popupTick)
                     window.removeEventListener('message', messageEventHandler)
+                }
+                try {
+                    if (popup.document.domain === window.document.domain) {
+                        if (popup.closed) cleanup()
+                    }
+                } catch (e) {
+                    if (popup.closed) {
+                        cleanup()
+                        reject()
+                    }
                 }
             }, 1000)
             window.addEventListener('message', messageEventHandler, false)
@@ -138,12 +165,14 @@ export default class OAuthService {
      * Function to launch pop-up window
      */
     launchPopup() {
+        if (this.popup) this.popup.close()
         const popupWindow = window.open(
             this.fullURL,
             this.processor.provider,
             getPopupWindowOptions()
         )
         popupWindow.opener = window
+        this.popup = popupWindow
         return popupWindow
     }
 
@@ -162,7 +191,7 @@ export default class OAuthService {
                 }
             })
             this.result.setSuccessStatus()
-        } catch (error) {
+        } catch (e) {
             this.result.setFailureStatus()
         }
         return this.result

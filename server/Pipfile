@@ -13,6 +13,7 @@ requests = "*"
 flask-restful = "*"
 flask-script = "*"
 python-dotenv = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.8"

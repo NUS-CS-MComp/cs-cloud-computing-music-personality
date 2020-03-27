@@ -1,4 +1,8 @@
-import { OAUTH_SUCCESS, OAUTH_FAILURE } from '@redux/actions/oauth'
+import {
+    OAUTH_CANCEL,
+    OAUTH_PROCESS_SUCCESS,
+    OAUTH_PROCESS_FAILURE,
+} from '@redux/actions/oauth'
 
 export default class OAuthResult {
     /**
@@ -13,8 +17,8 @@ export default class OAuthResult {
 
     /**
      * Append new result to the data object
-     * @param {string} name
-     * @param {any} value
+     * @param {string} name Result name
+     * @param {any} value Result value
      */
     addResult(name, value) {
         if (!this.data) this.data = {}
@@ -22,17 +26,24 @@ export default class OAuthResult {
     }
 
     /**
+     * Set status to a cancelled status string
+     */
+    setCancelStatus() {
+        this.status = `${this.provider.toUpperCase()}_${OAUTH_CANCEL}`
+    }
+
+    /**
      * Set status to a success status string
      */
     setSuccessStatus() {
-        this.status = `${this.provider.toUpperCase()}_${OAUTH_SUCCESS}`
+        this.status = `${this.provider.toUpperCase()}_${OAUTH_PROCESS_SUCCESS}`
     }
 
     /**
      * Set status to a failure status string
      */
     setFailureStatus() {
-        this.status = `${this.provider.toUpperCase()}_${OAUTH_FAILURE}`
+        this.status = `${this.provider.toUpperCase()}_${OAUTH_PROCESS_FAILURE}`
     }
 
     get output() {

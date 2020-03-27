@@ -17,16 +17,13 @@ export default class OAuthProcessor {
             ...OAuthProcessor.defaultNameMap,
             ...configEntries.nameMap,
         }
-        this.resolveMap = {
-            ...this.defaultResolveMap,
-            ...configEntries.resolveMap,
-        }
+        this.resolveMap = configEntries.resolveMap || this.defaultResolveMap
     }
 
     /**
      * Append new parameter to the parameter object
-     * @param {string} name
-     * @param {any} value
+     * @param {string} name Parameter name
+     * @param {any} value Parameter value
      */
     addParams(name, value) {
         if (
@@ -85,8 +82,8 @@ export default class OAuthProcessor {
 
     /**
      * Helper function to apply name mapping
-     * @param {Record<string, string>} original
-     * @param {Record<string, string>} mapping
+     * @param {Record<string, string>} original Original record
+     * @param {Record<string, string>} mapping Name mapping
      */
     static applyMapping(original, mapping) {
         const result = lodash.cloneDeep(original)

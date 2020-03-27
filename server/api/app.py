@@ -4,6 +4,7 @@ Main thread code for server application
 
 from flask import Flask
 from flask.blueprints import Blueprint
+from flask_cors import CORS
 
 import config
 import routes
@@ -11,6 +12,7 @@ import routes
 # from models import db
 
 app = Flask(__name__, root_path=config.APPLICATION_ROOT)
+CORS(app)
 
 app.debug = config.DEBUG
 # app.config["SQLALCHEMY_DATABASE_URI"] = config.DB_URI
@@ -31,7 +33,7 @@ def endpoint_not_found(e):
     """
     Fallback request handler
     """
-    return "Endpoint not found."
+    return "Endpoint not found.", 404
 
 
 if __name__ == "__main__":

@@ -2,16 +2,15 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '@assets/spotlights.svg'
-import useOAuthService from '@hooks/use-oauth-service'
+import OAuthLogin from '@containers/OAuthLogin'
+import OAuthServiceFactory from '@services/oauth/factory'
 
 /**
  * Header component as top visual bar for navigation purposes
  */
 export default () => {
     const [collapsed, setCollapsed] = useState(false)
-    const [, facebookOAuthHandler] = useOAuthService('facebook')
-    const [, redditOAuthHandler] = useOAuthService('reddit')
-    const [, spotifyOAuthHandler] = useOAuthService('spotify')
+    const services = OAuthServiceFactory.OAuthServices
     return (
         <header className='flex items-center justify-between flex-wrap p-6'>
             <div className='flex flex-col items-center flex-shrink-0 mr-6'>
@@ -41,27 +40,15 @@ export default () => {
                     collapsed ? ' ' : ' hidden '
                 }lg:flex lg:items-center lg:w-auto`}
             >
-                <button
-                    type='button'
-                    className='block mt-4 lg:inline-block lg:mt-0 text-black-200 mr-4'
-                    onClick={facebookOAuthHandler}
-                >
-                    Facebook
-                </button>
-                <button
-                    type='button'
-                    className='block mt-4 lg:inline-block lg:mt-0 text-black-200 mr-4'
-                    onClick={redditOAuthHandler}
-                >
-                    Reddit
-                </button>
-                <button
-                    type='button'
-                    className='block mt-4 lg:inline-block lg:mt-0 text-black-200'
-                    onClick={spotifyOAuthHandler}
-                >
-                    Spotify
-                </button>
+                {services.map((provider, index) => (
+                    <OAuthLogin
+                        key={provider}
+                        className={`block mt-4 lg:inline-block lg:mt-0 text-black-200 ${
+                            index === services.length - 1 ? '' : 'mr-4'
+                        }`}
+                        provider={provider}
+                    />
+                ))}
             </div>
         </header>
     )

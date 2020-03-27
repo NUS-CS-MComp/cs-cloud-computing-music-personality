@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 
 /**
  * Selector for all provider tokens
- * @param {Record<string, string>} state
+ * @param {Record<string, string>} state Store state
  */
 export const tokenSelector = (state) => state.oauth
 
@@ -19,7 +19,8 @@ export const providerTokenSelector = (provider) => (state) =>
  */
 export const providerStatusSelector = createSelector(tokenSelector, (tokens) =>
     Object.keys(tokens).reduce((acc, tokenProvider) => {
-        if (lodash.isEqual(tokens[tokenProvider], {})) return acc
+        if (lodash.isEqual(tokens[tokenProvider], { loading: false }))
+            return acc
         return Object.assign(acc, { [tokenProvider]: true })
     }, {})
 )

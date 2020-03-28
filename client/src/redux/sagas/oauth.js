@@ -50,26 +50,6 @@ const constructFailureAction = (provider) =>
     `${provider.toUpperCase()}_${OAUTH_FAILURE}`
 
 /**
- * Worker saga for Reddit OAuth completion process
- * @param {Record<string, string>} data Action payload data
- */
-export function* completeRedditOAuth(data) {
-    const { code } = data
-    const provider = 'reddit'
-    const service = OAuthServiceFactory.getOAuthService(provider)
-    const { data: result } = yield call(
-        Api.oauth.redditExchangeAccessToken,
-        service.processor.callbackURL,
-        code
-    )
-    yield* completeGenericOAuth(provider, {
-        type: constructCompleteAction(provider),
-        provider,
-        ...result,
-    })
-}
-
-/**
  * Worker saga for Twitter OAuth completion process
  * @param {Record<string, string>} data Action payload data
  */
@@ -81,11 +61,7 @@ export function* completeTwitterOAuth(data) {
         oauthToken,
         oauthVerifier
     )
-    yield* completeGenericOAuth(provider, {
-        type: constructCompleteAction(provider),
-        provider,
-        ...result,
-    })
+    yield put({ type: constructCompleteAction(provider), provider, ...result })
 }
 
 /**
@@ -94,8 +70,15 @@ export function* completeTwitterOAuth(data) {
  * @param {Record<string, string>} data Action payload data
  */
 export function* completeGenericOAuth(provider, data) {
-    const { type, provider: providerName, ...rest } = data
-    yield put({ type: constructCompleteAction(provider), provider, ...rest })
+    const { code } = data
+    const service = OAuthServiceFactory.getOAuthService(provider)
+    const { data: result } = yield call(
+        Api.oauth.genericOAuthExchangeAccessToken,
+        provider,
+        service.processor.callbackURL,
+        code
+    )
+    yield put({ type: constructCompleteAction(provider), provider, ...result })
 }
 
 /**
@@ -139,9 +122,6 @@ export function* startGenericOAuth(provider) {
 export function* dispatchCompleteOAuthWorker(provider, data) {
     try {
         switch (provider) {
-            case 'reddit':
-                yield call(completeRedditOAuth, data)
-                break
             case 'twitter':
                 yield call(completeTwitterOAuth, data)
                 break

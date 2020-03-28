@@ -1,5 +1,5 @@
 import DeviceDetect from '@utils/detect-device'
-import NonceGenerator from '@/utils/nonce-generator'
+import NonceGenerator from '@utils/nonce-generator'
 
 import OAuthResult from './result'
 

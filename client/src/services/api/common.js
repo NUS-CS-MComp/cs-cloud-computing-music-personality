@@ -5,4 +5,5 @@ export default axios.create({
         process.env.NODE_ENV === 'development'
             ? 'http://localhost:5000'
             : 'https://my-api.com',
+    withCredentials: true,
 })

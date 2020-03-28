@@ -2,7 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 
 import useOAuthService from '@hooks/use-oauth-service'
-import URLParamParser from '@/utils/param-parser'
+import URLParamParser from '@utils/param-parser'
 
 /**
  * Page container to handler OAuth callback

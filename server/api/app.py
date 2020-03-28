@@ -12,7 +12,7 @@ import routes
 # from models import db
 
 app = Flask(__name__, root_path=config.APPLICATION_ROOT)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 app.debug = config.DEBUG
 # app.config["SQLALCHEMY_DATABASE_URI"] = config.DB_URI

@@ -17,11 +17,11 @@ const FACEBOOK_OAUTH_CONFIG = {
     oauthURL: 'https://www.facebook.com/v6.0/dialog/oauth',
     params: {
         clientID: '254765705559494',
-        responseType: 'token',
+        responseType: 'code',
         scope: 'user_posts',
         display: 'popup',
     },
-    search: ['access_token'],
+    search: ['code'],
 }
 
 /**
@@ -49,10 +49,10 @@ const SPOTIFY_OAUTH_CONFIG = {
     oauthURL: 'https://accounts.spotify.com/authorize',
     params: {
         clientID: '98bcc1d17d5c463fb731ac9e9542cad9',
-        responseType: 'token',
+        responseType: 'code',
         scope: 'user-read-recently-played',
     },
-    search: ['access_token'],
+    search: ['code'],
 }
 
 /**

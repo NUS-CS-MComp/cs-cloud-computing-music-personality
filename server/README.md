@@ -6,14 +6,17 @@
 
 > For dispatching details, visit folder `api/routes` for more information.
 
+### `/oauth`
+
+-   `POST /oauth/{provider_name}` Generic OAuth handler endpoint for access token retrieval
+-   `POST /oauth/twitter/init` Twitter OAuth handler for oauth token generation
+-   `POST /oauth/twitter/verify` Twitter OAuth verifier for oauth token retrieval
+
 ### `/social`
 
 For social media content related endpoints, supplemented with OAuth handling endpoints:
 
 -   `GET /social/{provider_name}/posts` Fetch user posts from a provider platform
--   `POST /social/reddit/oauth` Reddit OAuth handler for access token retrieval
--   `POST /social/twitter/oauth` Twitter OAuth handler for oauth token generation
--   `POST /social/twitter/oauth/verify` Twitter OAuth verifier for oauth token retrieval
 
 ### `/spotify`
 

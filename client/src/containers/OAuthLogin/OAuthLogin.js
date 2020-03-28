@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useOAuthService from '@/hooks/use-oauth-service'
+import useOAuthService from '@hooks/use-oauth-service'
 
 /**
  * Wrapper container for OAuth service component rendering

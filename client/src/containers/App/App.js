@@ -7,7 +7,7 @@ import store from '@redux/store'
 import Layout from '@containers/Layout'
 import FallbackLayout from '@components/FallbackLayout'
 
-import OAuthCallbackPage from '@/containers/OAuthCallbackPage'
+import OAuthCallbackPage from '@containers/OAuthCallbackPage'
 import NotFoundPage from '@components/NotFoundPage'
 import OverviewPage from '@containers/OverviewPage'
 

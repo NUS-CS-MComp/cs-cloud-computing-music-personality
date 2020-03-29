@@ -4,40 +4,44 @@ Application configuration variables
 
 import logging
 import os
+import redis
 
 from dotenv import load_dotenv
 from pathlib import Path
 
-DEBUG = os.getenv("ENVIRONEMENT") == "DEV"
 
-"""
-Load local environment variables if any, which ends with .local suffix
-"""
-LOCAL_ENV_PATH = Path(".") / ".env.local"
-if load_dotenv(LOCAL_ENV_PATH) and Path.is_file(LOCAL_ENV_PATH):
-    print(" * Loading local environment variables in .env.local")
-else:
-    print(" ! .env.local is missing for development mode")
+class Config:
+    """
+    Application general configuration
+    """
 
-APPLICATION_ROOT = os.getenv("APPLICATION_APPLICATION_ROOT", "/")
-HOST = os.getenv("APPLICATION_HOST", "localhost")
-PORT = int(os.getenv("APPLICATION_PORT", "5000"))
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DEBUG = os.getenv("ENVIRONMENT") == "DEaV"
 
-DB_CONTAINER = os.getenv("APPLICATION_DB_CONTAINER", "db")
-POSTGRES = {
-    "user": os.getenv("APPLICATION_POSTGRES_USER", "postgres"),
-    "pw": os.getenv("APPLICATION_POSTGRES_PW", ""),
-    "host": os.getenv("APPLICATION_POSTGRES_HOST", DB_CONTAINER),
-    "port": os.getenv("APPLICATION_POSTGRES_PORT", 5432),
-    "db": os.getenv("APPLICATION_POSTGRES_DB", "postgres"),
-}
-DB_URI = "postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s" % POSTGRES
+    # Load local environment variables if any, which ends with .local suffix
+    LOCAL_ENV_PATH = Path(".") / ".env.local"
+    if load_dotenv(LOCAL_ENV_PATH) and Path.is_file(LOCAL_ENV_PATH):
+        print(" * Loading local environment variables in .env.local")
+    else:
+        print(" ! .env.local is missing for development mode")
 
-logging.basicConfig(
-    filename=os.getenv("SERVICE_LOG", f"{os.path.dirname(__file__)}/server.log"),
-    level=logging.DEBUG,
-    format="%(levelname)s: %(asctime)s \
-        pid:%(process)s module:%(module)s %(message)s",
-    datefmt="%d/%m/%y %H:%M:%S",
-)
+    APPLICATION_ROOT = os.getenv("APPLICATION_APPLICATION_ROOT", "/")
+    HOST = os.getenv("APPLICATION_HOST", "localhost")
+    PORT = int(os.getenv("APPLICATION_PORT", "5000"))
+
+    logging.basicConfig(
+        filename=os.getenv("SERVICE_LOG", f"{os.path.dirname(__file__)}/server.log"),
+        level=logging.DEBUG,
+        format="%(levelname)s: %(asctime)s \
+            pid:%(process)s module:%(module)s %(message)s",
+        datefmt="%d/%m/%y %H:%M:%S",
+    )
+
+    """
+    Flask-Session
+    """
+    SECRET_KEY = os.urandom(64)
+
+    # Flask-Session
+    PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 7
+    SESSION_TYPE = os.getenv("SESSION_TYPE")
+    SESSION_REDIS = redis.from_url(os.getenv("SESSION_REDIS"))

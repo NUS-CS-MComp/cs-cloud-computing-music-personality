@@ -5,20 +5,17 @@ Main thread code for server application
 from flask import Flask
 from flask.blueprints import Blueprint
 from flask_cors import CORS
+from flask_session import Session
 
 import config
 import routes
 
-# from models import db
+app = Flask(__name__, instance_relative_config=False)
+app.config.from_object(config.Config)
 
-app = Flask(__name__, root_path=config.APPLICATION_ROOT)
 CORS(app, supports_credentials=True)
+Session(app)
 
-app.debug = config.DEBUG
-# app.config["SQLALCHEMY_DATABASE_URI"] = config.DB_URI
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = config.SQLALCHEMY_TRACK_MODIFICATIONS
-# db.init_app(app)
-# db.app = app
 
 for blueprint in vars(routes).values():
     """
@@ -37,4 +34,4 @@ def endpoint_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(host=config.HOST, port=config.PORT)
+    app.run()

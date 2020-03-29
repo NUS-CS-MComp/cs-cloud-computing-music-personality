@@ -1,14 +1,8 @@
-import requests
-
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
-from utils import parse_params, construct_auth_bearer, construct_user_agent
-
-
-API_BASE_URL = "https://www.reddit.com/api/v1"
-RESOURCE_API_BASE_URL = "https://oauth.reddit.com/api/v1"
-USER_API_BASE_URL = "https://oauth.reddit.com/user"
+from services import RedditService
+from utils import parse_params, IdentityManager
 
 
 class RedditPost(Resource):
@@ -22,10 +16,8 @@ class RedditPost(Resource):
     """
 
     @staticmethod
-    @parse_params(
-        Argument("access_token", location="args", required=True),
-        Argument("user_name", location="args", required=True),
-    )
+    @IdentityManager.read_cookie(RedditService, ["access_token"])
+    @parse_params(Argument("user_name", location="args", required=True),)
     def get(access_token, user_name):
         """
         GET endpoint for fetching individual user post by default
@@ -37,12 +29,8 @@ class RedditPost(Resource):
         :return: Flask base response class containing JSON data
         :rtype: BaseResponse
         """
-        url = f"{USER_API_BASE_URL}/{user_name}/comments"
-        session = requests.Session()
-        session.headers.update(construct_user_agent())
-        session.headers.update(construct_auth_bearer(access_token))
-        response = session.get(url)
-        return response.json(), response.status_code
+        response = RedditService.get_user_post(access_token, user_name)
+        return response.data, response.status_code
 
 
 class RedditUser(Resource):
@@ -56,7 +44,7 @@ class RedditUser(Resource):
     """
 
     @staticmethod
-    @parse_params(Argument("access_token", location="args", required=True),)
+    @IdentityManager.read_cookie(RedditService, ["access_token"])
     def get(access_token):
         """
         GET endpoint for fetching individual user profile by default
@@ -66,9 +54,5 @@ class RedditUser(Resource):
         :return: Flask base response class containing JSON data
         :rtype: BaseResponse
         """
-        url = f"{RESOURCE_API_BASE_URL}/me"
-        session = requests.Session()
-        session.headers.update(construct_user_agent())
-        session.headers.update(construct_auth_bearer(access_token))
-        response = session.get(url)
-        return response.json(), response.status_code
+        response = RedditService.get_user_profile(access_token)
+        return response.data, response.status_code

@@ -14,6 +14,8 @@ flask-restful = "*"
 flask-script = "*"
 python-dotenv = "*"
 flask-cors = "*"
+flask-session = "*"
+redis = "*"
 
 [requires]
 python_version = "3.8"

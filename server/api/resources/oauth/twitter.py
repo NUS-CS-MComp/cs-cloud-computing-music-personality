@@ -1,43 +1,8 @@
-import os
-import requests
-from urllib.parse import parse_qsl, urlsplit
-
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
-from utils import construct_auth_oauth1, parse_params
-
-
-TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
-TWITTER_CONSUMER_KEY_SECRET = os.getenv("TWITTER_CONSUMER_KEY_SECRET")
-TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
-TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
-
-
-def construct_twitter_oauth1(
-    url, method="POST", token=None, token_secret=None, **kwargs
-):
-    """
-    Helper function to construct OAuth authorization header string
-
-    :param url: Base URL to request relevant resources
-    :type url: str
-    :param token: Resource owner token key, defaults to None
-    :type token: str, optional
-    :param token_secret: Resource owner token secret, defaults to None
-    :type token_secret: str, optional
-    :return: Authorization header dictionary object containing OAuth string data
-    :rtype: dict
-    """
-    return construct_auth_oauth1(
-        url,
-        method,
-        TWITTER_CONSUMER_KEY,
-        TWITTER_CONSUMER_KEY_SECRET,
-        token or TWITTER_ACCESS_TOKEN,
-        token_secret or TWITTER_ACCESS_TOKEN_SECRET,
-        **kwargs,
-    )
+from services import TwitterService
+from utils import parse_params, IdentityManager
 
 
 class TwitterOAuth(Resource):
@@ -63,16 +28,8 @@ class TwitterOAuth(Resource):
         :return: JSON data of token and secret data
         :rtype: BaseResponse
         """
-        from resources.social.twitter import API_BASE_URL as TWITTER_API_BASE_URL
-
-        url = f"{TWITTER_API_BASE_URL}/oauth/request_token"
-        response = requests.post(
-            url, headers=construct_twitter_oauth1(url, oauth_callback=callback_url),
-        )
-        return (
-            dict(parse_qsl(urlsplit("?" + response.text).query)),
-            response.status_code,
-        )
+        response = TwitterService.init_oauth_process(callback_url)
+        return response.data, response.status_code
 
 
 class TwitterOAuthVerifier(Resource):
@@ -94,6 +51,7 @@ class TwitterOAuthVerifier(Resource):
         Argument("oauth_token", location="args", required=True),
         Argument("oauth_verifier", location="args", required=True),
     )
+    @IdentityManager.set_cookie(TwitterService)
     def post(oauth_token, oauth_verifier):
         """
         POST endpoint for retrieval of usable OAuth token to access Twitter resources
@@ -105,17 +63,5 @@ class TwitterOAuthVerifier(Resource):
         :return: JSON data of usable OAuth token and basic identifier data
         :rtype: BaseResponse
         """
-        from resources.social.twitter import API_BASE_URL as TWITTER_API_BASE_URL
-
-        url = f"{TWITTER_API_BASE_URL}/oauth/access_token"
-        response = requests.post(
-            url,
-            params={"oauth_verifier": oauth_verifier},
-            headers=construct_twitter_oauth1(
-                url, token=oauth_token, oauth_verifier=oauth_verifier
-            ),
-        )
-        return (
-            dict(parse_qsl(urlsplit("?" + response.text).query)),
-            response.status_code,
-        )
+        response = TwitterService.exchange_oauth_token(oauth_token, oauth_verifier)
+        return response.data, response.status_code

@@ -31,4 +31,5 @@ For Spotify resource related endpoints:
 
 For user information related endpoints:
 
+-   `POST /user/authenticate` Authenticate user by session cookies
 -   `GET /user/profile/{provider_name}` Retrieve user information from OAuth provider

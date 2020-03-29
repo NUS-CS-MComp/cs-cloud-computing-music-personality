@@ -1,16 +1,8 @@
-import os
-import requests
-
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
-from resources.social.facebook import API_BASE_URL as FACEBOOK_API_BASE_URL
-
-from utils import parse_params
-
-
-FACEBOOK_CLIENT_ID = os.getenv("FACEBOOK_CLIENT_ID")
-FACEBOOK_CLIENT_SECRET = os.getenv("FACEBOOK_CLIENT_SECRET")
+from services import FacebookService
+from utils import parse_params, IdentityManager
 
 
 class FacebookOAuth(Resource):
@@ -30,6 +22,7 @@ class FacebookOAuth(Resource):
         Argument("code", location="args", required=True),
         Argument("callback_url", location="args", required=True),
     )
+    @IdentityManager.set_cookie(FacebookService)
     def post(code, callback_url):
         """
         POST endpoint for retrieving the access token given after acquiring authorization code
@@ -41,13 +34,5 @@ class FacebookOAuth(Resource):
         :return: JSON data of access_token on event of success authorization
         :rtype: BaseResponse
         """
-        response = requests.get(
-            f"{FACEBOOK_API_BASE_URL}/oauth/access_token",
-            params={
-                "client_id": FACEBOOK_CLIENT_ID,
-                "client_secret": FACEBOOK_CLIENT_SECRET,
-                "code": code,
-                "redirect_uri": callback_url,
-            },
-        )
-        return response.json(), response.status_code
+        response = FacebookService.exchange_token(code, callback_url)
+        return response.data, response.status_code

@@ -1,15 +1,8 @@
-import os
-import requests
-
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
-from utils import construct_user_agent, parse_params
-
-
-SPOTIFY_CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
-SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
-SPOTIFY_USER_RESOURCE_API_BASE_URL = "https://accounts.spotify.com/api"
+from services import SpotifyService
+from utils import parse_params, IdentityManager
 
 
 class SpotifyOAuth(Resource):
@@ -29,6 +22,7 @@ class SpotifyOAuth(Resource):
         Argument("code", location="args", required=True),
         Argument("callback_url", location="args", required=True),
     )
+    @IdentityManager.set_cookie(SpotifyService)
     def post(code, callback_url):
         """
         POST endpoint for retrieving the access token given after acquiring authorization code
@@ -40,15 +34,5 @@ class SpotifyOAuth(Resource):
         :return: JSON data of access_token on event of success authorization
         :rtype: BaseResponse
         """
-        session = requests.Session()
-        session.auth = (SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET)
-        session.headers.update(construct_user_agent())
-        response = session.post(
-            f"{SPOTIFY_USER_RESOURCE_API_BASE_URL}/token",
-            data={
-                "code": code,
-                "grant_type": "authorization_code",
-                "redirect_uri": callback_url,
-            },
-        )
-        return response.json(), response.status_code
+        response = SpotifyService.exchange_token(code, callback_url)
+        return response.data, response.status_code

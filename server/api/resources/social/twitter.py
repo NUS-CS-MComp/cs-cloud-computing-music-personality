@@ -1,14 +1,8 @@
-import requests
-
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
-from resources.oauth.twitter import construct_twitter_oauth1
-
-from utils import parse_params
-
-API_BASE_URL = "https://api.twitter.com"
-RESOURCE_API_BASE_URL = "https://api.twitter.com/1.1"
+from services import TwitterService
+from utils import parse_params, IdentityManager
 
 
 class TwitterFeed(Resource):
@@ -22,9 +16,8 @@ class TwitterFeed(Resource):
     """
 
     @staticmethod
+    @IdentityManager.read_cookie(TwitterService, ["oauth_token", "oauth_token_secret"])
     @parse_params(
-        Argument("oauth_token", location="args", required=True),
-        Argument("oauth_token_secret", location="args", required=True),
         Argument("user_id", location="args", required=False),
         Argument("screen_name", location="args", required=False),
     )
@@ -39,20 +32,8 @@ class TwitterFeed(Resource):
         :return: Flask base response class containing JSON data
         :rtype: BaseResponse
         """
-        params = {key: value for key, value in kwargs.items() if value is not None}
-        url = f"{RESOURCE_API_BASE_URL}/statuses/user_timeline.json"
-        response = requests.get(
-            url,
-            params=params,
-            headers=construct_twitter_oauth1(
-                url,
-                method="GET",
-                token=oauth_token,
-                token_secret=oauth_token_secret,
-                **params,
-            ),
-        )
-        return response.json(), response.status_code
+        response = TwitterService.get_user_feed(oauth_token, oauth_token_secret)
+        return response.data, response.status_code
 
 
 class TwitterUser(Resource):
@@ -66,10 +47,7 @@ class TwitterUser(Resource):
     """
 
     @staticmethod
-    @parse_params(
-        Argument("oauth_token", location="args", required=True),
-        Argument("oauth_token_secret", location="args", required=True),
-    )
+    @IdentityManager.read_cookie(TwitterService, ["oauth_token", "oauth_token_secret"])
     def get(oauth_token, oauth_token_secret):
         """
         GET endpoint for fetching individual user profile by default
@@ -81,12 +59,5 @@ class TwitterUser(Resource):
         :return: Flask base response class containing JSON data
         :rtype: BaseResponse
         """
-        url = f"{RESOURCE_API_BASE_URL}/account/verify_credentials.json"
-        session = requests.session()
-        session.headers.update(
-            construct_twitter_oauth1(
-                url, method="GET", token=oauth_token, token_secret=oauth_token_secret
-            )
-        )
-        response = session.get(url,)
-        return response.json(), response.status_code
+        response = TwitterService.get_user_profile(oauth_token, oauth_token_secret)
+        return response.data, response.status_code

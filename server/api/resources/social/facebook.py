@@ -1,11 +1,8 @@
-import requests
-
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
-from utils import parse_params
-
-API_BASE_URL = "https://graph.facebook.com/v6.0"
+from services import FacebookService
+from utils import parse_params, IdentityManager
 
 
 class FacebookPost(Resource):
@@ -19,10 +16,8 @@ class FacebookPost(Resource):
     """
 
     @staticmethod
-    @parse_params(
-        Argument("access_token", location="args", required=True),
-        Argument("user_id", location="args", required=False, default="me"),
-    )
+    @IdentityManager.read_cookie(FacebookService, ["access_token"])
+    @parse_params(Argument("user_id", location="args", required=False, default="me"),)
     def get(access_token, user_id):
         """
         GET endpoint for fetching individual user post by default
@@ -34,9 +29,8 @@ class FacebookPost(Resource):
         :return: Flask base response class containing JSON data
         :rtype: BaseResponse
         """
-        url = f"{API_BASE_URL}/{user_id}/feed"
-        response = requests.get(url, params={"access_token": access_token})
-        return response.json(), response.status_code
+        response = FacebookService.get_user_post(access_token, user_id)
+        return response.data, response.status_code
 
 
 class FacebookUser(Resource):
@@ -50,10 +44,8 @@ class FacebookUser(Resource):
     """
 
     @staticmethod
-    @parse_params(
-        Argument("access_token", location="args", required=True),
-        Argument("user_id", location="args", required=False, default="me"),
-    )
+    @IdentityManager.read_cookie(FacebookService, ["access_token"])
+    @parse_params(Argument("user_id", location="args", required=False, default="me"),)
     def get(access_token, user_id):
         """
         GET endpoint for fetching individual user profile by default
@@ -65,10 +57,5 @@ class FacebookUser(Resource):
         :return: Flask base response class containing JSON data
         :rtype: BaseResponse
         """
-        url = f"{API_BASE_URL}/{user_id}"
-        response = requests.get(url, params={"access_token": access_token})
-        response_json = response.json()
-        status_code = response.status_code
-        if response.status_code == 400 and response_json["error"]["code"] == 190:
-            status_code = 401
-        return response_json, status_code
+        response = FacebookService.get_user_profile(access_token, user_id)
+        return response.data, response.status_code

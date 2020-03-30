@@ -19,8 +19,7 @@ export const providerTokenSelector = (provider) => (state) =>
  */
 export const providerStatusSelector = createSelector(tokenSelector, (tokens) =>
     Object.keys(tokens).reduce((acc, tokenProvider) => {
-        if (lodash.isEqual(tokens[tokenProvider], { loading: false }))
-            return acc
+        if (lodash.isEqual(tokens[tokenProvider], {})) return acc
         return Object.assign(acc, { [tokenProvider]: true })
     }, {})
 )

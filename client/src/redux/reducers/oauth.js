@@ -32,7 +32,6 @@ const createOAuthReducer = (providerName) => {
             case `${providerNameUpper}_${OAUTH_COMPLETE}`:
                 return {
                     ...lodash.omit(state, ['is_loading', 'process_data']),
-                    final_data: data,
                 }
             case `${providerNameUpper}_${OAUTH_FAILURE}`:
                 return null

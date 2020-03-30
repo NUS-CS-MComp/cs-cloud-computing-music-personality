@@ -1,7 +1,8 @@
 from flask_restful import Resource
+from flask_restful.reqparse import Argument
 
 from services import FacebookService, RedditService, SpotifyService, TwitterService
-from utils import IdentityManager
+from utils import parse_params, IdentityManager
 from utils.check_status_code import is_client_error, is_ok
 
 
@@ -28,31 +29,60 @@ class UserAuthentication(Resource):
     @IdentityManager.read_cookies(
         SERVICES_FOR_AUTH, param_map=SERVICES_FOR_AUTH_PARAMS, kwarg_name="token_info"
     )
-    def post(token_info):
+    @parse_params(Argument("provider", location="json", required=False),)
+    def post(token_info, provider):
         """
         POST endpoint to authenticate user based on access token stored in cookies session
 
         :param token_info: Argument parsed from @IdentityManager.read_cookies
         :type token_info: dict
+        :param provider: Optional provider name string to replace full service list
+        :type provider: str, optional
         :return: Authentication information grouped by provider names
         :rtype: dict
         """
         auth_info = {}
+
+        services = SERVICES_FOR_AUTH
         for service in SERVICES_FOR_AUTH:
+            """
+            Use specific service provider if existing
+            """
+            if provider is None:
+                break
+            if service.service_name == provider:
+                services = [service]
+                break
+
+        for service in services:
             service_name = service.service_name
             if service_name not in token_info:
                 auth_info[service_name] = UserAuthentication.construct_auth_info(False)
             else:
                 user_profile = service.get_user_profile(**token_info[service_name])
-                if is_client_error(user_profile.status_code):
-                    auth_info[service_name] = UserAuthentication.construct_auth_info(
-                        False, user_profile.data
-                    )
-                if is_ok(user_profile.status_code):
-                    auth_info[service_name] = UserAuthentication.construct_auth_info(
-                        True, user_profile.data
-                    )
+                auth_info[
+                    service_name
+                ] = UserAuthentication.parse_user_profile_response(user_profile)
         return auth_info, 200
+
+    @staticmethod
+    def parse_user_profile_response(user_profile_response):
+        """
+        Helper function to parse response obtained by user profile request
+
+        :param user_profile_response: Response result class under base service
+        :type user_profile_response: BaseServiceResult
+        :return: Authentication information from user profile response
+        :rtype: dict
+        """
+        if is_client_error(user_profile_response.status_code):
+            return UserAuthentication.construct_auth_info(
+                False, user_profile_response.data
+            )
+        if is_ok(user_profile_response.status_code):
+            return UserAuthentication.construct_auth_info(
+                True, user_profile_response.data
+            )
 
     @staticmethod
     def construct_auth_info(is_authenticated, data=None):

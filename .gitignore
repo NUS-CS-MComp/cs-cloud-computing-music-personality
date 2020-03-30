@@ -26,6 +26,7 @@ dist
 
 # Python
 __pycache__
+.venv
 Pipfile.lock
 
 # Testing

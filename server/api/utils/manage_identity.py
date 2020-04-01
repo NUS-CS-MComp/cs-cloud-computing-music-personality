@@ -138,7 +138,7 @@ class IdentityManager:
                 key = IdentityManager.format_cookie_key_from_service(service)
                 session[key] = response_data
                 if is_ok(status_code):
-                    return "Done", status_code
+                    return "OK", status_code
                 elif is_client_error(status_code):
                     return response_data, status_code
 

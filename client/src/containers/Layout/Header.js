@@ -12,12 +12,11 @@ export default () => {
     const [collapsed, setCollapsed] = useState(false)
     const services = OAuthServiceFactory.OAuthServices
     return (
-        <header className='flex items-center justify-between flex-wrap p-6'>
-            <div className='flex flex-col items-center flex-shrink-0 mr-6'>
+        <header className='flex items-center justify-between flex-wrap p-6 lg:flex-col lg:h-full lg:justify-evenly'>
+            <div className='flex flex-col items-center flex-shrink-0 mr-6 lg:mr-0'>
                 <Link className='w-auto' exact='true' to='/'>
-                    <Logo className='h-12 w-12' />
+                    <Logo className='fill-current h-8 sm:h-10 lg:h-12' />
                 </Link>
-                <span>Spotlight</span>
             </div>
             <div className='block lg:hidden'>
                 <button
@@ -35,21 +34,21 @@ export default () => {
                     </svg>
                 </button>
             </div>
-            <div
+            <nav
                 className={`w-full block flex-grow justify-end${
                     collapsed ? ' ' : ' hidden '
-                }lg:flex lg:items-center lg:w-auto`}
+                }lg:flex lg:flex-col lg:items-center lg:w-auto lg:justify-center`}
             >
                 {services.map((provider, index) => (
                     <OAuthLogin
                         key={provider}
-                        className={`block mt-4 lg:inline-block lg:mt-0 text-black-200 ${
+                        className={`block mt-4 lg:inline-block lg:mt-0 lg:mr-0 lg:mb-4 text-black-200 ${
                             index === services.length - 1 ? '' : 'mr-4'
                         }`}
                         provider={provider}
                     />
                 ))}
-            </div>
+            </nav>
         </header>
     )
 }

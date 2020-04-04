@@ -2,8 +2,11 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'spotify-green': '#1db954',
-                'light-grey': '#f7f7f7',
+                secondary: '#F7F7F7',
+                facebook: '#1976D2',
+                reddit: '#FF5722',
+                spotify: '#1DB954',
+                twitter: '#03A9F4',
             },
         },
     },

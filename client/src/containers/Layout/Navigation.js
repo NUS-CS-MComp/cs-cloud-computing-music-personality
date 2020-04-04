@@ -1,22 +1,12 @@
 import React from 'react'
-
-import OAuthLogin from '@containers/OAuthLogin'
-import OAuthServiceFactory from '@services/oauth/factory'
+import { Link } from 'react-router-dom'
 
 /**
  * Navigation component appearing as bottom bar or part of header component
  */
-export default () => {
-    const services = OAuthServiceFactory.OAuthServices
-    return (
-        <nav className='w-full block flex flex-row items-center justify-around md:flex-col md:justify-center md:w-auto'>
-            {services.map((provider) => (
-                <OAuthLogin
-                    key={provider}
-                    className='inline-block md:block md:my-2'
-                    provider={provider}
-                />
-            ))}
-        </nav>
-    )
-}
+export default () => (
+    <nav className='w-full block flex flex-row items-center justify-around md:flex-col md:justify-center md:w-auto'>
+        <Link to='/'>Overview</Link>
+        <Link to='/not-found'>Not Found</Link>
+    </nav>
+)

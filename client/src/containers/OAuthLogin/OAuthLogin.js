@@ -14,13 +14,13 @@ const OAuthLogin = ({ provider, className, render }) => {
 
 OAuthLogin.propTypes = {
     /**
-     * Class name for styling
-     */
-    className: PropTypes.string.isRequired,
-    /**
      * OAuth provider name
      */
     provider: PropTypes.string.isRequired,
+    /**
+     * Class name for styling
+     */
+    className: PropTypes.string,
     /**
      * Render props
      */
@@ -28,6 +28,7 @@ OAuthLogin.propTypes = {
 }
 
 OAuthLogin.defaultProps = {
+    className: '',
     /**
      * @param {{ className: string, provider: string, onClick: function }} props Props to be passed to the rendered component
      */

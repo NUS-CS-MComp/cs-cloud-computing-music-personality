@@ -20,7 +20,7 @@ export default () => {
     }
 
     const oauthResult = oauthService.parseToken(urlParamEntries)
-    if (oauthService.cleanupFromPopup()) return undefined
+    if (oauthService.cleanupFromPopup()) return null
 
     const lastLocation = localStorage.getItem(
         oauthService.processor.lastLocationKey

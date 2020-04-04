@@ -158,6 +158,10 @@ class BaseServiceResult:
             return self._data.copy()
         return self._data
 
+    @data.setter
+    def data(self, data):
+        self._data = data
+
     @property
     def status_code(self):
         return self._status_Code

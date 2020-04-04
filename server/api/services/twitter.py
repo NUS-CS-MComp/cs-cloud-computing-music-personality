@@ -65,9 +65,29 @@ class Twitter(BaseService):
         :return: Base service result object containing response data
         :rtype: BaseServiceResult
         """
+
+        def extract_post_data(post_data):
+            """
+            Helper function to extract feed data
+
+            :param post_data: Received feed data information
+            :type post_data: dict
+            :return: Processed feed data information
+            :rtype: dict
+            """
+            import datetime
+
+            return {
+                "message": post_data["text"],
+                "time": datetime.datetime.strptime(
+                    post_data["created_at"], "%a %b %d %H:%M:%S +0000 %Y"
+                ).strftime("%s"),
+                "id": post_data["id_str"],
+            }
+
         params = {key: value for key, value in kwargs.items() if value is not None}
         url = self.construct_url("1.1/statuses/user_timeline.json")
-        return self.get(
+        response = self.get(
             url,
             params=params,
             headers=Twitter.construct_twitter_oauth1_header(
@@ -78,6 +98,9 @@ class Twitter(BaseService):
                 **params,
             ),
         )
+        feeds = list(filter(lambda feed: "text" in feed.keys(), response.data))
+        response.data = list(map(lambda feed: extract_post_data(feed), feeds))
+        return response
 
     def get_user_profile(self, oauth_token, oauth_token_secret):
         """

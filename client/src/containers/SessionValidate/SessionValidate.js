@@ -14,7 +14,8 @@ const SessionValidate = ({ children }) => {
     useEffect(() => {
         dispatch(initFullValidation())
     }, [dispatch])
-    return <div>{loading ? 'loading' : children}</div>
+    if (loading) return <div>loading</div>
+    return children
 }
 
 SessionValidate.propTypes = {

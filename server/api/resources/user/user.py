@@ -46,7 +46,7 @@ class UserAuthentication(Resource):
         :rtype: dict
         """
         if provider is None and request.cookies.get(AUTH_SESSION_COOKIE_NAME):
-            return make_response(session[AUTH_SERVER_SESSION_KEY], 200)
+            return make_response(session.get(AUTH_SERVER_SESSION_KEY), 200)
 
         auth_info = {}
         full_auth = True
@@ -70,14 +70,23 @@ class UserAuthentication(Resource):
                     False, False
                 )
             else:
-                user_profile = service.get_user_profile(**token_info[service_name])
-                auth_info[
-                    service_name
-                ] = UserAuthentication.parse_user_profile_response(user_profile)
+                try:
+                    user_profile = service.get_user_profile(**token_info[service_name])
+                    auth_info[
+                        service_name
+                    ] = UserAuthentication.parse_user_profile_response(user_profile)
+                except Exception as e:
+                    auth_info[service_name] = UserAuthentication.construct_auth_info(
+                        False, False, {"message": str(e)}
+                    )
 
-        if session.get(AUTH_SERVER_SESSION_KEY) is None:
-            session[AUTH_SERVER_SESSION_KEY] = {}
-        session[AUTH_SERVER_SESSION_KEY].update(auth_info)
+        session_data = session.get(AUTH_SERVER_SESSION_KEY)
+        if session_data is None:
+            session[AUTH_SERVER_SESSION_KEY] = auth_info
+        else:
+            session_data = session_data.copy()
+            session_data.update(auth_info)
+            session[AUTH_SERVER_SESSION_KEY] = session_data
 
         auth_response = make_response(auth_info, 200)
 

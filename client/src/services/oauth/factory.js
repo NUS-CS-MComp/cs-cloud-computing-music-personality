@@ -27,7 +27,7 @@ class OAuthServiceFactory {
      * @param {string} providerName OAuth provider name
      * @returns {OAuthService} OAuthService instance
      */
-    getOAuthService(providerName) {
+    getOAuthService(providerName = '') {
         const providerNameLower = providerName.toLowerCase()
         if (!this.OAuthServices.includes(providerNameLower)) {
             logger.warn(

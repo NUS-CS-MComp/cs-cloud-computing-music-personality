@@ -5,11 +5,11 @@ import { Provider } from 'react-redux'
 import store from '@redux/store'
 
 import FallbackLayout from '@components/FallbackLayout'
-import NotFoundPage from '@components/NotFoundPage'
 import Layout from '@containers/Layout'
-import OAuthCallbackPage from '@containers/OAuthCallbackPage'
-import OverviewPage from '@containers/OverviewPage'
+import NotFound from '@components/NotFound'
 import SessionValidate from '@containers/SessionValidate'
+import OAuthCallbackPage from '@pages/OAuthCallbackPage'
+import OverviewPage from '@pages/OverviewPage'
 
 import OAUTH_CONFIG from '@services/oauth/config'
 
@@ -36,7 +36,7 @@ const PublicLayoutComponent = () => (
         <SessionValidate>
             <Switch>
                 <Route exact path='/' component={OverviewPage} />
-                <Route exact path='/not-found' component={NotFoundPage} />
+                <Route exact path='/not-found' component={NotFound} />
                 <Redirect exact to='/not-found' />
             </Switch>
         </SessionValidate>

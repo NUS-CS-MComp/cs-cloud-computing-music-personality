@@ -39,7 +39,33 @@ class Facebook(BaseService):
         :return: Base service result object containing response data
         :rtype: BaseServiceResult
         """
-        return self.get(route=f"{user_id}/feed", params={"access_token": access_token})
+
+        def extract_post_data(post_data):
+            """
+            Helper function to extract post data
+
+            :param post_data: Received post data information
+            :type post_data: dict
+            :return: Processed post data information
+            :rtype: dict
+            """
+            import datetime
+
+            return {
+                "message": post_data["message"],
+                "time": datetime.datetime.strptime(
+                    post_data["created_time"], "%Y-%m-%dT%H:%M:%S+0000"
+                ).strftime("%s"),
+                "id": post_data["id"],
+            }
+
+        response = self.get(
+            route=f"{user_id}/feed", params={"access_token": access_token}
+        )
+        post_data = response.data["data"]
+        post_data = list(filter(lambda post: "message" in post.keys(), post_data))
+        response.data = list(map(lambda post: extract_post_data(post), post_data))
+        return response
 
     def get_user_profile(self, access_token, user_id="me"):
         """

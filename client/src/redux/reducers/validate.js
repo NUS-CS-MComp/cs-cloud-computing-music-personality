@@ -15,9 +15,13 @@ import {
  * @param {{ type: string, provider: string, data: any}} action Action type and payload data for session validation process
  */
 export default (state = {}, { type, provider, data }) => {
+    const prevState = lodash.cloneDeep(state)
     switch (type) {
         case VALIDATE_INIT:
-            return { ...state, [provider]: { is_loading: true } }
+            if (typeof prevState[provider] !== 'undefined') {
+                Object.assign(prevState[provider], { is_loading: true })
+            }
+            return prevState
         case VALIDATE_FAILURE:
             return { ...state, ...data }
         case VALIDATE_SUCCESS:

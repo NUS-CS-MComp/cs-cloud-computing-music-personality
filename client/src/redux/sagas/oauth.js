@@ -67,7 +67,7 @@ export function* completeTwitterOAuth(data) {
 
 /**
  * Worker saga for generic OAuth completion process
- * @param {string} provider  OAuth provider name
+ * @param {string} provider OAuth provider name
  * @param {Record<string, string>} data Action payload data
  */
 export function* completeGenericOAuth(provider, data) {
@@ -145,13 +145,21 @@ export function* dispatchCompleteOAuthWorker(provider, data) {
  * @param {string} provider Name string of OAuth provider
  */
 export function* dispatchStartOAuthWorker(provider) {
-    switch (provider) {
-        case 'twitter':
-            yield call(startTwitterOAuth)
-            break
-        default:
-            yield call(startGenericOAuth, provider)
-            break
+    try {
+        switch (provider) {
+            case 'twitter':
+                yield call(startTwitterOAuth)
+                break
+            default:
+                yield call(startGenericOAuth, provider)
+                break
+        }
+    } catch (e) {
+        yield put({
+            type: constructFailureAction(provider),
+            message: e.toString(),
+            provider,
+        })
     }
 }
 

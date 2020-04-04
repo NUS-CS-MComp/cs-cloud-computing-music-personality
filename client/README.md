@@ -15,6 +15,7 @@
     ├───containers              # Container components with hook usage and redux
     │   └───App                     # Top level application container
     ├───hooks               # React hooks to be used by containers
+    ├───pages               # Page components that render content in an entire page
     ├───redux               # Redux related modules
     │   ├───actions             # Redux action constants
     │   ├───reducers            # Redux reducer functions

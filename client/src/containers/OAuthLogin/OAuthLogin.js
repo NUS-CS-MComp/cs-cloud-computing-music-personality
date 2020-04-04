@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useOAuthService from '@hooks/use-oauth-service'
+import toCamelCase from '@utils/camel-case'
 
 /**
  * Wrapper container for OAuth service component rendering
@@ -32,8 +33,7 @@ OAuthLogin.defaultProps = {
      */
     /* eslint-disable react/prop-types */
     render: ({ className, provider, onClick }) => {
-        const name =
-            provider.slice(0, 1).toUpperCase() + provider.slice(1).toLowerCase()
+        const name = toCamelCase(provider)
         return (
             <button type='button' className={className} onClick={onClick}>
                 {name}

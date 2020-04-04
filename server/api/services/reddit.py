@@ -39,10 +39,54 @@ class Reddit(BaseService):
         :return: Base service result object containing response data
         :rtype: BaseServiceResult
         """
-        url = self.construct_url(
+
+        def extract_post_data(post_data, alt_text_key=None):
+            """
+            Helper function to extract post data
+
+            :param post_data: Received post data information
+            :type post_data: dict
+            :return: Processed post data information
+            :rtype: dict
+            """
+            post_data = post_data["data"]
+            return {
+                "message": post_data[
+                    "selftext" if alt_text_key is None else alt_text_key
+                ],
+                "time": str(int(post_data["created_utc"])),
+                "id": post_data["id"],
+            }
+
+        submitted_url = self.construct_url(
+            REDDIT_RESOURCE_API_BASE_URL, "user", f"{user_name}/submitted"
+        )
+        submitted_response = self.get(
+            submitted_url, headers=construct_auth_bearer(access_token)
+        )
+        submitted_response.data = list(
+            map(
+                lambda post: extract_post_data(post),
+                submitted_response.data["data"]["children"],
+            )
+        )
+
+        comment_url = self.construct_url(
             REDDIT_RESOURCE_API_BASE_URL, "user", f"{user_name}/comments"
         )
-        return self.get(url, headers=construct_auth_bearer(access_token))
+        comment_response = self.get(
+            comment_url, headers=construct_auth_bearer(access_token)
+        )
+        comment_response.data = list(
+            map(
+                lambda post: extract_post_data(post, "body"),
+                comment_response.data["data"]["children"],
+            )
+        )
+
+        submitted_response.data = submitted_response.data + comment_response.data
+
+        return submitted_response
 
     def get_user_profile(self, access_token):
         """

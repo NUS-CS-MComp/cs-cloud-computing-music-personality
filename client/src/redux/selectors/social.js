@@ -8,7 +8,6 @@ export const socialPostSelector = (state) => state.social
 
 /**
  * Select for social post fetch task loading status
- * @param {string} provider Resource provider name
  */
 export const socialPostLoadingSelector = createSelector(
     socialPostSelector,

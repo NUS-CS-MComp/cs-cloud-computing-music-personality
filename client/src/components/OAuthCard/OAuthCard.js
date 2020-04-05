@@ -11,16 +11,24 @@ const OAuthCard = ({ expanded, provider, onClick }) => {
     const providerName = toCamelCase(provider)
     return (
         <button
-            className={`inline-block bg-white bg-${provider} text-white h-auto ${
-                expanded ? 'w-full' : 'w-40 sm:w-48'
-            } mr-2 p-4 rounded-lg flex flex-grow-0 flex-shrink-0 items-center justify-center md:flex-1`}
+            className={`bg-white bg-${provider} text-white h-auto ${
+                expanded ? 'w-full' : 'w-32 sm:w-48'
+            } mr-2 p-4 rounded-lg flex flex-grow-0 flex-shrink-0 items-center justify-center md:flex-1 xl:flex-initial last:mr-0`}
             onClick={onClick}
             type='button'
         >
             <span>
-                <Icon name={provider} color='white' className='h-8 mr-4' />
+                <Icon name={provider} color='white' className='h-8 sm:mr-4' />
             </span>
-            <h3 className='font-bold text-lg'>{providerName}</h3>
+            <h3 className='font-bold text-lg hidden sm:block'>
+                {expanded ? (
+                    <span className='hidden sm:inline-block'>
+                        Connect to {providerName}
+                    </span>
+                ) : (
+                    <span>{providerName}</span>
+                )}
+            </h3>
         </button>
     )
 }

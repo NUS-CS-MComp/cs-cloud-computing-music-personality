@@ -49,9 +49,37 @@ class Spotify(BaseService):
         :return: Base service result object containing response data
         :rtype: BaseServiceResult
         """
-        return self.get(
+
+        def format_track_history(track_history):
+            """
+            Helper function to format track history
+
+            :param track_history: Track history data
+            :type track_history: dict
+            """
+            import datetime
+
+            track_info = track_history["track"]
+            artist_info = track_info["artists"]
+            return {
+                "name": track_info["name"],
+                "artist": ", ".join(map(lambda artist: artist["name"], artist_info)),
+                "time": datetime.datetime.strptime(
+                    track_history["played_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
+                )
+                .replace(tzinfo=datetime.timezone.utc)
+                .timestamp(),
+                "url": track_info["external_urls"]["spotify"],
+                "thumbnail": track_info["album"]["images"][0]["url"],
+            }
+
+        response = self.get(
             "me/player/recently-played", headers=construct_auth_bearer(access_token)
         )
+        response.data = list(
+            map(lambda data: format_track_history(data), response.data["items"])
+        )
+        return response
 
     def get_audio_features(self, access_token, track_id):
         """

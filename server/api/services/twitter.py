@@ -81,7 +81,9 @@ class Twitter(BaseService):
                 "message": post_data["text"],
                 "time": datetime.datetime.strptime(
                     post_data["created_at"], "%a %b %d %H:%M:%S +0000 %Y"
-                ).strftime("%s"),
+                )
+                .replace(tzinfo=datetime.timezone.utc)
+                .timestamp(),
                 "id": post_data["id_str"],
             }
 

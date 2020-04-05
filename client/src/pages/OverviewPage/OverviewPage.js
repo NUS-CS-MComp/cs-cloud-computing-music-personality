@@ -1,22 +1,24 @@
 import React from 'react'
 
-import SocialConnect from '@containers/SocialConnect'
+import ProviderConnect from '@containers/ProviderConnect'
 import SocialPostList from '@containers/SocialPostList'
-import SpotifyConnect from '@containers/SpotifyConnect'
+import SpotifyResource from '@containers/SpotifyResource'
 
 /**
  * OVerview page container
  */
 export default () => (
     <div className='h-full text-left flex flex-col'>
-        <div className='flex flex-row whitespace-no-wrap md:flex-col xl:flex-row'>
-            <div className='mr-4 order-first flex-1 md:mr-0 xl:order-last'>
-                <SpotifyConnect />
+        <div className='my-2 md:my-0'>
+            <ProviderConnect />
+        </div>
+        <div className='flex flex-col flex-1 md:grid md:grid-cols-6'>
+            <div className='my-2 md:col-span-4 md:mr-8'>
+                <SocialPostList />
             </div>
-            <div className='overflow-x-auto order-1 flex-1 xl:mr-4'>
-                <SocialConnect />
+            <div className='my-2 md:col-span-2'>
+                <SpotifyResource.RecentHistory />
             </div>
         </div>
-        <SocialPostList />
     </div>
 )

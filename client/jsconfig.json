@@ -13,5 +13,5 @@
             "@utils/*": ["src/utils/*"]
         }
     },
-    "exclude": ["build", "config", "node_modules", "scripts"]
+    "exclude": ["build", "config", "node_modules", "public", "scripts"]
 }

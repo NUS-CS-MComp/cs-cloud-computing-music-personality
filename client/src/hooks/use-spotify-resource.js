@@ -1,0 +1,45 @@
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { requestSpotifyResource } from '@redux/actions/spotify'
+import {
+    spotifyResourceDataSelector,
+    spotifyResourceLoadingSelector,
+} from '@redux/selectors/spotify'
+import { availableProviderSelector } from '@redux/selectors/validate'
+import Api from '@services/api'
+
+import OAUTH_CONFIG from '@services/oauth/config'
+
+const {
+    providerName: SPOTIFY_PROVIDER_NAME,
+} = OAUTH_CONFIG.SPOTIFY_OAUTH_CONFIG
+
+/**
+ * Custom hook to fetch specific resource from Spotify
+ * @param {string} resourceType Spotify resource type
+ * @returns {[Record<string, any>, string, boolean, boolean, function]} Data to be consumed from the hook
+ */
+const useSpotifyResource = (resourceType) => {
+    const isTokenValid = useSelector(availableProviderSelector).includes(
+        SPOTIFY_PROVIDER_NAME
+    )
+    const dispatch = useDispatch()
+    const dispatchCallback = useCallback(() => {
+        if (Api.spotify.RESOURCE_API_MAP[resourceType] && isTokenValid) {
+            dispatch(requestSpotifyResource(resourceType))
+        }
+    }, [isTokenValid, dispatch])
+    const data = useSelector(spotifyResourceDataSelector(resourceType)) || []
+    const isLoading =
+        useSelector(spotifyResourceLoadingSelector)[resourceType] || false
+    return [
+        data,
+        SPOTIFY_PROVIDER_NAME,
+        isTokenValid,
+        isLoading,
+        dispatchCallback,
+    ]
+}
+
+export default useSpotifyResource

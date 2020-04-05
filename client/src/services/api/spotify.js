@@ -26,3 +26,13 @@ export const getRecentHistory = () => http.get(`/spotify/recent`)
  */
 export const getRecentHistoryAudioFeatures = () =>
     http.get(`/spotify/recent/audio-features`)
+
+/**
+ * Name mapping to resource APIs
+ */
+export const RESOURCE_API_MAP = {
+    category: getCategory,
+    features: getAudioFeatures,
+    recent: getRecentHistory,
+    recent_features: getRecentHistoryAudioFeatures,
+}

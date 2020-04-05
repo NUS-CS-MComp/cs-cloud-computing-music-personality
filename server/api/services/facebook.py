@@ -55,7 +55,9 @@ class Facebook(BaseService):
                 "message": post_data["message"],
                 "time": datetime.datetime.strptime(
                     post_data["created_time"], "%Y-%m-%dT%H:%M:%S+0000"
-                ).strftime("%s"),
+                )
+                .replace(tzinfo=datetime.timezone.utc)
+                .timestamp(),
                 "id": post_data["id"],
             }
 

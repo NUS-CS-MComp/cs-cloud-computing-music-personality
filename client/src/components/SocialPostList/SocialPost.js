@@ -1,22 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 
 import Icon from '@components/Icon'
+import formatTimeStamp from '@utils/format-unix-time'
 import toCamelCase from '@utils/camel-case'
 
 /**
  * Component for individual social media post data
  */
 const SocialPost = ({ message, time, provider }) => (
-    <div className='bg-white h-56 w-auto max-w-md mr-4 p-4 rounded-lg flex flex-col flex-initial flex-grow-0 flex-shrink-0 md:h-auto md:min-w-full md:mb-4 last:md:mb-0'>
+    <div className='bg-white h-56 w-64 mr-4 p-4 rounded-lg flex flex-col flex-initial flex-shrink-0 sm:w-auto sm:max-w-md md:h-auto md:min-w-full md:max-w-full md:mb-4'>
         <div className='flex flex-col justify-between md:flex-row md:items-end'>
             <span>
                 <Icon name={provider} />
             </span>
             <span className='text-gray-600 text-sm'>
-                You posted on {toCamelCase(provider)} at{' '}
-                {moment.unix(time).format('h:mm:ss a, MMM YYYY')}
+                You posted on {toCamelCase(provider)} at {formatTimeStamp(time)}
             </span>
         </div>
         <hr className='my-2' />
@@ -32,7 +31,7 @@ SocialPost.propTypes = {
     /**
      * Epoch timestamp
      */
-    time: PropTypes.string,
+    time: PropTypes.number,
     /**
      * Provider name
      */

@@ -54,7 +54,7 @@ class Reddit(BaseService):
                 "message": post_data[
                     "selftext" if alt_text_key is None else alt_text_key
                 ],
-                "time": str(int(post_data["created_utc"])),
+                "time": int(post_data["created_utc"]),
                 "id": post_data["id"],
             }
 

@@ -18,7 +18,7 @@ export default (state = {}, { type, provider, data }) => {
         case FETCH_SOCIAL_POST_INIT:
             if (typeof prevState[provider] !== 'undefined') {
                 Object.assign(prevState[provider], { is_loading: true })
-            }
+            } else prevState[provider] = { is_loading: true }
             return prevState
         case FETCH_SOCIAL_POST_CANCEL:
             return lodash.omit(state, provider)

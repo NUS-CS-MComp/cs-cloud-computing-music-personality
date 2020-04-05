@@ -3,31 +3,31 @@ import React, { useEffect } from 'react'
 import EmptyData from '@components/EmptyData'
 import Heading from '@components/Heading'
 import Icon from '@components/Icon'
-import SocialPostList from '@components/SocialPostList'
-import useSocialPosts from '@hooks/use-social-posts'
+import SpotifyResource from '@components/SpotifyResource'
+import useSpotifyResource from '@hooks/use-spotify-resource'
 
 /**
- * Social post container containing user posts information
+ * Container component for Spotify play history
  */
 export default () => {
-    const [, posts, loadPosts] = useSocialPosts()
+    const [data, , , , loadData] = useSpotifyResource('recent')
     useEffect(() => {
-        loadPosts()
-    }, [loadPosts])
+        loadData()
+    }, [loadData])
     return (
         <div className='h-full flex flex-col'>
             <div className='flex items-center justify-between'>
-                <Heading text='Your Timeline' />
-                <button type='button' onClick={() => loadPosts()}>
+                <Heading text='Play History' />
+                <button type='button' onClick={() => loadData()}>
                     <Icon name='refresh' className='fill-current' />
                 </button>
             </div>
-            {posts.length > 0 ? (
-                <SocialPostList posts={posts} />
+            {data.length > 0 ? (
+                <SpotifyResource.RecentHistoryList data={data} />
             ) : (
                 <EmptyData
-                    message='Login to Social Media to view'
-                    icon='social'
+                    message='Login to Spotify to view'
+                    icon='music-note'
                     iconClassName='h-10'
                 />
             )}

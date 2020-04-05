@@ -1,6 +1,10 @@
 module.exports = {
     theme: {
         extend: {
+            boxShadow: {
+                nav:
+                    '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+            },
             colors: {
                 secondary: '#F7F7F7',
                 facebook: '#1976D2',
@@ -8,8 +12,13 @@ module.exports = {
                 spotify: '#1DB954',
                 twitter: '#03A9F4',
             },
+            minHeight: {
+                '64': '16rem',
+            },
         },
     },
-    variants: { marginRight: ['last'] },
+    variants: {
+        margin: ['responsive', 'last'],
+    },
     plugins: [],
 }

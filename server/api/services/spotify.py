@@ -40,12 +40,14 @@ class Spotify(BaseService):
             "browse/categories", headers=construct_auth_bearer(access_token)
         )
 
-    def get_recent_history(self, access_token):
+    def get_recent_history(self, access_token, raw=False):
         """
         Fetch recent listened songs of user
 
         :param access_token: Spotify API access token
         :type access_token: str
+        :param raw: Flag to retrieve raw data format
+        :type raw: bool
         :return: Base service result object containing response data
         :rtype: BaseServiceResult
         """
@@ -62,6 +64,7 @@ class Spotify(BaseService):
             track_info = track_history["track"]
             artist_info = track_info["artists"]
             return {
+                "id": track_info["id"],
                 "name": track_info["name"],
                 "artist": ", ".join(map(lambda artist: artist["name"], artist_info)),
                 "time": datetime.datetime.strptime(
@@ -76,9 +79,10 @@ class Spotify(BaseService):
         response = self.get(
             "me/player/recently-played", headers=construct_auth_bearer(access_token)
         )
-        response.data = list(
-            map(lambda data: format_track_history(data), response.data["items"])
-        )
+        if not raw:
+            response.data = list(
+                map(lambda data: format_track_history(data), response.data["items"])
+            )
         return response
 
     def get_audio_features(self, access_token, track_id):
@@ -105,15 +109,16 @@ class Spotify(BaseService):
         :return: Base service result object containing response data
         :rtype: BaseServiceResult
         """
-        recently_played = self.get_recent_history(access_token)
+        recently_played = self.get_recent_history(access_token, True)
         audio_features = []
-        for track in recently_played.data:
+        for track in recently_played.data["items"]:
             track_id = track["track"]["id"]
             track_feature = self.get_audio_features(
                 access_token=access_token, track_id=track_id
             )
-            track_feature["track_name"] = track["track"]["ame"]
-            audio_features.append(track_feature.data)
+            track_feature_data = track_feature.data
+            track_feature_data["track_name"] = track["track"]["name"]
+            audio_features.append(track_feature_data)
         return BaseServiceResult(200, {"features": audio_features})
 
     def get_user_profile(self, access_token):

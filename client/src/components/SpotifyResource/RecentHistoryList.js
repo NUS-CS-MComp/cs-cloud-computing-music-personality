@@ -8,11 +8,8 @@ import RecentHistory from '@components/SpotifyResource/RecentHistory'
  */
 const RecentHistoryList = ({ data }) => (
     <div className='overflow-x-auto text-left flex flex-no-wrap md:overflow-x-hidden md:flex-wrap md:max-h-screen'>
-        {data.map((history) => (
-            <RecentHistory
-                key={`${history.name}_${history.time}`}
-                data={history}
-            />
+        {data.map((track) => (
+            <RecentHistory key={`${track.id}_${track.time}`} data={track} />
         ))}
     </div>
 )

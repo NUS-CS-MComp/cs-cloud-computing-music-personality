@@ -12,8 +12,12 @@ module.exports = {
                 spotify: '#1DB954',
                 twitter: '#03A9F4',
             },
-            minHeight: {
-                '64': '16rem',
+            flex: {
+                '2': '2 1 0%',
+                '4': '4 1 0%',
+            },
+            screens: {
+                fhd: '1980px',
             },
         },
     },

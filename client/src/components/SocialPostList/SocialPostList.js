@@ -7,7 +7,7 @@ import SocialPost from '@components/SocialPostList/SocialPost'
  * Component for displaying list of social media posts
  */
 const SocialPostList = ({ posts }) => (
-    <div className='overflow-x-auto text-left flex flex-no-wrap md:overflow-x-hidden md:flex-wrap'>
+    <div className='overflow-x-auto text-left flex flex-no-wrap md:overflow-x-hidden md:flex-wrap md:max-h-screen'>
         {posts.map((post) => (
             <SocialPost
                 key={post.id}

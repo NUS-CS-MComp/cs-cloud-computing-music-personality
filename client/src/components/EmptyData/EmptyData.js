@@ -7,7 +7,7 @@ import Icon from '@components/Icon'
  * Empty card component indicating no data
  */
 const EmptyData = ({ message, icon, iconClassName, iconColor }) => (
-    <div className='bg-white p-4 rounded-lg uppercase font-bold min-h-64 text-center flex flex-1 flex-col items-center justify-center'>
+    <div className='bg-white p-4 rounded-lg uppercase font-bold min-h-64 text-center flex flex-1 flex-col items-center justify-center md:min-h-screen'>
         <span className='my-2'>
             <Icon name={icon} className={iconClassName} color={iconColor} />
         </span>

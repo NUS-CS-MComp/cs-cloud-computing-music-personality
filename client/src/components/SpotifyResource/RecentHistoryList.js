@@ -7,7 +7,7 @@ import RecentHistory from '@components/SpotifyResource/RecentHistory'
  * Component for rendering list of Spotify listening history
  */
 const RecentHistoryList = ({ data }) => (
-    <div className='overflow-x-auto text-left flex flex-no-wrap md:overflow-x-hidden md:flex-wrap'>
+    <div className='overflow-x-auto text-left flex flex-no-wrap md:overflow-x-hidden md:flex-wrap md:max-h-screen'>
         {data.map((history) => (
             <RecentHistory
                 key={`${history.name}_${history.time}`}

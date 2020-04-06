@@ -15,7 +15,7 @@ export default () => {
         loadData()
     }, [loadData])
     return (
-        <div className='h-full flex flex-col'>
+        <div className='flex flex-col'>
             <div className='flex items-center justify-between'>
                 <Heading text='Play History' />
                 <button type='button' onClick={() => loadData()}>

@@ -15,7 +15,7 @@ export default () => {
         loadPosts()
     }, [loadPosts])
     return (
-        <div className='h-full flex flex-col'>
+        <div className='flex flex-col'>
             <div className='flex items-center justify-between'>
                 <Heading text='Your Timeline' />
                 <button type='button' onClick={() => loadPosts()}>

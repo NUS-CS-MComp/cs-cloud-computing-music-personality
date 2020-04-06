@@ -7,11 +7,13 @@ import { ReactComponent as SpotifyLogo } from '@assets/spotify.svg'
 import { ReactComponent as TwitterLogo } from '@assets/twitter.svg'
 
 import { ReactComponent as HomeLogo } from '@assets/home.svg'
+import { ReactComponent as MoonLogo } from '@assets/moon.svg'
 import { ReactComponent as MusicLogo } from '@assets/music.svg'
 import { ReactComponent as MusicNoteLogo } from '@assets/music-note.svg'
 import { ReactComponent as PlayButtonLogo } from '@assets/play.svg'
 import { ReactComponent as RefreshLogo } from '@assets/refresh.svg'
 import { ReactComponent as SocialLogo } from '@assets/social.svg'
+import { ReactComponent as SunLogo } from '@assets/sun.svg'
 import { ReactComponent as UserLogo } from '@assets/user.svg'
 
 const ICON_NAME_MAP = {
@@ -20,11 +22,13 @@ const ICON_NAME_MAP = {
     spotify: SpotifyLogo,
     twitter: TwitterLogo,
     home: HomeLogo,
+    moon: MoonLogo,
     music: MusicLogo,
     'music-note': MusicNoteLogo,
     play: PlayButtonLogo,
     refresh: RefreshLogo,
     social: SocialLogo,
+    sun: SunLogo,
     user: UserLogo,
 }
 

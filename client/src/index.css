@@ -4,12 +4,49 @@
 
 @import 'tailwindcss/utilities';
 
+.theme-light {
+    --background-primary: #1db954;
+    --background-secondary: #f7f7f7;
+
+    --default-black: #2b2b2b;
+    --default-white: #ffffff;
+    --default-gray: #718096;
+
+    --default-header: #ffffff;
+    --default-footer: #ffffff;
+    --default-line-color: #718096;
+    --default-nav: #ffffff;
+
+    --provider-facebook: #1976d2;
+    --provider-reddit: #ff5722;
+    --provider-spotify: #1db954;
+    --provider-twitter: #03a9f4;
+}
+
+.theme-dark {
+    --background-primary: #0d2438;
+    --background-secondary: #102c44;
+
+    --default-black: #dadada;
+    --default-white: #1e3951;
+    --default-gray: #8c9bb1;
+
+    --default-header: #1db954;
+    --default-footer: #718096;
+    --default-line-color: #718096;
+    --default-nav: #ffffff;
+
+    --provider-facebook: #1976d2;
+    --provider-reddit: #c54b26;
+    --provider-spotify: #199e47;
+    --provider-twitter: #0097dd;
+}
+
 html {
     height: 100%;
 }
 
 body {
-    background-color: #f7f7f7;
     text-align: center;
     height: 100%;
     margin: 0;

@@ -16,7 +16,7 @@ export default () => {
     }, [loadPosts])
     return (
         <div className='flex flex-col'>
-            <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-between text-default-black'>
                 <Heading text='Your Timeline' />
                 <button type='button' onClick={() => loadPosts()}>
                     <Icon name='refresh' className='fill-current' />
@@ -26,7 +26,7 @@ export default () => {
                 <SocialPostList posts={posts} />
             ) : (
                 <EmptyData
-                    message='Login to Social Media to view'
+                    message='Connect to Social Media to view'
                     icon='social'
                     iconClassName='h-10'
                 />

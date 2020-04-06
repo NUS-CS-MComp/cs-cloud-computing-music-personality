@@ -16,7 +16,7 @@ export default () => {
     }, [loadData])
     return (
         <div className='flex flex-col'>
-            <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-between text-default-black'>
                 <Heading text='Play History' />
                 <button type='button' onClick={() => loadData()}>
                     <Icon name='refresh' className='fill-current' />
@@ -26,7 +26,7 @@ export default () => {
                 <SpotifyResource.RecentHistoryList data={data} />
             ) : (
                 <EmptyData
-                    message='Login to Spotify to view'
+                    message='Connect to Spotify to view'
                     icon='music-note'
                     iconClassName='h-10'
                 />

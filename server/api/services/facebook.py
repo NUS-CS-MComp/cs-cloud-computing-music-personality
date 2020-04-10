@@ -89,6 +89,17 @@ class Facebook(BaseService):
             response.status_code = 401
         return response
 
+    def extract_user_profile(self, data):
+        """
+        Extract user profile data
+
+        :param data: User profile data
+        :type data: dict
+        :return: Processed profile data
+        :rtype: dict
+        """
+        return {"id": data["id"], "name": data["name"]}
+
 
 FACEBOOK_API_BASE_URL = "https://graph.facebook.com/v6.0"
 FACEBOOK_CLIENT_ID = os.getenv("FACEBOOK_CLIENT_ID")

@@ -123,6 +123,17 @@ class Twitter(BaseService):
             ),
         )
 
+    def extract_user_profile(self, data):
+        """
+        Extract user profile data
+
+        :param data: User profile data
+        :type data: dict
+        :return: Processed profile data
+        :rtype: dict
+        """
+        return {"id": data["id_str"], "name": data["screen_name"]}
+
     @staticmethod
     def construct_twitter_oauth1_header(
         url, method="POST", token=None, token_secret=None, **kwargs

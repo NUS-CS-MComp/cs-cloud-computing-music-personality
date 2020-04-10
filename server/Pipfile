@@ -16,6 +16,7 @@ python-dotenv = "*"
 flask-cors = "*"
 flask-session = "*"
 redis = "*"
+boto3 = "*"
 
 [requires]
 python_version = "3.8"

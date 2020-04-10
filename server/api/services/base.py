@@ -119,6 +119,11 @@ class BaseService:
             f"get_user_profile method not implemented in service class {self.service_name}."
         )
 
+    def extract_user_profile(self):
+        raise NotImplementedError(
+            f"extract_ser_profile method not implemented in service class {self.service_name}."
+        )
+
     @property
     def base_url(self):
         return self._base_url

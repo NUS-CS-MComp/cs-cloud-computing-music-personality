@@ -100,6 +100,17 @@ class Reddit(BaseService):
         url = self.construct_url(REDDIT_RESOURCE_API_BASE_URL, "api/v1", "me")
         return self.get(url, headers=construct_auth_bearer(access_token))
 
+    def extract_user_profile(self, data):
+        """
+        Extract user profile data
+
+        :param data: User profile data
+        :type data: dict
+        :return: Processed profile data
+        :rtype: dict
+        """
+        return {"id": data["id"], "name": data["name"]}
+
 
 REDDIT_API_BASE_URL = "https://www.reddit.com/api/v1"
 REDDIT_RESOURCE_API_BASE_URL = "https://oauth.reddit.com/"

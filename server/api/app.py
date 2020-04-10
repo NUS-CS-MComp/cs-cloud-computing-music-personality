@@ -2,16 +2,16 @@
 Main thread code for server application
 """
 
+import routes
+
+from config import Config
 from flask import Flask
 from flask.blueprints import Blueprint
 from flask_cors import CORS
 from flask_session import Session
 
-import config
-import routes
-
 app = Flask(__name__, instance_relative_config=False)
-app.config.from_object(config.Config)
+app.config.from_object(Config)
 
 CORS(app, supports_credentials=True)
 Session(app)
@@ -34,4 +34,4 @@ def endpoint_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=Config.DEBUG, use_reloader=Config.DEBUG)

@@ -1,4 +1,4 @@
-from flask import make_response, request, session
+from flask import session
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
@@ -15,8 +15,6 @@ SERVICES_FOR_AUTH_PARAMS = {
     TwitterService: ["oauth_token", "oauth_token_secret"],
 }
 AUTH_SERVER_SESSION_KEY = "user_auth_info"
-AUTH_SESSION_COOKIE_NAME = "auth_session_valid"
-AUTH_SESSION_COOKIE_EXPIRY = 30 * 60
 
 
 class UserAuthentication(Resource):
@@ -45,40 +43,19 @@ class UserAuthentication(Resource):
         :return: Authentication information grouped by provider names
         :rtype: dict
         """
-        if provider is None and request.cookies.get(AUTH_SESSION_COOKIE_NAME):
-            return make_response(session.get(AUTH_SERVER_SESSION_KEY), 200)
+        services = SERVICES_FOR_AUTH
+        if provider is not None:
+            services = list(
+                filter(lambda service: service.service_name == provider, services)
+            )
 
         auth_info = {}
-        full_auth = True
-
-        services = SERVICES_FOR_AUTH
-        for service in SERVICES_FOR_AUTH:
-            """
-            Use specific service provider if existing
-            """
-            if provider is None:
-                break
-            if service.service_name == provider:
-                services = [service]
-                full_auth = False
-                break
-
         for service in services:
             service_name = service.service_name
-            if service_name not in token_info:
-                auth_info[service_name] = UserAuthentication.construct_auth_info(
-                    False, False
-                )
-            else:
-                try:
-                    user_profile = service.get_user_profile(**token_info[service_name])
-                    auth_info[
-                        service_name
-                    ] = UserAuthentication.parse_user_profile_response(user_profile)
-                except Exception as e:
-                    auth_info[service_name] = UserAuthentication.construct_auth_info(
-                        False, False, {"message": str(e)}
-                    )
+            auth_info[service_name] = UserAuthentication.authenticate_user(
+                service,
+                (None if service_name not in token_info else token_info[service_name]),
+            )
 
         session_data = session.get(AUTH_SERVER_SESSION_KEY)
         if session_data is None:
@@ -88,23 +65,38 @@ class UserAuthentication(Resource):
             session_data.update(auth_info)
             session[AUTH_SERVER_SESSION_KEY] = session_data
 
-        auth_response = make_response(auth_info, 200)
-
-        if full_auth:
-            auth_response.set_cookie(
-                AUTH_SESSION_COOKIE_NAME,
-                value=b"1",
-                max_age=AUTH_SESSION_COOKIE_EXPIRY,
-                httponly=True,
-            )
-
-        return auth_response
+        return auth_info, 200
 
     @staticmethod
-    def parse_user_profile_response(user_profile_response):
+    def authenticate_user(service, service_token_info):
+        """
+        Helper function to authenticate user through fetching user profile from the provider
+
+        :param service: Provider service object
+        :type service: BaseService
+        :param service_token_info: Token info parsed from cookies store
+        :type service_token_info: dict
+        :return: Authentication information from user profile response
+        :rtype: dict
+        """
+        if service_token_info is None:
+            return UserAuthentication.construct_auth_info(False, False)
+        else:
+            try:
+                user_profile = service.get_user_profile(**service_token_info)
+                return UserAuthentication.parse_user_profile_response(
+                    service, user_profile
+                )
+            except Exception:
+                return UserAuthentication.construct_auth_info(False)
+
+    @staticmethod
+    def parse_user_profile_response(service, user_profile_response):
         """
         Helper function to parse response obtained by user profile request
 
+        :param service: Provider service object
+        :type service: BaseService
         :param user_profile_response: Response result class under base service
         :type user_profile_response: BaseServiceResult
         :return: Authentication information from user profile response
@@ -115,9 +107,8 @@ class UserAuthentication(Resource):
                 False, True, user_profile_response.data
             )
         if is_ok(user_profile_response.status_code):
-            return UserAuthentication.construct_auth_info(
-                True, False, user_profile_response.data
-            )
+            user_profile = service.extract_user_profile(user_profile_response.data)
+            return UserAuthentication.construct_auth_info(True, False, user_profile)
 
     @staticmethod
     def construct_auth_info(is_authenticated, is_expired, data=None):

@@ -10,8 +10,11 @@
         "install:all": "npm install && npm run install:frontend && npm run install:backend",
         "install:frontend": "cd ./client && npm install",
         "install:backend": "cd ./server && pipenv install --dev",
-        "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgCyan.bold,bgBlue.bold\" --restart-tries 99 \"npm run start:backend\" \"npm run start:frontend\"",
-        "start:backend": "cd ./server && pipenv run server",
+        "start": "concurrently --names \"DB,SERVER,FRONTEND\" -c \"bgMagenta.bold,bgCyan.bold,bgBlue.bold\" --restart-tries 99 --restart-after 5000 \"npm run start:backend:db\" \"npm run start:backend:flask\" \"npm run start:frontend\"",
+        "start:backend:db": "concurrently --names \"DYNAMO,REDIS\" -c \"magenta.bold,magenta.bold\" \"npm run start:backend:dynamo\" \"npm run start:backend:redis\"",
+        "start:backend:flask": "cd ./server && pipenv run server",
+        "start:backend:dynamo": "java -Djava.library.path=./.dynamodb -jar ./.dynamodb/DynamoDBLocal.jar -sharedDb",
+        "start:backend:redis": "redis-server",
         "start:frontend": "cd ./client && npm start"
     },
     "repository": {

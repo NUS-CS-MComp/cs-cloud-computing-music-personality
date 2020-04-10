@@ -132,6 +132,17 @@ class Spotify(BaseService):
         """
         return self.get("me", headers=construct_auth_bearer(access_token))
 
+    def extract_user_profile(self, data):
+        """
+        Extract user profile data
+
+        :param data: User profile data
+        :type data: dict
+        :return: Processed profile data
+        :rtype: dict
+        """
+        return {"id": data["id"], "name": data["display_name"]}
+
 
 SPOTIFY_API_BASE_URL = "https://api.spotify.com/v1"
 SPOTIFY_ACCOUNT_API_BASE_URL = "https://accounts.spotify.com/api"

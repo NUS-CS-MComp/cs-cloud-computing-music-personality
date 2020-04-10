@@ -14,7 +14,7 @@ class BaseModel:
     """
 
     def __init__(self):
-        self.table = DB.table(self.table_name)
+        self.table = DB.Table(self.table_name)
 
     def create(self, item):
         """
@@ -25,9 +25,10 @@ class BaseModel:
         :return: Database response object
         :rtype: dict
         """
-        item[self.id_key] = uuid.uuid4()
-        item["created_at"] = datetime.utcnow().timestamp() * 1000
-        return self.table.table.put_item(Item=item)
+        item[self.id_key] = str(uuid.uuid4())
+        item["created_at"] = int(datetime.utcnow().timestamp() * 1000)
+        self.table.put_item(Item=item)
+        return item
 
     def get(self, id):
         """
@@ -38,9 +39,12 @@ class BaseModel:
         :return: Database response object
         :rtype: dict
         """
-        return self.table.get_item(Key={self.id_key: id})
+        try:
+            return self.table.get_item(Key={self.id_key: id})["Item"]
+        except KeyError:
+            return None
 
-    def update(self, id, update_fields):
+    def update(self, item_id, update_fields):
         """
         Update an item
 
@@ -58,16 +62,16 @@ class BaseModel:
             ]
         )
         update_value_map = {
-            f"val{index}": update_fields[key_name]
+            f":val{index}": update_fields[key_name]
             for index, key_name in enumerate(update_fields.keys())
         }
         return self.table.update_item(
-            Key={self.id_key: id},
+            Key={self.id_key: item_id},
             UpdateExpression=f"set {update_string}",
             ExpressionAttributeValues=update_value_map,
         )
 
-    def query(self, field_attributes):
+    def query(self, field_attributes={}):
         """
         Query an item by field attributes
 
@@ -82,9 +86,24 @@ class BaseModel:
                 expression = Attr(attr).eq(field_attributes[attr])
             else:
                 expression = expression & Attr(attr).eq(field_attributes[attr])
-        return self.table.query(FilterExpression=expression)
+        try:
+            return self.table.query(FilterExpression=expression)["Items"]
+        except KeyError:
+            return []
 
-    def delete(self, id):
+    def scan(self):
+        """
+        Scan through the entire table
+
+        :return: Database response object
+        :rtype: dict
+        """
+        try:
+            return self.table.scan()["Items"]
+        except KeyError:
+            return []
+
+    def delete(self, item_id):
         """
         Delete an item
 
@@ -93,7 +112,7 @@ class BaseModel:
         :return: Database response object
         :rtype: dict
         """
-        return self.table.delete_item(Key={self.id_key: id})
+        return self.table.delete_item(Key={self.id_key: item_id})
 
     @property
     def table_name(self):

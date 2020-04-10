@@ -1,4 +1,5 @@
 from .base import BaseModel
+from .social_connect import SocialConnect
 
 
 class UserModel(BaseModel):
@@ -11,7 +12,7 @@ class UserModel(BaseModel):
     :rtype: UserModel
     """
 
-    def create_by_provider(self, provider, profile_info):
+    def create(self, provider, profile_info, **kwargs):
         """
         Create user profile by provider and provider profile
 
@@ -22,9 +23,13 @@ class UserModel(BaseModel):
         :return: Database response object
         :rtype: dict
         """
-        return self.create({self.provider_key: {provider: profile_info}})
+        user_data = super().create(
+            {self.provider_key: {provider: profile_info}, **kwargs}
+        )
+        SocialConnect.create(provider, profile_info["id"], user_data[self.id_key])
+        return user_data
 
-    def find_by_provider(self, provider, profile_id, profile_id_key="id"):
+    def find(self, provider, profile_id, profile_id_key="id"):
         """
         Find user by provider profile id
 
@@ -37,16 +42,31 @@ class UserModel(BaseModel):
         :return: Database response object
         :rtype: dict
         """
-        return self.query(
-            {f"{self.provider_key}.{provider}.{profile_id_key}": profile_id}
-        )
+        data = SocialConnect.get(provider, profile_id)
+        if data is not None:
+            return self.get(data["user_id"])
+        else:
+            return data
 
-    def update_by_provider(self, id, provider, profile_info):
+    def update_sid(self, user_id, sid):
         """
-        Update user profile by nwe provider profile
+        Update user data by nwe session ID
 
-        :param id: User ID
-        :type id: str
+        :param user_id: User ID
+        :type user_id: str
+        :param sid: Session ID
+        :type sid: str
+        :return: Database response object
+        :rtype: dict
+        """
+        return super().update(user_id, {f"sid": sid})
+
+    def update(self, user_id, provider, profile_info):
+        """
+        Update user data by nwe provider profile
+
+        :param user_id: User ID
+        :type user_id: str
         :param provider: Provider name
         :type provider: str
         :param profile_info: Profile information
@@ -54,18 +74,36 @@ class UserModel(BaseModel):
         :return: Database response object
         :rtype: dict
         """
-        return self.update(id, {f"{self.provider_key}.{provider}": profile_info})
+        try:
+            providers_data = self.get(user_id)[self.provider_key]
+            super().update(user_id, {f"{self.provider_key}.{provider}": profile_info})
+            if provider in providers_data:
+                old_profile_info = providers_data[provider]
+                old_profile_id = old_profile_info["id"]
+                SocialConnect.delete(provider, old_profile_id)
+            new_profile_id = profile_info["id"]
+            SocialConnect.create(provider, new_profile_id, user_id)
+        except KeyError:
+            pass
 
-    def delete_by_provider(self, provider):
+    def delete(self, user_id, provider):
         """
         Remove provider profile from user profile
 
+        :param user_id: User ID
+        :type user_id: str
         :param provider: Provider name
         :type provider: str
         :return: Database response object
         :rtype: dict
         """
-        return self.update(id, {f"{self.provider_key}.{provider}": {}})
+        try:
+            providers_data = self.get(user_id)[self.provider_key]
+            provider_info = providers_data[provider]
+            super().update(user_id, {f"{self.provider_key}.{provider}": {}})
+            SocialConnect.delete(provider, provider_info["id"])
+        except KeyError:
+            pass
 
     @property
     def table_name(self):
@@ -78,3 +116,6 @@ class UserModel(BaseModel):
     @property
     def provider_key(self):
         return "provider"
+
+
+User = UserModel()

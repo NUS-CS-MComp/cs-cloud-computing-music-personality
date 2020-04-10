@@ -44,6 +44,8 @@ class Config:
     # Redis
     SESSION_TYPE = os.getenv("SESSION_TYPE")
     SESSION_REDIS = redis.from_url(os.getenv("SESSION_REDIS"))
+    SESSION_COOKIE_NAME = os.getenv("SESSION_COOKIE_NAME")
+    SESSION_KEY_PREFIX = os.getenv("SESSION_KEY_PREFIX")
 
     # AWS
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")

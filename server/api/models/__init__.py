@@ -10,37 +10,43 @@ DB = boto3.resource(
     endpoint_url=Config.DYNAMO_ENDPOINT,
 )
 
-TABLES = ["Users"]
+TABLES = [
+    {"name": "User", "key_id": "user_id"},
+    {"name": "SocialConnect", "key_id": "provider_profile_id"},
+]
 
 
-def create_table_non_exist(table_names):
+def create_table_non_exist(tables, delete_original=True):
     """
     Helper function to create table based on table status
 
-    :param table_name: List of table names
-    :type table_name: str
+    :param tables: List of table objects
+    :type tables: list
+    :param delete_original: Boolean flag to delete original table
+    :type tables: boolean
     """
     existing_tables = [table.name for table in DB.tables.all()]
-    for table_name in table_names:
-        if table_name not in existing_tables:
-            response = DB.create_table(
-                TableName="Users",
-                KeySchema=[
-                    {"AttributeName": "user_id", "KeyType": "HASH"}
-                ],  # Partition key
-                AttributeDefinitions=[
-                    {"AttributeName": "user_id", "AttributeType": "S"}
-                ],
-                ProvisionedThroughput={
-                    "ReadCapacityUnits": 10,
-                    "WriteCapacityUnits": 10,
-                },
-            )
-            print(response)
-            print(f" * Created table {table_name} on local DynamoDB instance")
-        else:
+    for table in tables:
+        table_name = table["name"]
+        if table_name in existing_tables:
             print(f" * Use existing table {table_name} on local DynamoDB instance")
+            if not delete_original:
+                continue
+            DB.Table(table_name).delete()
+
+        table_key_id = table["key_id"]
+        DB.create_table(
+            TableName=table_name,
+            KeySchema=[
+                {"AttributeName": table_key_id, "KeyType": "HASH"}
+            ],  # Partition key
+            AttributeDefinitions=[
+                {"AttributeName": table_key_id, "AttributeType": "S"}
+            ],
+            ProvisionedThroughput={"ReadCapacityUnits": 10, "WriteCapacityUnits": 10},
+        )
+        print(f" * Created table {table} on local DynamoDB instance")
 
 
 if Config.DEBUG:
-    create_table_non_exist(TABLES)
+    create_table_non_exist(TABLES, False)

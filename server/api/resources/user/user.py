@@ -1,7 +1,11 @@
+import pickle
+
 from flask import session
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
+from config import Config
+from models.user import User
 from services import FacebookService, RedditService, SpotifyService, TwitterService
 from utils import parse_params, IdentityManager
 from utils.check_status_code import is_client_error, is_ok
@@ -15,6 +19,7 @@ SERVICES_FOR_AUTH_PARAMS = {
     TwitterService: ["oauth_token", "oauth_token_secret"],
 }
 AUTH_SERVER_SESSION_KEY = "user_auth_info"
+SIGNED_IN_AS_FLAG = "is_signed_in"
 
 
 class UserAuthentication(Resource):
@@ -43,34 +48,133 @@ class UserAuthentication(Resource):
         :return: Authentication information grouped by provider names
         :rtype: dict
         """
+        verify_info = {}
+        services = UserAuthentication.verify_provider(provider)
+        if services is None:
+            return verify_info, 403
+
+        for service in services:
+            service_name = service.service_name
+            verify_info[service_name] = UserAuthentication.verify_user(
+                service,
+                (None if service_name not in token_info else token_info[service_name]),
+            )
+
+        if provider is not None:
+            verify_info.update(
+                UserAuthentication.authenticate_user(provider, verify_info)
+            )
+            if True or len(verify_info.keys()) > len(services):
+                verify_info.update(
+                    UserAuthentication.reconcile_resource(services, verify_info)
+                )
+
+        session_data = session.get(AUTH_SERVER_SESSION_KEY)
+        if session_data is None:
+            session[AUTH_SERVER_SESSION_KEY] = verify_info
+        else:
+            session_data = session_data.copy()
+            session_data.update(verify_info)
+            session[AUTH_SERVER_SESSION_KEY] = session_data
+
+        return verify_info, 200
+
+    @staticmethod
+    def reconcile_resource(original_services, provider_verify_info):
+        """
+        Helper function to reconcile verification status against original services
+
+        :param original_services: Service list
+        :type original_services: list
+        :param provider_verify_info: Verification information updated from session
+        :type provider_verify_info: dict
+        :return: Reconciled verification status
+        :rtype: dict
+        """
+        new_services = [
+            service
+            for service in SERVICES_FOR_AUTH
+            if service.service_name in provider_verify_info.keys()
+            and service not in original_services
+        ]
+        for service in new_services:
+            token = session.get(IdentityManager.format_cookie_key_from_service(service))
+            token_info = (
+                None
+                if token is None
+                else {
+                    token_key: token[token_key]
+                    for token_key in SERVICES_FOR_AUTH_PARAMS[service]
+                }
+            )
+            provider_verify_info[service.service_name] = UserAuthentication.verify_user(
+                service, token_info
+            )
+        return provider_verify_info
+
+    @staticmethod
+    def authenticate_user(provider, provider_verify_info):
+        """
+        Authenticate user through searching for user in database and restore previous active session
+
+        :param provider: Provider name
+        :type provider: str
+        :param provider_auth_info: Authentication information from user profile response
+        :type provider_verify_info: dict
+        :return: Boolean flag indicating authentication process
+        :rtype: bool
+        """
+        if provider_verify_info[provider]["authenticated"]:
+            signed_in_as = session.get(SIGNED_IN_AS_FLAG)
+
+            profile_info = provider_verify_info[provider]["data"]
+            user_data = User.find(provider, profile_info["id"])
+
+            if user_data and signed_in_as:
+                if user_data["user_id"] != signed_in_as:
+                    provider_verify_info.update(
+                        {provider: {"authenticated": False, "used": True}}
+                    )
+                    return provider_verify_info
+            elif not user_data and not signed_in_as:
+                user_data = User.create(provider, profile_info, sid=session.sid)
+                session[SIGNED_IN_AS_FLAG] = user_data["user_id"]
+            elif not user_data and signed_in_as:
+                User.update(signed_in_as, provider, profile_info)
+            else:
+                User.update_sid(user_data["user_id"], session.sid)
+                prev_session_key = f"{Config.SESSION_KEY_PREFIX}{user_data['sid']}"
+                prev_session = Config.SESSION_REDIS.get(prev_session_key)
+                if prev_session:
+                    session.update(pickle.loads(prev_session))
+                    Config.SESSION_REDIS.delete(prev_session_key)
+                    current_provider_new_info = provider_verify_info[provider].copy()
+                    provider_verify_info.update(session.get(AUTH_SERVER_SESSION_KEY))
+                    provider_verify_info.update({provider: current_provider_new_info})
+
+        return provider_verify_info
+
+    @staticmethod
+    def verify_provider(provider):
+        """
+        Helper function to get services list from provider name
+
+        :param provider: Provider name
+        :type provider: str
+        :return: List of services to perform authentication request
+        :rtype: list
+        """
         services = SERVICES_FOR_AUTH
         if provider is not None:
             services = list(
                 filter(lambda service: service.service_name == provider, services)
             )
-
-        auth_info = {}
-        for service in services:
-            service_name = service.service_name
-            auth_info[service_name] = UserAuthentication.authenticate_user(
-                service,
-                (None if service_name not in token_info else token_info[service_name]),
-            )
-
-        session_data = session.get(AUTH_SERVER_SESSION_KEY)
-        if session_data is None:
-            session[AUTH_SERVER_SESSION_KEY] = auth_info
-        else:
-            session_data = session_data.copy()
-            session_data.update(auth_info)
-            session[AUTH_SERVER_SESSION_KEY] = session_data
-
-        return auth_info, 200
+        return None if len(services) <= 0 else services
 
     @staticmethod
-    def authenticate_user(service, service_token_info):
+    def verify_user(service, service_token_info):
         """
-        Helper function to authenticate user through fetching user profile from the provider
+        Helper function to verify user through fetching user profile from the provider
 
         :param service: Provider service object
         :type service: BaseService
@@ -108,7 +212,13 @@ class UserAuthentication(Resource):
             )
         if is_ok(user_profile_response.status_code):
             user_profile = service.extract_user_profile(user_profile_response.data)
-            return UserAuthentication.construct_auth_info(True, False, user_profile)
+            try:
+                assert "id" in user_profile and "name" in user_profile
+                return UserAuthentication.construct_auth_info(True, False, user_profile)
+            except AssertionError:
+                return UserAuthentication.construct_auth_info(
+                    False, False, user_profile
+                )
 
     @staticmethod
     def construct_auth_info(is_authenticated, is_expired, data=None):

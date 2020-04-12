@@ -8,7 +8,7 @@ import toCamelCase from '@utils/camel-case'
  * Wrapper container for OAuth service component rendering
  */
 const OAuthLogin = ({ provider, className, render }) => {
-    const [, oauthServiceHandler] = useOAuthService(provider)
+    const [, , oauthServiceHandler] = useOAuthService(provider)
     return render({ className, provider, onClick: oauthServiceHandler })
 }
 

@@ -36,7 +36,7 @@ export default () => {
             </div>
             <div className='flex flex-row md:flex-col lg:flex-row lg:grid lg:grid-cols-6'>
                 {!isSpotifyTokenValid && (
-                    <div className='mr-4 order-first flex-1 md:mr-0 md:mb-4 lg:mb-0 lg:order-last lg:col-span-2'>
+                    <div className='mr-4 order-first flex-1 last:mr-0 md:mr-0 md:mb-4 lg:mb-0 lg:order-last lg:col-span-2'>
                         <OAuthSection
                             expandCard
                             providers={[spotifyProviderName]}

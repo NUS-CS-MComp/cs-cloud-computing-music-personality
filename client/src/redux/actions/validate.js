@@ -12,3 +12,12 @@ export const VALIDATE_FULL_FAILURE = 'VALIDATE_FULL_FAILURE'
 export const initFullValidation = () => ({
     type: VALIDATE_FULL_INIT,
 })
+
+/**
+ * Action to start validate provider OAuth details
+ * @param {string} provider Name of social platform provider
+ */
+export const initValidation = (provider) => ({
+    type: VALIDATE_INIT,
+    provider,
+})

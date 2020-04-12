@@ -17,15 +17,15 @@ export default (state = {}, { type, resourceType, data }) => {
     switch (type) {
         case REQUEST_SPOTIFY_RESOURCE:
             if (typeof prevState[resourceType] !== 'undefined') {
-                Object.assign(prevState[resourceType], { is_loading: true })
-            } else prevState[resourceType] = { is_loading: true }
+                Object.assign(prevState[resourceType], { loading: true })
+            } else prevState[resourceType] = { loading: true }
             return prevState
         case REQUEST_SPOTIFY_RESOURCE_CANCEL:
             return lodash.omit(state, resourceType)
         case REQUEST_SPOTIFY_RESOURCE_FAILURE:
             return {
                 ...lodash.omit(state, resourceType),
-                [resourceType]: { is_failed: true },
+                [resourceType]: { failed: true },
             }
         case REQUEST_SPOTIFY_RESOURCE_SUCCESS:
             return { ...state, [resourceType]: data }

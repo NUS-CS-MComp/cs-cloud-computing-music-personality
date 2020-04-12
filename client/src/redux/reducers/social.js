@@ -17,15 +17,15 @@ export default (state = {}, { type, provider, data }) => {
     switch (type) {
         case FETCH_SOCIAL_POST_INIT:
             if (typeof prevState[provider] !== 'undefined') {
-                Object.assign(prevState[provider], { is_loading: true })
-            } else prevState[provider] = { is_loading: true }
+                Object.assign(prevState[provider], { loading: true })
+            } else prevState[provider] = { loading: true }
             return prevState
         case FETCH_SOCIAL_POST_CANCEL:
             return lodash.omit(state, provider)
         case FETCH_SOCIAL_POST_FAILURE:
             return {
                 ...lodash.omit(state, provider),
-                [provider]: { is_failed: true },
+                [provider]: { failed: true },
             }
         case FETCH_SOCIAL_POST_SUCCESS:
             return { ...state, [provider]: data }

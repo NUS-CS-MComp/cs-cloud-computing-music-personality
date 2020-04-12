@@ -23,7 +23,7 @@ export const spotifyResourceLoadingSelector = createSelector(
             const resourceData = data[resourceType]
             if (
                 typeof resourceData === 'undefined' ||
-                typeof resourceData.is_loading === 'undefined'
+                typeof resourceData.loading === 'undefined'
             ) {
                 return Object.assign(acc, { [resourceType]: false })
             }

@@ -192,7 +192,7 @@ class UserAuthentication(Resource):
                     service, user_profile
                 )
             except Exception:
-                return UserAuthentication.construct_auth_info(False)
+                return UserAuthentication.construct_auth_info(False, False)
 
     @staticmethod
     def parse_user_profile_response(service, user_profile_response):

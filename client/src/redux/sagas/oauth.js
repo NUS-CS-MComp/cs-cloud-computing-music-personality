@@ -6,7 +6,6 @@ import {
     OAUTH_INIT,
     OAUTH_PROCESS_SUCCESS,
 } from '@redux/actions/oauth'
-import { VALIDATE_INIT } from '@redux/actions/validate'
 import Api from '@services/api'
 import OAuthServiceFactory from '@services/oauth/factory'
 
@@ -130,7 +129,6 @@ export function* dispatchCompleteOAuthWorker(provider, data) {
                 yield call(completeGenericOAuth, provider, data)
                 break
         }
-        yield put({ type: VALIDATE_INIT, provider })
     } catch (e) {
         yield put({
             type: constructFailureAction(provider),

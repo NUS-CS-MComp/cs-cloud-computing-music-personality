@@ -19,19 +19,21 @@ export default (state = {}, { type, provider, data }) => {
     switch (type) {
         case VALIDATE_INIT:
             if (typeof prevState[provider] !== 'undefined') {
-                Object.assign(prevState[provider], { is_loading: true })
+                Object.assign(prevState[provider], { loading: true })
+            } else {
+                prevState[provider] = { loading: true }
             }
             return prevState
         case VALIDATE_FAILURE:
-            return { ...state, ...data }
+            return { ...state, [provider]: { failed: true } }
         case VALIDATE_SUCCESS:
-            return { ...state, ...data }
+            return { ...lodash.omit(state, provider), ...data }
         case VALIDATE_FULL_INIT:
-            return { is_loading: true }
+            return { loading: true }
         case VALIDATE_FULL_COMPLETE:
-            return { ...lodash.omit(state, 'is_loading'), ...data }
+            return { ...lodash.omit(state, 'loading'), ...data }
         case VALIDATE_FULL_FAILURE:
-            return { ...lodash.omit(state, 'is_loading'), ...data }
+            return { ...lodash.omit(state, 'loading'), ...data }
         default:
             return state
     }

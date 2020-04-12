@@ -16,7 +16,7 @@ export const socialPostLoadingSelector = createSelector(
             const providerData = data[provider]
             if (
                 typeof providerData === 'undefined' ||
-                typeof providerData.is_loading === 'undefined'
+                typeof providerData.loading === 'undefined'
             ) {
                 return Object.assign(acc, { [provider]: false })
             }

@@ -1,7 +1,10 @@
-import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { startOAuth } from '@redux/actions/oauth'
+import { initValidation } from '@redux/actions/validate'
+import { providerTokenSelector } from '@redux/selectors/oauth'
+import { providerValiditySelector } from '@redux/selectors/validate'
 import OAuthServiceFactory from '@services/oauth/factory'
 
 /**
@@ -16,10 +19,15 @@ const defaultOAuthCallback = (dispatch) => ({ status, data }) => {
 /**
  * Custom hook to handle OAuth incoming and outgoing request
  * @param {string} providerName OAuth provider name string
- * @returns {[import("@services/oauth").default, function, function]} OAuth service and callback handler to be passed to components
+ * @returns {[import("@services/oauth").default, Record<string, Record<string, string>>, function, function]} OAuth service and callback handler to be passed to components
  */
 const useOAuthService = (providerName) => {
     const dispatch = useDispatch()
+
+    const oauthStatus = useSelector(providerTokenSelector(providerName))
+    const oauthVerifyStatus = useSelector(
+        providerValiditySelector(providerName)
+    )
 
     const oauthService = OAuthServiceFactory.getOAuthService(providerName)
     const oauthServiceCallback = defaultOAuthCallback(dispatch)
@@ -27,7 +35,18 @@ const useOAuthService = (providerName) => {
         dispatch(startOAuth(providerName))
     }, [dispatch])
 
-    return [oauthService, oauthServiceHandler, oauthServiceCallback]
+    useEffect(() => {
+        if (oauthStatus.completed) {
+            dispatch(initValidation(providerName))
+        }
+    }, [JSON.stringify(oauthStatus)])
+
+    return [
+        oauthService,
+        { exchange: oauthStatus, verify: oauthVerifyStatus },
+        oauthServiceHandler,
+        oauthServiceCallback,
+    ]
 }
 
 export default useOAuthService

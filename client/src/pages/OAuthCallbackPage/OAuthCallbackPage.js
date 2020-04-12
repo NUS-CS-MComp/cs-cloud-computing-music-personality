@@ -1,5 +1,6 @@
+import lodash from 'lodash'
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import useOAuthService from '@hooks/use-oauth-service'
 import URLParamParser from '@utils/param-parser'
@@ -9,24 +10,34 @@ import URLParamParser from '@utils/param-parser'
  * Redirect to homepage if no related parameters are found
  */
 export default () => {
+    const locationHistory = useHistory()
+
     const urlParamEntries = URLParamParser.parse()
-    const oauthState = urlParamEntries.state || ''
-    const [oauthService, , oauthServiceCallback] = useOAuthService(
+    const [service, status, , postResult] = useOAuthService(
         urlParamEntries.provider
     )
 
-    if (oauthService === undefined || !oauthService.verifyState(oauthState)) {
-        return <div>OAuth Error</div>
+    if (lodash.isEqual(status.exchange, {})) {
+        if (!service || !service.verifyState(urlParamEntries.state)) {
+            return (
+                <div className='uppercase font-bold'>
+                    You are at the wrong page.
+                </div>
+            )
+        }
+        const parseResult = service.parseToken(urlParamEntries).output
+        if (!service.cleanupFromPopup()) postResult(parseResult)
+    } else if (
+        status.exchange.failed ||
+        (status.verify && !status.verify.loading)
+    ) {
+        const timeoutTask = setTimeout(() => {
+            clearTimeout(timeoutTask)
+            if (service.cleanupFromRedirect() && service.shouldRedirect) {
+                locationHistory.push(service.lastLocation)
+            }
+        }, 0)
     }
 
-    const oauthResult = oauthService.parseToken(urlParamEntries)
-    if (oauthService.cleanupFromPopup()) return null
-
-    const lastLocation = localStorage.getItem(
-        oauthService.processor.lastLocationKey
-    )
-    oauthServiceCallback(oauthResult.output)
-    oauthService.cleanupFromRedirect()
-
-    return <Redirect exact to={lastLocation || '/'} />
+    return <div className='uppercase font-bold'>Redirecting You</div>
 }

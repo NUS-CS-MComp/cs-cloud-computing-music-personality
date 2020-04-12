@@ -1,4 +1,3 @@
-import lodash from 'lodash'
 import { createSelector } from 'reselect'
 
 /**
@@ -18,8 +17,11 @@ export const providerTokenSelector = (provider) => (state) =>
  * Composed selector for checking provider status
  */
 export const providerStatusSelector = createSelector(tokenSelector, (tokens) =>
-    Object.keys(tokens).reduce((acc, tokenProvider) => {
-        if (lodash.isEqual(tokens[tokenProvider], {})) return acc
-        return Object.assign(acc, { [tokenProvider]: true })
-    }, {})
+    Object.keys(tokens).reduce(
+        (acc, tokenProvider) =>
+            Object.assign(acc, {
+                [tokenProvider]: tokens[tokenProvider].completed,
+            }),
+        {}
+    )
 )

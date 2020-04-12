@@ -76,8 +76,7 @@ export default class OAuthService {
      * Determine user experience type and handle OAuth process accordingly
      */
     async startOAuth() {
-        const flowType = getUserOAuthFlowType()
-        if (flowType === OPEN_POPUP_WINDOW) {
+        if (this.shouldPopup) {
             let result
             try {
                 result = await this.handlePopup(this.launchPopup())
@@ -87,7 +86,7 @@ export default class OAuthService {
             }
             return result
         }
-        if (flowType === OPEN_REDIRECT) {
+        if (this.shouldRedirect) {
             localStorage.setItem(
                 this.processor.lastLocationKey,
                 window.location.pathname
@@ -207,5 +206,26 @@ export default class OAuthService {
         localStorage.removeItem(this.processor.nonceKey)
         if (nonceValue === null || state !== nonceValue) return false
         return true
+    }
+
+    /**
+     * Getter of last visited location before OAuth request
+     */
+    get lastLocation() {
+        return localStorage.getItem(this.processor.lastLocationKey) || ''
+    }
+
+    /**
+     * Getter of boolean flag of OAuth pop-up window flow type
+     */
+    get shouldPopup() {
+        return getUserOAuthFlowType() === 'OPEN_POPUP_WINDOW'
+    }
+
+    /**
+     * Getter of boolean flag of OAuth redirect flow type
+     */
+    get shouldRedirect() {
+        return getUserOAuthFlowType() === 'OPEN_REDIRECT'
     }
 }

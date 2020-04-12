@@ -10,11 +10,16 @@ import { validitySelector } from '@redux/selectors/validate'
  */
 const SessionValidate = ({ children }) => {
     const dispatch = useDispatch()
-    const { is_loading: loading } = useSelector(validitySelector)
+    const { loading } = useSelector(validitySelector)
     useEffect(() => {
         dispatch(initFullValidation())
     }, [dispatch])
-    if (loading) return <div>loading</div>
+    if (loading)
+        return (
+            <div className='h-full flex items-center justify-center'>
+                <span className='uppercase font-bold'>Logging You In</span>
+            </div>
+        )
     return children
 }
 

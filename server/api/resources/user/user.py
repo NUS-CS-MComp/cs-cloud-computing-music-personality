@@ -146,8 +146,15 @@ class UserAuthentication(Resource):
                 prev_session_key = f"{Config.SESSION_KEY_PREFIX}{user_data['sid']}"
                 prev_session = Config.SESSION_REDIS.get(prev_session_key)
                 if prev_session:
+                    provider_cookie_key = IdentityManager.cookie_key_formatter.format(
+                        provider
+                    )
+                    new_provider_key = session.get(provider_cookie_key)
+
                     session.update(pickle.loads(prev_session))
+                    session[provider_cookie_key] = new_provider_key
                     Config.SESSION_REDIS.delete(prev_session_key)
+
                     current_provider_new_info = provider_verify_info[provider].copy()
                     provider_verify_info.update(session.get(AUTH_SERVER_SESSION_KEY))
                     provider_verify_info.update({provider: current_provider_new_info})

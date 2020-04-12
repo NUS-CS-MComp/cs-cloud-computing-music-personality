@@ -29,7 +29,7 @@ const RecentHistory = ({ data }) => (
                 </a>
             </div>
             <div className='text-default-gray text-sm mt-auto'>
-                Streamed on {formatTimeStamp(data.time)}
+                Streamed at {formatTimeStamp(data.time)}
             </div>
         </div>
     </div>

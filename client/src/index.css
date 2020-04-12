@@ -27,19 +27,19 @@
     --background-primary: #0d2438;
     --background-secondary: #102c44;
 
-    --default-black: #dadada;
+    --default-black: #ffffffe5;
     --default-white: #1e3951;
-    --default-gray: #8c9bb1;
+    --default-gray: #8fa1bd;
 
-    --default-header: #1db954;
-    --default-footer: #718096;
-    --default-line-color: #718096;
-    --default-nav: #ffffff;
+    --default-header: #23dd64;
+    --default-footer: #8fa1bd;
+    --default-line-color: #8fa1bd;
+    --default-nav: #ffffffe5;
 
-    --provider-facebook: #1976d2;
-    --provider-reddit: #c54b26;
-    --provider-spotify: #199e47;
-    --provider-twitter: #0097dd;
+    --provider-facebook: #2884e0;
+    --provider-reddit: #fd6e43;
+    --provider-spotify: #23dd64;
+    --provider-twitter: #00aeff;
 }
 
 html {

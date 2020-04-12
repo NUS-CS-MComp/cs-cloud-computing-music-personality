@@ -6,6 +6,7 @@ import store from '@redux/store'
 
 import FallbackLayout from '@components/FallbackLayout'
 import Layout from '@containers/Layout'
+import ThemeToggle from '@containers/ThemeToggle'
 import NotFound from '@components/NotFound'
 import SessionValidate from '@containers/SessionValidate'
 import OAuthCallbackPage from '@pages/OAuthCallbackPage'
@@ -49,14 +50,16 @@ const PublicLayoutComponent = () => (
 export default () => (
     <BrowserRouter>
         <Provider store={store}>
-            <Switch>
-                <Route
-                    exact
-                    path={[`/${OAUTH_CONFIG.CALL_BACK_ROUTE}`]} // Path to use fallback layout
-                    component={FallbackLayoutComponent}
-                />
-                <Route path='/' component={PublicLayoutComponent} />
-            </Switch>
+            <ThemeToggle>
+                <Switch>
+                    <Route
+                        exact
+                        path={[`/${OAUTH_CONFIG.CALL_BACK_ROUTE}`]} // Path to use fallback layout
+                        component={FallbackLayoutComponent}
+                    />
+                    <Route path='/' component={PublicLayoutComponent} />
+                </Switch>
+            </ThemeToggle>
         </Provider>
     </BrowserRouter>
 )

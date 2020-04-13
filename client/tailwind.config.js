@@ -9,6 +9,7 @@ module.exports = {
                 background: {
                     primary: 'var(--background-primary)',
                     secondary: 'var(--background-secondary)',
+                    'primary-light': 'var(--background-primary-light)',
                 },
                 default: {
                     black: 'var(--default-black)',
@@ -26,11 +27,6 @@ module.exports = {
             },
             gridTemplateRows: {
                 '1-auto': 'repeat(1, minmax(0, auto))',
-                '2-auto': 'repeat(2, minmax(0, auto))',
-                '3-auto': 'repeat(3, minmax(0, auto))',
-                '4-auto': 'repeat(4, minmax(0, auto))',
-                '5-auto': 'repeat(5, minmax(0, auto))',
-                '6-auto': 'repeat(6, minmax(0, auto))',
             },
             maxWidth: {
                 fhd: '1980px',
@@ -40,9 +36,6 @@ module.exports = {
             },
             screens: {
                 fhd: '1980px',
-            },
-            transitionProperty: {
-                move: 'opacity, transform',
             },
         },
     },

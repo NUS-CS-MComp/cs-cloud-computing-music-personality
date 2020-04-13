@@ -6,6 +6,7 @@
 
 .theme-light {
     --background-primary: #1db954;
+    --background-primary-light: #31cf68;
     --background-secondary: #f7f7f7;
 
     --default-black: #2b2b2b;
@@ -25,6 +26,7 @@
 
 .theme-dark {
     --background-primary: #0d2438;
+    --background-primary-light: #132e46;
     --background-secondary: #102c44;
 
     --default-black: #ffffffe5;
@@ -36,7 +38,7 @@
     --default-line-color: #8fa1bd;
     --default-nav: #ffffffe5;
 
-    --provider-facebook: #2884e0;
+    --provider-facebook: #2a8ae9;
     --provider-reddit: #fd6e43;
     --provider-spotify: #23dd64;
     --provider-twitter: #00aeff;

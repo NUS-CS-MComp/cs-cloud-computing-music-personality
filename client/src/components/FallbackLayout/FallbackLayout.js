@@ -11,7 +11,7 @@ const FallbackLayout = ({ children }) => (
     <div className='h-full flex flex-col items-center'>
         <header className='p-6 bg-background-primary flex-initial w-full text-nav'>
             <Link className='w-auto' exact='true' to='/'>
-                <Logo className='fill-current h-8 sm:h-8 md:h-10 lg:h-12' />
+                <Logo className='fill-current h-6 sm:h-8' />
             </Link>
         </header>
         <div className='bg-background-secondary flex-1 flex items-center justify-center w-full'>

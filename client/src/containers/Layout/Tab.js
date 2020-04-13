@@ -11,14 +11,14 @@ const Tab = ({ icon, title, to }) => {
     const { pathname } = useLocation()
     const isFocusTab = pathname === to
     return (
-        <span className='w-full'>
+        <div className='block w-full md:mb-4 md:last:mb-0'>
             <Link to={to}>
                 <div
-                    className={`duration-200 transform transition-color text-center md:flex md:items-end hover:text-spotify ${
+                    className={`duration-200 transform transition-colors text-center hover:text-spotify md:flex md:items-end md:rounded-full md:hover:bg-background-primary-light md:p-4 lg:rounded-lg ${
                         isFocusTab
-                            ? 'text-spotify md:text-header'
-                            : 'text-default-black md:text-nav'
-                    } md:transition-move md:hover:text-header md:hover:opacity-75 lg:hover:translate-x-1`}
+                            ? 'text-spotify md:bg-background-primary-light md:text-header md:hover:text-header'
+                            : 'text-default-black md:text-nav md:hover:text-nav'
+                    }`}
                 >
                     <Icon
                         name={icon}
@@ -29,7 +29,7 @@ const Tab = ({ icon, title, to }) => {
                     </span>
                 </div>
             </Link>
-        </span>
+        </div>
     )
 }
 

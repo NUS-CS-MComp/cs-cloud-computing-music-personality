@@ -11,7 +11,7 @@ const ThemeToggle = ({ children }) => {
     const currentTheme = useSelector(themeSelector)
     return (
         <div
-            className={`theme-${currentTheme} bg-background-primary text-default-black h-full`}
+            className={`theme-${currentTheme} bg-background-secondary text-default-black h-full`}
         >
             {children}
         </div>

@@ -14,25 +14,13 @@ export default () => {
     const isDark = currentTheme === 'dark'
     return (
         <button
-            className='flex p-4 bg-background-primary'
+            className='flex rounded md:bg-default-white'
             type='button'
             onClick={() => dispatch(toggleTheme())}
         >
-            <span>
-                <Icon
-                    name='moon'
-                    className={`h-6 md:h-8 text-header ${
-                        isDark ? '' : 'hidden'
-                    }`}
-                />
-            </span>
-            <span>
-                <Icon
-                    name='sun'
-                    className={`h-6 md:h-8 text-header ${
-                        isDark ? 'hidden' : ''
-                    }`}
-                />
+            <span className='p-2'>
+                <Icon name='moon' className={`h-6 ${isDark ? '' : 'hidden'}`} />
+                <Icon name='sun' className={`h-6 ${isDark ? 'hidden' : ''}`} />
             </span>
         </button>
     )

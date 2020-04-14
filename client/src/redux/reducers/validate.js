@@ -29,11 +29,23 @@ export default (state = {}, { type, provider, data }) => {
         case VALIDATE_SUCCESS:
             return { ...lodash.omit(state, provider), ...data }
         case VALIDATE_FULL_INIT:
-            return { loading: true }
+            return { ...state, loading: true }
         case VALIDATE_FULL_COMPLETE:
-            return { ...lodash.omit(state, 'loading'), ...data }
+            return {
+                ...lodash.omit(state, 'loading'),
+                ...Object.keys(data).reduce((newData, providerName) => {
+                    if (state[providerName] && !!state[providerName].used) {
+                        return Object.assign(newData, {
+                            [providerName]: state[providerName],
+                        })
+                    }
+                    return Object.assign(newData, {
+                        [providerName]: data[providerName],
+                    })
+                }, {}),
+            }
         case VALIDATE_FULL_FAILURE:
-            return { ...lodash.omit(state, 'loading'), ...data }
+            return { ...lodash.omit(state, 'loading'), failed: true }
         default:
             return state
     }

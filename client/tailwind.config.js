@@ -41,7 +41,9 @@ module.exports = {
     },
     variants: {
         margin: ['responsive', 'last'],
-        transitionProperty: ['responsive', 'hover', 'focus'],
+        opacity: ['responsive', 'hover', 'focus', 'group-hover'],
+        transitionProperty: ['responsive', 'hover', 'focus', 'group-hover'],
+        textColor: ['responsive', 'hover', 'focus', 'group-hover'],
     },
     plugins: [],
 }

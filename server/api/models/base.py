@@ -1,8 +1,27 @@
+import decimal
+import json
+import time
 import uuid
 from datetime import datetime
 
 from . import DB
 from boto3.dynamodb.conditions import Attr
+
+
+class DecimalEncoder(json.JSONEncoder):
+    """
+    Helper class to convert a DynamoDB item to JSON
+
+    From https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.03.html#GettingStarted.Python.03.02
+    """
+
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            if o % 1 > 0:
+                return float(o)
+            else:
+                return int(o)
+        return super(DecimalEncoder, self).default(o)
 
 
 class BaseModel:
@@ -26,21 +45,27 @@ class BaseModel:
         :rtype: dict
         """
         item[self.id_key] = str(uuid.uuid4())
-        item["created_at"] = int(datetime.utcnow().timestamp() * 1000)
+        item["created_at"] = int(time.mktime(datetime.now().timetuple()))
         self.table.put_item(Item=item)
         return item
 
-    def get(self, id):
+    def get(self, id, use_json=False):
         """
         Get an item
 
         :param id: ID tag
         :type id: str
+        :param use_json: Boolean flag to transform to standard JSON data
+        :type id: bool
         :return: Database response object
         :rtype: dict
         """
         try:
-            return self.table.get_item(Key={self.id_key: id})["Item"]
+            item = self.table.get_item(Key={self.id_key: id})["Item"]
+            if use_json:
+                return json.loads(json.dumps(item, cls=DecimalEncoder))
+            else:
+                return item
         except KeyError:
             return None
 

@@ -1,10 +1,10 @@
-import lodash from 'lodash'
 import { combineReducers } from 'redux'
 
 import OAuthServiceFactory from '@services/oauth/factory'
 
 import {
     OAUTH_CANCEL,
+    OAUTH_CLEAR,
     OAUTH_COMPLETE,
     OAUTH_FAILURE,
     OAUTH_INIT,
@@ -27,20 +27,20 @@ const createOAuthReducer = (providerName) => {
         switch (type) {
             case `${providerNameUpper}_${OAUTH_CANCEL}`:
                 return {
-                    ...lodash.omit(state, 'loading'),
                     cancelled: true,
                 }
+            case `${providerNameUpper}_${OAUTH_CLEAR}`:
+                return { cleared: true }
             case `${providerNameUpper}_${OAUTH_COMPLETE}`:
                 return {
-                    ...lodash.omit(state, ['loading', 'process_data']),
                     completed: true,
                 }
             case `${providerNameUpper}_${OAUTH_FAILURE}`:
                 return { failed: true }
             case `${providerNameUpper}_${OAUTH_INIT}`:
-                return { ...state, loading: true }
+                return { loading: true }
             case `${providerNameUpper}_${OAUTH_PROCESS_SUCCESS}`:
-                return { ...state, process_data: data }
+                return { process_data: data }
             case `${providerNameUpper}_${OAUTH_PROCESS_FAILURE}`:
                 return { failed: true }
             default:

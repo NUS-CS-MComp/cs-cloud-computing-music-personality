@@ -1,4 +1,4 @@
-import { call, put, race, take } from 'redux-saga/effects'
+import { call, fork, put, take } from 'redux-saga/effects'
 
 import {
     VALIDATE_INIT,
@@ -41,10 +41,6 @@ export function* validateAllCredentials() {
  * Root saga watcher for action indicating start of session validation process
  */
 export default function* watchValidationProcess() {
-    while (true) {
-        yield race({
-            full: call(validateProviderCredentials),
-            partial: call(validateAllCredentials),
-        })
-    }
+    yield fork(validateAllCredentials)
+    yield fork(validateProviderCredentials)
 }

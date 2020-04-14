@@ -14,11 +14,11 @@ export default () => {
     const isDark = currentTheme === 'dark'
     return (
         <button
-            className='flex rounded md:bg-default-white'
+            className='flex rounded md:bg-default-white group'
             type='button'
             onClick={() => dispatch(toggleTheme())}
         >
-            <span className='p-2'>
+            <span className='duration-200 p-2 transition-opacity md:group-hover:opacity-75'>
                 <Icon name='moon' className={`h-6 ${isDark ? '' : 'hidden'}`} />
                 <Icon name='sun' className={`h-6 ${isDark ? 'hidden' : ''}`} />
             </span>

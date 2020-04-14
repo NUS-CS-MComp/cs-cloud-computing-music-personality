@@ -1,5 +1,7 @@
 import pickle
 
+from functools import wraps
+
 from flask import session
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
@@ -20,6 +22,64 @@ SERVICES_FOR_AUTH_PARAMS = {
 }
 AUTH_SERVER_SESSION_KEY = "user_auth_info"
 SIGNED_IN_AS_FLAG = "is_signed_in"
+
+
+def parse_user_session(func):
+    """
+    Helper function decorator to parse user information from session data
+
+    :param func: Function object to be wrapped
+    :type func: func
+    :return: Function wrapper
+    :rtype: func
+    """
+
+    @wraps(func)
+    def read_user_info(*args, **kwargs):
+        """ Decorated function """
+
+        user_id = session.get(SIGNED_IN_AS_FLAG)
+        if user_id is None:
+            return "No identifier provided", 403
+        kwargs.update({"user_id": user_id})
+        return func(*args, **kwargs)
+
+    return read_user_info
+
+
+class UserRecord(Resource):
+    """
+    User record resource
+
+    :param Resource: Inherit from base flask-restful resource class
+    :type Resource: Resource
+    :return: User authentication resource class
+    :rtype: Resource
+    """
+
+    @staticmethod
+    @parse_user_session
+    def get(user_id):
+        """
+        Get endpoint to fetch user related record
+
+        :param user_id: User identifier
+        :type user_id: str
+        :return: User related information
+        :rtype: dict
+        """
+        user_data = User.get(user_id, use_json=True)
+        return user_data, 200
+
+    @staticmethod
+    @parse_user_session
+    @parse_params(
+        Argument("name", location="json", required=False),
+        Argument("short_bio", location="json", required=False),
+    )
+    def post(user_id, name, short_bio):
+        User.update_profile_info(user_id, name=name, short_bio=short_bio)
+        return "OK", 200
 
 
 class UserAuthentication(Resource):
@@ -132,8 +192,18 @@ class UserAuthentication(Resource):
 
             if user_data and signed_in_as:
                 if user_data["user_id"] != signed_in_as:
+                    provider_cookie_key = IdentityManager.cookie_key_formatter.format(
+                        provider
+                    )
+                    del session[provider_cookie_key]
                     provider_verify_info.update(
-                        {provider: {"authenticated": False, "used": True}}
+                        {
+                            provider: {
+                                "authenticated": False,
+                                "used": True,
+                                "by_user": user_data["user_id"],
+                            }
+                        }
                     )
                     return provider_verify_info
             elif not user_data and not signed_in_as:

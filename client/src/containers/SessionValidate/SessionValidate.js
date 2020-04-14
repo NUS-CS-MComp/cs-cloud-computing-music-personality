@@ -1,3 +1,4 @@
+import lodash from 'lodash'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -10,11 +11,17 @@ import { validitySelector } from '@redux/selectors/validate'
  */
 const SessionValidate = ({ children }) => {
     const dispatch = useDispatch()
-    const { loading } = useSelector(validitySelector)
+    const verification = useSelector(validitySelector)
     useEffect(() => {
         dispatch(initFullValidation())
+        const recurringValidation = setInterval(() => {
+            dispatch(initFullValidation())
+        }, 1000 * 60 * 60)
+        return () => {
+            clearInterval(recurringValidation)
+        }
     }, [dispatch])
-    if (loading)
+    if (lodash.isEqual(verification, {}) || verification.loading)
         return (
             <div className='h-full flex items-center justify-center'>
                 <span className='uppercase font-bold'>Logging You In</span>

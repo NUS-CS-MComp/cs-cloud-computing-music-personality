@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { startOAuth } from '@redux/actions/oauth'
+import { startOAuth, clearOAuth } from '@redux/actions/oauth'
 import { initValidation } from '@redux/actions/validate'
 import { providerTokenSelector } from '@redux/selectors/oauth'
 import { providerValiditySelector } from '@redux/selectors/validate'
@@ -37,6 +37,7 @@ const useOAuthService = (providerName) => {
 
     useEffect(() => {
         if (oauthStatus.completed) {
+            dispatch(clearOAuth(providerName))
             dispatch(initValidation(providerName))
         }
     }, [JSON.stringify(oauthStatus)])

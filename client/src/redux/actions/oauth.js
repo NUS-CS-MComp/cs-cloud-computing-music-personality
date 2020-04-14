@@ -1,5 +1,6 @@
 export const OAUTH_INIT = 'OAUTH_INIT'
 export const OAUTH_CANCEL = 'OAUTH_CANCEL'
+export const OAUTH_CLEAR = 'OAUTH_CLEAR'
 export const OAUTH_COMPLETE = 'OAUTH_COMPLETE'
 export const OAUTH_FAILURE = 'OAUTH_FAILURE'
 export const OAUTH_PROCESS_SUCCESS = 'OAUTH_PROCESS_SUCCESS'
@@ -20,5 +21,14 @@ export const startOAuth = (provider) => ({
  */
 export const cancelOAuth = (provider) => ({
     type: `${provider.toUpperCase()}_${OAUTH_CANCEL}`,
+    provider,
+})
+
+/**
+ * Action to clear previous OAuth process
+ * @param {string} provider Name of OAuth provider
+ */
+export const clearOAuth = (provider) => ({
+    type: `${provider.toUpperCase()}_${OAUTH_CLEAR}`,
     provider,
 })

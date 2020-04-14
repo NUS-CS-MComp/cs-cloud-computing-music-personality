@@ -24,7 +24,11 @@ class UserModel(BaseModel):
         :rtype: dict
         """
         user_data = super().create(
-            {self.provider_key: {provider: profile_info}, **kwargs}
+            {
+                self.profile_key: {},
+                self.provider_key: {provider: profile_info},
+                **kwargs,
+            },
         )
         SocialConnect.create(provider, profile_info["id"], user_data[self.id_key])
         return user_data
@@ -63,7 +67,7 @@ class UserModel(BaseModel):
 
     def update(self, user_id, provider, profile_info):
         """
-        Update user data by nwe provider profile
+        Update user data by new provider profile
 
         :param user_id: User ID
         :type user_id: str
@@ -84,6 +88,24 @@ class UserModel(BaseModel):
             new_profile_id = profile_info["id"]
             SocialConnect.create(provider, new_profile_id, user_id)
         except KeyError:
+            pass
+
+    def update_profile_info(self, user_id, **kwargs):
+        """
+        Update user data by given user information
+
+        :param user_id: User ID
+        :type user_id: str
+        :param user_info: User information in key-value pairs
+        :type user_info: dict
+        """
+        try:
+            update_map = {}
+            for field_name in kwargs.keys():
+                if kwargs[field_name] is not None:
+                    update_map[f"{self.profile_key}.{field_name}"] = kwargs[field_name]
+            super().update(user_id, update_map)
+        except Exception:
             pass
 
     def delete(self, user_id, provider):
@@ -112,6 +134,10 @@ class UserModel(BaseModel):
     @property
     def id_key(self):
         return "user_id"
+
+    @property
+    def profile_key(self):
+        return "profile"
 
     @property
     def provider_key(self):

@@ -10,7 +10,9 @@ import ThemeToggle from '@containers/ThemeToggle'
 import NotFound from '@components/NotFound'
 import SessionValidate from '@containers/SessionValidate'
 import OAuthCallbackPage from '@pages/OAuthCallbackPage'
+import InsightsPage from '@pages/InsightsPage'
 import OverviewPage from '@pages/OverviewPage'
+import UserPage from '@pages/UserPage'
 
 import OAUTH_CONFIG from '@services/oauth/config'
 
@@ -37,6 +39,8 @@ const PublicLayoutComponent = () => (
         <SessionValidate>
             <Switch>
                 <Route exact path='/' component={OverviewPage} />
+                <Route exact path='/insights' component={InsightsPage} />
+                <Route exact path='/me' component={UserPage} />
                 <Route exact path='/not-found' component={NotFound} />
                 <Redirect exact to='/not-found' />
             </Switch>

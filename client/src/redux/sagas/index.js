@@ -8,4 +8,5 @@ export {
     userProfileChangeSaga,
     refreshUserProfileSaga,
     disconnectProviderSaga,
+    logoutUserSaga,
 } from './user'

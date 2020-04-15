@@ -35,7 +35,9 @@ export default () => {
                         socialProviders.length > 0 || !isSpotifyAvailable
                             ? 'block'
                             : 'hidden'
-                    } lg:${socialProviders.length > 0 ? 'block' : 'hidden'}`}
+                    } lg:${
+                        socialProviders.length > 0 ? 'block' : 'hidden'
+                    } lg:${isSpotifyAvailable ? 'col-span-6' : 'col-span-4'}`}
                 >
                     <Heading
                         text='Connect'
@@ -46,6 +48,10 @@ export default () => {
                     <div
                         className={`hidden lg:block lg:col-start-${
                             socialProviders.length > 0 ? '5' : '1'
+                        } lg:${
+                            socialProviders.length <= 0
+                                ? 'col-span-6'
+                                : 'col-span-2'
                         }`}
                     >
                         <Heading

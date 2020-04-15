@@ -15,7 +15,7 @@ export default () => {
     const dispatch = useDispatch()
     const userProfile = useSelector(userProfileSelector)
     return (
-        <div className='h-full text-left flex flex-col lg:h-auto'>
+        <div className='h-full text-left flex flex-col'>
             <div className='flex items-center justify-between text-default-black'>
                 <Heading
                     text='My Profile'

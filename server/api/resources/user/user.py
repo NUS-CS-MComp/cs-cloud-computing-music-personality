@@ -2,7 +2,7 @@ import pickle
 
 from functools import wraps
 
-from flask import session
+from flask import make_response, session
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
@@ -229,7 +229,6 @@ class UserAuthentication(Resource):
                     return provider_verify_info
             elif not user_data and not signed_in_as:
                 user_data = User.create(provider, profile_info, sid=session.sid)
-                session[SIGNED_IN_AS_FLAG] = user_data["user_id"]
             elif not user_data and signed_in_as:
                 User.update(signed_in_as, provider, profile_info)
             else:
@@ -249,6 +248,9 @@ class UserAuthentication(Resource):
                     current_provider_new_info = provider_verify_info[provider].copy()
                     provider_verify_info.update(session.get(AUTH_SERVER_SESSION_KEY))
                     provider_verify_info.update({provider: current_provider_new_info})
+
+            if user_data and not signed_in_as:
+                session[SIGNED_IN_AS_FLAG] = user_data["user_id"]
 
         return provider_verify_info
 
@@ -340,3 +342,30 @@ class UserAuthentication(Resource):
         else:
             auth_info.update({"authenticated": True, "data": data})
         return auth_info
+
+
+class UserLogout(Resource):
+    """
+    Simple resource for user logout
+
+    :param Resource: Inherit from base flask-restful resource class
+    :type Resource: Resource
+    :return: User logout resource class
+    :rtype: Resource
+    """
+
+    @staticmethod
+    @parse_user_session
+    def post(user_id):
+        """
+        POST endpoint for user logout
+
+        :param user_id: User identifier
+        :type user_id: str
+        :return: Response data
+        :rtype: dict
+        """
+
+        response = make_response("OK", 200)
+        response.delete_cookie(Config.SESSION_COOKIE_NAME)
+        return response

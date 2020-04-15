@@ -5,10 +5,11 @@ Main thread code for server application
 import routes
 
 from config import Config
+from lib.flask_session import Session
+
 from flask import Flask
 from flask.blueprints import Blueprint
 from flask_cors import CORS
-from flask_session import Session
 
 app = Flask(__name__, instance_relative_config=False)
 app.config.from_object(Config)

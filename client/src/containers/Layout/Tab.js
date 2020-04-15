@@ -11,10 +11,10 @@ const Tab = ({ icon, title, to }) => {
     const { pathname } = useLocation()
     const isFocusTab = pathname === to
     return (
-        <div className='block w-full md:mb-4 md:last:mb-0'>
+        <div className='inline-block md:w-full md:block md:mb-4 md:last:mb-0'>
             <Link to={to}>
                 <div
-                    className={`duration-200 transform transition-colors text-center hover:text-spotify md:flex md:items-end md:rounded-full md:hover:bg-background-primary-light md:p-4 lg:rounded-lg ${
+                    className={`inline-block duration-500 transform transition-colors text-center hover:text-spotify md:flex md:items-end md:rounded-full md:hover:bg-background-primary-light md:p-4 lg:rounded-lg ${
                         isFocusTab
                             ? 'text-spotify md:bg-background-primary-light md:text-header md:hover:text-header'
                             : 'text-default-black md:text-nav md:hover:text-nav'

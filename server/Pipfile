@@ -14,7 +14,6 @@ flask-restful = "*"
 flask-script = "*"
 python-dotenv = "*"
 flask-cors = "*"
-flask-session = "*"
 redis = "*"
 boto3 = "*"
 

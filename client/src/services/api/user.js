@@ -30,3 +30,8 @@ export const removeUserConnection = (provider) =>
             provider,
         }).toString()}`
     )
+
+/**
+ * Endpoint to logout user
+ */
+export const logoutUser = () => http.post(`user/logout`)

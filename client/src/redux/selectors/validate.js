@@ -9,6 +9,14 @@ import OAUTH_CONFIG from '@services/oauth/config'
 export const validitySelector = (state) => state.validate
 
 /**
+ * Selector for identifying user login session by identifier
+ */
+export const validityIdentifierSelector = createSelector(
+    validitySelector,
+    (state) => typeof state.identifier !== 'undefined'
+)
+
+/**
  * Selector for specific provider token validity
  * @param {string} provider Name of OAuth provider
  */

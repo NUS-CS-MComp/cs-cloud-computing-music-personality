@@ -25,7 +25,7 @@ const Profile = ({ profile, id, sid, timestamp, onChangeCommit }) => {
         setEditableFalse()
     }
     return (
-        <div className='flex-1 h-full bg-default-white rounded-lg'>
+        <div className='bg-default-white rounded-lg'>
             <div className='bg-spotify rounded-t-lg relative h-18 py-2'>
                 <Icon
                     name='disc'

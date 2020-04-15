@@ -11,7 +11,7 @@ const Connection = ({ connections, onDisconnect }) => (
         {Object.keys(connections).map((connection) => (
             <div
                 key={connection}
-                className='bg-default-white w-48 mr-4 max-w-md rounded-lg flex flex-col flex-initial flex-shrink-0 md:mb-3 md:w-1/3-m-4 md:max-w-none md:flex-auto md:flex-shrink-0 md:last:mr-0 lg:w-full'
+                className='bg-default-white w-48 mr-4 max-w-md rounded-lg flex flex-col flex-initial flex-shrink-0 sm:w-56 md:mb-3 md:w-1/3-m-4 md:max-w-none md:flex-auto md:flex-shrink-0 md:last:mr-0 lg:w-full'
             >
                 <div
                     className={`bg-${connection} rounded-t-lg relative h-18 py-2`}
@@ -22,7 +22,7 @@ const Connection = ({ connections, onDisconnect }) => (
                         className='h-8 mr-auto ml-4 object-cover'
                     />
                 </div>
-                <div className='m-2 p-2 bg-default-white flex flex-1 flex-col justify-start'>
+                <div className='p-4 bg-default-white rounded-b-lg flex flex-1 flex-col justify-start'>
                     <span
                         className={`uppercase font-bold text mb-4 text-${connection}`}
                     >
@@ -40,14 +40,14 @@ const Connection = ({ connections, onDisconnect }) => (
                         </div>
                         <div>{connections[connection].name}</div>
                     </div>
+                    <button
+                        type='button'
+                        className='p-2 mt-2 bg-button-alert uppercase font-bold text-default-white rounded duration-200 transition-opacity hover:opacity-75 xl:w-32'
+                        onClick={() => onDisconnect(connection)}
+                    >
+                        Disconnect
+                    </button>
                 </div>
-                <button
-                    type='button'
-                    className='p-2 bg-button-alert uppercase font-bold text-default-white rounded-b duration-200 transition-opacity hover:opacity-75 lg:rounded lg:mx-4 lg:mb-4 xl:w-32'
-                    onClick={() => onDisconnect(connection)}
-                >
-                    Disconnect
-                </button>
             </div>
         ))}
     </div>

@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import UserResource from '@containers/UserResource'
 import { requestUserInfo } from '@redux/actions/user'
-import { validitySelector } from '@redux/selectors/validate'
+import { validityIdentifierSelector } from '@redux/selectors/validate'
 
 /**
  * User information management page container
  */
 export default () => {
     const dispatch = useDispatch()
-    const verification = useSelector(validitySelector)
+    const hasIdentifier = useSelector(validityIdentifierSelector)
 
     useEffect(() => {
-        if (verification && verification.identifier) {
+        if (hasIdentifier) {
             dispatch(requestUserInfo())
         }
     }, [dispatch])

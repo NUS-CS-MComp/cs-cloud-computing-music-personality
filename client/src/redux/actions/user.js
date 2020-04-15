@@ -7,6 +7,7 @@ export const REQUEST_USER_INFO_CHANGE_ACTIONS = getFetchResourceActionList(
 export const DISCONNECT_PROVIDER_ACTIONS = getFetchResourceActionList(
     'PROVIDER_DISCONNECT'
 )
+export const USER_LOGOUT_ACTIONS = getFetchResourceActionList('USER_LOGOUT')
 
 /**
  * Action to fetch user information
@@ -31,4 +32,12 @@ export const requestUserInfoChange = (payload) => ({
 export const disconnectProvider = (provider) => ({
     type: DISCONNECT_PROVIDER_ACTIONS[0],
     payload: provider,
+})
+
+/**
+ * Action to perform logout action
+ */
+
+export const logoutUser = () => ({
+    type: USER_LOGOUT_ACTIONS[0],
 })

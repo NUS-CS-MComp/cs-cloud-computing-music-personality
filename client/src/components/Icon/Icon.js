@@ -8,6 +8,7 @@ import { ReactComponent as TwitterLogo } from '@assets/twitter.svg'
 
 import { ReactComponent as DiscIcon } from '@assets/disc.svg'
 import { ReactComponent as LogInIcon } from '@assets/log-in.svg'
+import { ReactComponent as LogOutIcon } from '@assets/log-out.svg'
 import { ReactComponent as HomeIcon } from '@assets/home.svg'
 import { ReactComponent as MoonIcon } from '@assets/moon.svg'
 import { ReactComponent as MusicIcon } from '@assets/music.svg'
@@ -26,6 +27,7 @@ const ICON_NAME_MAP = {
     disc: DiscIcon,
     home: HomeIcon,
     login: LogInIcon,
+    logout: LogOutIcon,
     moon: MoonIcon,
     music: MusicIcon,
     'music-note': MusicNoteIcon,

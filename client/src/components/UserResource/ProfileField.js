@@ -40,7 +40,7 @@ const ProfileField = ({ label, name, value, small, editable, emptyClick }) => (
                             type='button'
                             className='text-default-gray cursor-text'
                             onClick={emptyClick}
-                        >{`Click to edit your ${name}`}</button>
+                        >{`Click to edit your ${label.toLowerCase()}`}</button>
                     )}
                 </span>
             )}

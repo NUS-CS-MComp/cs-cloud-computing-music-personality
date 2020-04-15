@@ -16,8 +16,9 @@ export const userInfoSelector = (state) => userSelector(state).info.data
 /**
  * Selector for current user connections
  */
-export const userConnectionSelector = createSelector(userInfoSelector, (info) =>
-    lodash.pick(info, 'provider')
+export const userConnectionSelector = createSelector(
+    userInfoSelector,
+    (info) => lodash.pick(info, 'provider').provider
 )
 
 /**

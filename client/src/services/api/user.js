@@ -19,3 +19,14 @@ export const getUserInfo = () => http.get(`user/me`)
  * @param {Record<string, string>} payload Information to be changed on user profile
  */
 export const updateUserProfile = (payload) => http.post(`user/me`, payload)
+
+/**
+ * Endpoint to disconnect provider session
+ * @param {string} provider OAuth provider name
+ */
+export const removeUserConnection = (provider) =>
+    http.delete(
+        `user/me?${new URLSearchParams({
+            provider,
+        }).toString()}`
+    )

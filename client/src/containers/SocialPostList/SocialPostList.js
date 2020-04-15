@@ -17,9 +17,16 @@ export default () => {
     return (
         <div className='md:flex md:flex-col md:max-h-full md:min-h-full'>
             <div className='flex items-center justify-between text-default-black'>
-                <Heading text='Your Timeline' />
+                <Heading
+                    text='Timeline'
+                    subheading={
+                        posts.length > 0
+                            ? 'Your history posts on social media'
+                            : undefined
+                    }
+                />
                 <button type='button' onClick={() => loadPosts()}>
-                    <Icon name='refresh' className='fill-current' />
+                    <Icon name='refresh' className='h-6 fill-current' />
                 </button>
             </div>
             {posts.length > 0 ? (

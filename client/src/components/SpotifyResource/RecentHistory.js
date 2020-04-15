@@ -22,14 +22,14 @@ const RecentHistory = ({ data }) => (
                     <div className='font-bold text-base'>{data.name}</div>
                 </div>
                 <a
-                    className='duration-200 transition-opacity text-spotify md:ml-4 hover:opacity-75 '
+                    className='duration-200 transition-opacity text-spotify md:ml-4 hover:opacity-75'
                     href={data.url}
                 >
-                    <Icon name='play' />
+                    <Icon name='play' className='h-6' />
                 </a>
             </div>
             <div className='text-default-gray text-sm mt-auto'>
-                Streamed at {formatTimeStamp(data.time)}
+                Streamed {formatTimeStamp(data.time)}
             </div>
         </div>
     </div>

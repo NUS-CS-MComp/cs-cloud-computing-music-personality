@@ -6,7 +6,10 @@ import {
     spotifyResourceDataSelector,
     spotifyResourceLoadingSelector,
 } from '@redux/selectors/spotify'
-import { availableProviderSelector } from '@redux/selectors/validate'
+import {
+    availableProviderSelector,
+    expiredProviderSelector,
+} from '@redux/selectors/validate'
 import Api from '@services/api'
 
 import OAUTH_CONFIG from '@services/oauth/config'
@@ -21,22 +24,25 @@ const {
  * @returns {[Record<string, any>, string, boolean, boolean, function]} Data to be consumed from the hook
  */
 const useSpotifyResource = (resourceType) => {
-    const isTokenValid = useSelector(availableProviderSelector).includes(
+    const isAuthenticated = useSelector(availableProviderSelector).includes(
+        SPOTIFY_PROVIDER_NAME
+    )
+    const isTokenExpired = useSelector(expiredProviderSelector).includes(
         SPOTIFY_PROVIDER_NAME
     )
     const dispatch = useDispatch()
     const dispatchCallback = useCallback(() => {
-        if (Api.spotify.RESOURCE_API_MAP[resourceType] && isTokenValid) {
+        if (Api.spotify.RESOURCE_API_MAP[resourceType] && isAuthenticated) {
             dispatch(requestSpotifyResource(resourceType))
         }
-    }, [isTokenValid, dispatch])
+    }, [isAuthenticated, dispatch])
     const data = useSelector(spotifyResourceDataSelector(resourceType)) || []
     const isLoading =
         useSelector(spotifyResourceLoadingSelector)[resourceType] || false
     return [
         data,
         SPOTIFY_PROVIDER_NAME,
-        isTokenValid,
+        isAuthenticated || isTokenExpired,
         isLoading,
         dispatchCallback,
     ]

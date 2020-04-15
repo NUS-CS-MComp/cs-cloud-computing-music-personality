@@ -22,8 +22,12 @@
     --provider-reddit: #ff5722;
     --provider-spotify: #1db954;
     --provider-twitter: #03a9f4;
-}
 
+    --button-alert: #e46150;
+    --button-alert-secondary: #ce4242;
+    --button-active: #3487ca;
+    --button-inactive: #a89f9f;
+}
 .theme-dark {
     --background-primary: #0d2438;
     --background-primary-light: #132e46;
@@ -42,6 +46,11 @@
     --provider-reddit: #fd6e43;
     --provider-spotify: #23dd64;
     --provider-twitter: #00aeff;
+
+    --button-alert: #f06856;
+    --button-alert-secondary: #ce4242;
+    --button-active: #4997d6;
+    --button-inactive: #c0b4b4;
 }
 
 html {
@@ -65,5 +74,10 @@ code {
 }
 
 button:focus {
+    outline: none;
+}
+
+input:focus,
+textarea:focus {
     outline: none;
 }

@@ -23,7 +23,10 @@ export const providersByAuthStatusSelector = (authenticated) => (status) =>
     Object.keys(status)
         .reduce((acc, tokenProvider) => {
             if (typeof status[tokenProvider].authenticated !== 'undefined') {
-                if (status[tokenProvider].authenticated === authenticated) {
+                if (
+                    status[tokenProvider].authenticated === authenticated &&
+                    !status[tokenProvider].expired
+                ) {
                     return [...acc, tokenProvider]
                 }
             }
@@ -71,4 +74,38 @@ export const availableSocialProviderSelector = createSelector(
 export const unavailableSocialProviderSelector = createSelector(
     unavailableProviderSelector,
     socialProviderSelector
+)
+
+/**
+ * Selector function passed to composed selector to filter providers based on expiration status
+ */
+export const providersByExpiryStatusSelector = (status) =>
+    Object.keys(status)
+        .reduce((acc, tokenProvider) => {
+            if (typeof status[tokenProvider].expired !== 'undefined') {
+                if (status[tokenProvider].expired) {
+                    return [...acc, tokenProvider]
+                }
+            }
+            return acc
+        }, [])
+        .sort((providerNameA, providerNameB) => providerNameA - providerNameB)
+
+/**
+ * Selector function to select providers with expired status
+ */
+export const expiredProviderSelector = createSelector(
+    validitySelector,
+    providersByExpiryStatusSelector
+)
+
+/**
+ * Selector function for all valid providers with authenticated or expired status
+ */
+export const validProviderSelector = createSelector(
+    [expiredProviderSelector, availableProviderSelector],
+    (expiredProvider, availableProvider) => [
+        ...expiredProvider,
+        ...availableProvider,
+    ]
 )

@@ -11,6 +11,12 @@ module.exports = {
                     secondary: 'var(--background-secondary)',
                     'primary-light': 'var(--background-primary-light)',
                 },
+                button: {
+                    alert: 'var(--button-alert)',
+                    active: 'var(--button-active)',
+                    inactive: 'var(--button-inactive)',
+                    'alert-secondary': 'var(--button-alert-secondary)',
+                },
                 default: {
                     black: 'var(--default-black)',
                     white: 'var(--default-white)',
@@ -33,17 +39,23 @@ module.exports = {
             },
             minHeight: {
                 '64': '16rem',
+                '1/2': '50%',
             },
             screens: {
                 fhd: '1980px',
             },
+            width: {
+                '1/3-m-4': 'calc(33.3333333% - 0.5rem)',
+            },
         },
     },
     variants: {
+        flex: ['responsive', 'hover', 'focus', 'last'],
         margin: ['responsive', 'last'],
         opacity: ['responsive', 'hover', 'focus', 'group-hover'],
         transitionProperty: ['responsive', 'hover', 'focus', 'group-hover'],
         textColor: ['responsive', 'hover', 'focus', 'group-hover'],
+        textAlign: ['responsive', 'focus'],
     },
     plugins: [],
 }

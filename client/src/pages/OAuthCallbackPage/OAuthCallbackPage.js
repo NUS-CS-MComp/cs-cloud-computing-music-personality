@@ -17,7 +17,7 @@ export default () => {
         urlParamEntries.provider
     )
 
-    if (lodash.isEqual(status.exchange, {})) {
+    if (lodash.isEmpty(status.exchange)) {
         if (!service || !service.verifyState(urlParamEntries.state)) {
             return (
                 <div className='uppercase font-bold'>

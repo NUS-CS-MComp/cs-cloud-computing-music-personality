@@ -25,7 +25,7 @@ class UserModel(BaseModel):
         """
         user_data = super().create(
             {
-                self.profile_key: {},
+                self.profile_key: {"user_name": None, "short_bio": None},
                 self.provider_key: {provider: profile_info},
                 **kwargs,
             },
@@ -105,10 +105,24 @@ class UserModel(BaseModel):
                 if kwargs[field_name] is not None:
                     update_map[f"{self.profile_key}.{field_name}"] = kwargs[field_name]
             super().update(user_id, update_map)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f" ! Error occurred when updating user profile.")
+            raise e
 
-    def delete(self, user_id, provider):
+    def delete(self, user_id):
+        """
+        Delete user instance and related connections
+
+        :param user_id: User ID
+        :type user_id: str
+        """
+        providers_data = self.get(user_id)[self.provider_key]
+        for provider in providers_data.keys():
+            profile_id = providers_data[provider]["id"]
+            SocialConnect.delete(provider, profile_id)
+        super().delete(user_id)
+
+    def delete_provider(self, user_id, provider):
         """
         Remove provider profile from user profile
 
@@ -116,14 +130,18 @@ class UserModel(BaseModel):
         :type user_id: str
         :param provider: Provider name
         :type provider: str
-        :return: Database response object
+        :return: Provider data after deletion
         :rtype: dict
         """
         try:
             providers_data = self.get(user_id)[self.provider_key]
             provider_info = providers_data[provider]
-            super().update(user_id, {f"{self.provider_key}.{provider}": {}})
+            super().remove_field(user_id, f"{self.provider_key}.{provider}")
             SocialConnect.delete(provider, provider_info["id"])
+            if provider in providers_data and len(providers_data) == 1:
+                self.delete(user_id)
+            del providers_data[provider]
+            return providers_data
         except KeyError:
             pass
 

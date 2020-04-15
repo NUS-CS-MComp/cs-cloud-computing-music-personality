@@ -47,7 +47,10 @@ class BaseService:
         response_data = None
         status_code = response.status_code
         if parse_json:
-            response_data = response.json()
+            try:
+                response_data = response.json()
+            except Exception:
+                response_data = response.text
         else:
             response_data = response.text
         self.close_session()

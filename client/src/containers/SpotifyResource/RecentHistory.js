@@ -17,9 +17,16 @@ export default () => {
     return (
         <div className='md:flex md:flex-col md:max-h-full md:min-h-full'>
             <div className='flex items-center justify-between text-default-black'>
-                <Heading text='Play History' />
+                <Heading
+                    text='Play History'
+                    subheading={
+                        data.length > 0
+                            ? 'Your most recent 20 tracks'
+                            : undefined
+                    }
+                />
                 <button type='button' onClick={() => loadData()}>
-                    <Icon name='refresh' className='fill-current' />
+                    <Icon name='refresh' className='h-6 fill-current' />
                 </button>
             </div>
             {data.length > 0 ? (

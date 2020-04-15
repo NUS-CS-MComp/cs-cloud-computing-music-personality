@@ -15,12 +15,17 @@ import Api from '@services/api'
  * Access token information stored in cookies are used to test its validity
  */
 export function* validateProviderCredentials() {
-    const { provider } = yield take(VALIDATE_INIT)
-    try {
-        const { data } = yield call(Api.user.getUserValidationStatus, provider)
-        yield put({ type: VALIDATE_SUCCESS, provider, data })
-    } catch (e) {
-        yield put({ type: VALIDATE_FAILURE, provider })
+    while (true) {
+        const { provider } = yield take(VALIDATE_INIT)
+        try {
+            const { data } = yield call(
+                Api.user.getUserValidationStatus,
+                provider
+            )
+            yield put({ type: VALIDATE_SUCCESS, provider, data })
+        } catch (e) {
+            yield put({ type: VALIDATE_FAILURE, provider })
+        }
     }
 }
 
@@ -28,12 +33,14 @@ export function* validateProviderCredentials() {
  * Worker saga for full token session validation flow
  */
 export function* validateAllCredentials() {
-    yield take(VALIDATE_FULL_INIT)
-    try {
-        const { data } = yield call(Api.user.getUserValidationStatus)
-        yield put({ type: VALIDATE_FULL_COMPLETE, data })
-    } catch (e) {
-        yield put({ type: VALIDATE_FULL_FAILURE })
+    while (true) {
+        yield take(VALIDATE_FULL_INIT)
+        try {
+            const { data } = yield call(Api.user.getUserValidationStatus)
+            yield put({ type: VALIDATE_FULL_COMPLETE, data })
+        } catch (e) {
+            yield put({ type: VALIDATE_FULL_FAILURE })
+        }
     }
 }
 

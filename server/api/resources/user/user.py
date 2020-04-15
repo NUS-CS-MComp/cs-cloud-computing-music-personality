@@ -78,7 +78,25 @@ class UserRecord(Resource):
         Argument("short_bio", location="json", required=False),
     )
     def post(user_id, name, short_bio):
-        User.update_profile_info(user_id, name=name, short_bio=short_bio)
+        User.update_profile_info(user_id, user_name=name, short_bio=short_bio)
+        return "OK", 200
+
+    @staticmethod
+    @parse_user_session
+    @parse_params(Argument("provider", location="args", required=False),)
+    def delete(user_id, provider):
+        if provider is None:
+            User.delete(user_id)
+            session.clear()
+            return "OK", 200
+
+        providers_data = User.delete_provider(user_id, provider)
+        if len(providers_data) == 0:
+            session.clear()
+        else:
+            provider_cookie_key = IdentityManager.cookie_key_formatter.format(provider)
+            del session[provider_cookie_key]
+
         return "OK", 200
 
 
@@ -136,6 +154,9 @@ class UserAuthentication(Resource):
             session_data = session_data.copy()
             session_data.update(verify_info)
             session[AUTH_SERVER_SESSION_KEY] = session_data
+
+        if session.get(SIGNED_IN_AS_FLAG) is not None:
+            verify_info["identifier"] = session.get(SIGNED_IN_AS_FLAG)
 
         return verify_info, 200
 

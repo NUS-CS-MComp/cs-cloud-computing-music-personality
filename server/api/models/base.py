@@ -69,6 +69,21 @@ class BaseModel:
         except KeyError:
             return None
 
+    def remove_field(self, item_id, field_string):
+        """
+        Remove a filed from an item
+
+        :param id: ID tag
+        :type id: str
+        :param field_string: Field path string
+        :type field_string: str
+        :return: Database response object
+        :rtype: dict
+        """
+        return self.table.update_item(
+            Key={self.id_key: item_id}, UpdateExpression=f"remove {field_string}",
+        )
+
     def update(self, item_id, update_fields):
         """
         Update an item

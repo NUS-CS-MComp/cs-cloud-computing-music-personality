@@ -6,11 +6,11 @@ import assertRequestPattern from '@utils/assert-request-pattern'
  * Generic saga worker for API request
  * @param {function} agent API endpoint service function
  * @param {string[]} actionTypes Action type array
- * @param  {string[]} args Arguments to be passed to service function
+ * @param  {{ type: string, payload: Record<string, string>}} actionData Data from dispatching action
  */
-export function* fetchAPIServiceRequestWorker(agent, actionTypes, ...args) {
+export function* fetchAPIServiceRequestWorker(agent, actionTypes, { payload }) {
     try {
-        const { data } = yield call(agent, ...args)
+        const { data } = yield call(agent, payload)
         yield put({ type: actionTypes[1], data })
     } catch (e) {
         yield put({ type: actionTypes[2] })

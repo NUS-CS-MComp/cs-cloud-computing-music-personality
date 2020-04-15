@@ -12,6 +12,7 @@ import { validitySelector } from '@redux/selectors/validate'
 const SessionValidate = ({ children }) => {
     const dispatch = useDispatch()
     const verification = useSelector(validitySelector)
+
     useEffect(() => {
         dispatch(initFullValidation())
         const recurringValidation = setInterval(() => {
@@ -21,7 +22,8 @@ const SessionValidate = ({ children }) => {
             clearInterval(recurringValidation)
         }
     }, [dispatch])
-    if (lodash.isEqual(verification, {}) || verification.loading)
+
+    if (lodash.isEmpty(verification) || verification.loading)
         return (
             <div className='h-full flex items-center justify-center'>
                 <span className='uppercase font-bold'>Logging You In</span>

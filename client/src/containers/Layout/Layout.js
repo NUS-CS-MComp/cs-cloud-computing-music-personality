@@ -11,7 +11,7 @@ import TopBar from '@containers/Layout/TopBar'
  */
 const Layout = ({ children }) => (
     <div className='relative duration-200 transition-color m-auto bg-background-secondary h-full text-center flex flex-col md:gap-0 md:grid md:grid-flow-row md:grid-cols-6 md:grid-rows-6 fhd:grid-cols-8 fhd:max-w-fhd'>
-        <div className='p-6 bg-background-primary text-header flex flex-row justify-start items-center md:flex-col md:justify-around md:col-span-1 md:row-span-1'>
+        <div className='p-6 bg-background-primary text-header md:col-span-1 md:row-span-1'>
             <Header />
         </div>
         <div className='overflow-y-auto max-h-screen px-6 flex flex-col flex-auto md:py-6 md:overflow-y-hidden md:flex-none md:col-span-5 md:row-span-6 fhd:col-span-7'>

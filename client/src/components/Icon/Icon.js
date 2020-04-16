@@ -6,6 +6,7 @@ import { ReactComponent as RedditLogo } from '@assets/reddit.svg'
 import { ReactComponent as SpotifyLogo } from '@assets/spotify.svg'
 import { ReactComponent as TwitterLogo } from '@assets/twitter.svg'
 
+import { ReactComponent as AlertIcon } from '@assets/alert.svg'
 import { ReactComponent as DiscIcon } from '@assets/disc.svg'
 import { ReactComponent as LogInIcon } from '@assets/log-in.svg'
 import { ReactComponent as LogOutIcon } from '@assets/log-out.svg'
@@ -24,6 +25,7 @@ const ICON_NAME_MAP = {
     reddit: RedditLogo,
     spotify: SpotifyLogo,
     twitter: TwitterLogo,
+    alert: AlertIcon,
     disc: DiscIcon,
     home: HomeIcon,
     login: LogInIcon,

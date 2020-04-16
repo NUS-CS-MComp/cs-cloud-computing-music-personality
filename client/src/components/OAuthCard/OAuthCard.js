@@ -13,7 +13,7 @@ const OAuthCard = ({ expanded, provider, onClick }) => {
         <button
             className={`duration-200 transition-opacity bg-default-white bg-${provider} text-default-white h-auto ${
                 expanded ? 'w-full' : 'w-32 sm:w-48'
-            } mr-2 p-4 rounded-lg flex flex-grow-0 flex-shrink-0 items-center justify-center md:flex-1 xl:flex-initial hover:opacity-75 last:mr-0`}
+            } mr-2 p-4 rounded-lg flex flex-initial flex-grow-0 flex-shrink-0 items-center justify-center md:flex-grow xl:flex-grow-0 hover:opacity-75 last:mr-0`}
             onClick={onClick}
             type='button'
         >

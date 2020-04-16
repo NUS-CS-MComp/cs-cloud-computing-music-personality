@@ -117,3 +117,14 @@ export const validProviderSelector = createSelector(
         ...availableProvider,
     ]
 )
+
+/**
+ * Selector function for all unconnected providers
+ */
+export const unconnectedProviderSelector = createSelector(
+    [expiredProviderSelector, unavailableProviderSelector],
+    (expiredProvider, unavailableProvider) => [
+        ...expiredProvider,
+        ...unavailableProvider,
+    ]
+)

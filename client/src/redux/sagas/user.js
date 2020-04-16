@@ -5,6 +5,7 @@ import {
     REQUEST_USER_INFO_CHANGE_ACTIONS,
     DISCONNECT_PROVIDER_ACTIONS,
     USER_LOGOUT_ACTIONS,
+    USER_DELETE_ACTIONS,
 } from '@redux/actions/user'
 import { RELOAD_WINDOW } from '@redux/actions/window'
 import genericAPISaga from '@redux/sagas/fetch'
@@ -30,6 +31,11 @@ export const logoutUserSaga = genericAPISaga(
     USER_LOGOUT_ACTIONS
 )
 
+export const deleteUserSaga = genericAPISaga(
+    Api.user.deleteUser,
+    USER_DELETE_ACTIONS
+)
+
 /**
  * Saga watcher for user information related requests
  */
@@ -42,7 +48,11 @@ export function* refreshUserProfileSaga() {
     })
     yield fork(function* disconnectRequestWatcher() {
         while (true) {
-            yield take([DISCONNECT_PROVIDER_ACTIONS[1], USER_LOGOUT_ACTIONS[1]])
+            yield take([
+                DISCONNECT_PROVIDER_ACTIONS[1],
+                USER_LOGOUT_ACTIONS[1],
+                USER_DELETE_ACTIONS[1],
+            ])
             yield put({ type: RELOAD_WINDOW })
         }
     })

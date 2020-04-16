@@ -16,19 +16,20 @@ export default () => {
     const socialProviders = useSelector(unavailableSocialProviderSelector)
     const expiredProviders = useSelector(expiredProviderSelector)
     const [, spotifyProviderName, isSpotifyAvailable] = useSpotifyResource('')
-    return (
-        <div className='block'>
-            {expiredProviders.length > 0 && (
-                <div className='block'>
-                    <Heading
-                        text='Reconnect to Service'
-                        subheading='Your previous session has expired'
-                    />
-                    <div className='overflow-x-auto order-1 flex-1'>
-                        <OAuthSection providers={expiredProviders} />
-                    </div>
+    return expiredProviders.length > 0 ? (
+        <div className='lg:grid lg:grid-cols-6'>
+            <div className='block lg:col-span-4 lg:mr-8'>
+                <Heading
+                    text='Reconnect to Service'
+                    subheading='Your previous session has expired'
+                />
+                <div className='overflow-x-auto order-1 flex-1'>
+                    <OAuthSection providers={expiredProviders} />
                 </div>
-            )}
+            </div>
+        </div>
+    ) : (
+        <div className='block'>
             <div className='lg:grid lg:grid-cols-6'>
                 <div
                     className={`${

@@ -8,6 +8,7 @@ export const DISCONNECT_PROVIDER_ACTIONS = getFetchResourceActionList(
     'PROVIDER_DISCONNECT'
 )
 export const USER_LOGOUT_ACTIONS = getFetchResourceActionList('USER_LOGOUT')
+export const USER_DELETE_ACTIONS = getFetchResourceActionList('USER_DELETE')
 
 /**
  * Action to fetch user information
@@ -40,4 +41,11 @@ export const disconnectProvider = (provider) => ({
 
 export const logoutUser = () => ({
     type: USER_LOGOUT_ACTIONS[0],
+})
+
+/**
+ * Action to delete user
+ */
+export const deleteUser = () => ({
+    type: USER_DELETE_ACTIONS[0],
 })

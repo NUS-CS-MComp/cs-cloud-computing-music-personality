@@ -33,6 +33,7 @@ module.exports = {
             },
             gridTemplateRows: {
                 '1-auto': 'repeat(1, minmax(0, auto))',
+                'user-page': 'min-content 1fr',
             },
             maxWidth: {
                 fhd: '1980px',

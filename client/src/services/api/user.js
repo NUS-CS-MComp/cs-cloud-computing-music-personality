@@ -35,3 +35,8 @@ export const removeUserConnection = (provider) =>
  * Endpoint to logout user
  */
 export const logoutUser = () => http.post(`user/logout`)
+
+/**
+ * Endpoint to delete user
+ */
+export const deleteUser = () => http.delete('user/me')

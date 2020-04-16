@@ -6,12 +6,17 @@ import Icon from '@components/Icon'
 /**
  * User connection component to manage third-party connections
  */
-const Connection = ({ connections, onDisconnect }) => (
+const Connection = ({
+    connections,
+    expiredConnections,
+    onDisconnect,
+    renderRefreshComponent,
+}) => (
     <div className='flex overflow-x-auto md:flex-no-wrap lg:flex-col'>
         {Object.keys(connections).map((connection) => (
             <div
                 key={connection}
-                className='bg-default-white w-48 mr-4 max-w-md rounded-lg flex flex-col flex-initial flex-shrink-0 sm:w-56 md:mb-3 md:w-1/3-m-4 md:max-w-none md:flex-auto md:flex-shrink-0 md:last:mr-0 lg:w-full'
+                className='bg-default-white w-56 mr-4 max-w-md rounded-lg flex flex-col flex-initial flex-shrink-0 sm:w-64 md:mb-3 md:w-1/3-m-4 md:max-w-none md:flex-auto md:flex-shrink-0 md:last:mr-0 lg:w-full'
             >
                 <div
                     className={`bg-${connection} rounded-t-lg relative h-18 py-2`}
@@ -40,13 +45,17 @@ const Connection = ({ connections, onDisconnect }) => (
                         </div>
                         <div>{connections[connection].name}</div>
                     </div>
-                    <button
-                        type='button'
-                        className='p-2 mt-2 bg-button-alert uppercase font-bold text-default-white rounded duration-200 transition-opacity hover:opacity-75 xl:w-32'
-                        onClick={() => onDisconnect(connection)}
-                    >
-                        Disconnect
-                    </button>
+                    <div className='mt-2 text-default-white flex flex-col xl:flex-row'>
+                        {expiredConnections.includes(connection) &&
+                            renderRefreshComponent({ connection })}
+                        <button
+                            type='button'
+                            className='p-2 uppercase font-bold bg-button-alert rounded duration-200 transition-opacity hover:opacity-75 xl:w-32'
+                            onClick={() => onDisconnect(connection)}
+                        >
+                            Disconnect
+                        </button>
+                    </div>
                 </div>
             </div>
         ))}
@@ -64,9 +73,17 @@ Connection.propTypes = {
         })
     ).isRequired,
     /**
+     * Expired connection to trigger refresh action
+     */
+    expiredConnections: PropTypes.arrayOf(PropTypes.string).isRequired,
+    /**
      * Disconnect action handler
      */
     onDisconnect: PropTypes.func.isRequired,
+    /**
+     * Refresh component rendering function
+     */
+    renderRefreshComponent: PropTypes.func.isRequired,
 }
 
 export default Connection

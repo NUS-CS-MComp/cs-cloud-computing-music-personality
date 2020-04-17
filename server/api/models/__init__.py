@@ -13,6 +13,7 @@ DB = boto3.resource(
 TABLES = [
     {"name": "User", "key_id": "user_id"},
     {"name": "SocialConnect", "key_id": "provider_profile_id"},
+    {"name": "Personality", "key_id": "user_id"},
 ]
 
 

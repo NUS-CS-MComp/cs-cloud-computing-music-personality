@@ -17,6 +17,7 @@ flask-cors = "*"
 flask-session = "*"
 redis = "*"
 boto3 = "*"
+ibm-watson = "*"
 
 [requires]
 python_version = "3.8"

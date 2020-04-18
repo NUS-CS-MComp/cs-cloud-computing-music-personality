@@ -27,3 +27,11 @@ export const userConnectionSelector = createSelector(
 export const userProfileSelector = createSelector(userInfoSelector, (info) =>
     lodash.omit(info, 'provider')
 )
+
+/**
+ * Selector for user insights data
+ */
+export const userInsightsSelector = createSelector(
+    userInfoSelector,
+    (info) => lodash.pick(info, 'insights').insights
+)

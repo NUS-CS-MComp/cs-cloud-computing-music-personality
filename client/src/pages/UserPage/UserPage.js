@@ -1,22 +1,19 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 
 import UserResource from '@containers/UserResource'
-import { requestUserInfo } from '@redux/actions/user'
-import { validityIdentifierSelector } from '@redux/selectors/validate'
+import useUserInfo from '@hooks/use-user-info'
 
 /**
  * User information management page container
  */
 export default () => {
-    const dispatch = useDispatch()
-    const hasIdentifier = useSelector(validityIdentifierSelector)
+    const [hasIdentifier, , loadUserInfo] = useUserInfo()
 
     useEffect(() => {
         if (hasIdentifier) {
-            dispatch(requestUserInfo())
+            loadUserInfo()
         }
-    }, [dispatch])
+    }, [hasIdentifier, loadUserInfo])
 
     return (
         <div className='h-full text-left flex flex-col lg:grid lg:grid-cols-6 lg:grid-rows-user-page'>

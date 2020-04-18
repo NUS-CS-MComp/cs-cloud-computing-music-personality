@@ -1,6 +1,6 @@
 import React from 'react'
 
-import AudioFeatures from '@containers/InsightsResource/AudioFeatures'
+import InsightsResource from '@containers/InsightsResource'
 
 /**
  * Insights visualization page container
@@ -8,7 +8,10 @@ import AudioFeatures from '@containers/InsightsResource/AudioFeatures'
 export default () => (
     <div className='h-full text-left flex flex-col'>
         <div className='my-2 md:my-0'>
-            <AudioFeatures />
+            <InsightsResource.AudioFeatures />
+        </div>
+        <div className='my-2 md:my-0'>
+            <InsightsResource.PersonalityScores />
         </div>
     </div>
 )

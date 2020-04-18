@@ -9,7 +9,7 @@ import FeatureBar from '@components/InsightsResource/FeatureBar'
 const FeatureMetrics = ({ featureMetrics, rawMetrics, boundaryMap }) => (
     <div className='flex flex-row flex-wrap justify-between'>
         {Object.keys(featureMetrics).map((featureName) => (
-            <div className='w-1/2-m-2 lg:w-1/3-m-3'>
+            <div key={featureName} className='w-1/2-m-2 lg:w-1/3-m-3'>
                 <div className='capitalize font-bold text-sm text-spotify'>
                     {featureName}
                 </div>

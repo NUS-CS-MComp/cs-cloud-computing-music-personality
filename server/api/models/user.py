@@ -25,7 +25,12 @@ class UserModel(BaseModel):
         """
         user_data = super().create(
             {
-                self.profile_key: {"user_name": None, "short_bio": None},
+                self.insights_key: {
+                    self.personality_scores: None,
+                    self.inferred_from_post: None,
+                    self.cluster_assignment: None,
+                },
+                self.profile_key: {self.user_name: None, self.short_bio: None},
                 self.provider_key: {provider: profile_info},
                 **kwargs,
             },
@@ -109,6 +114,29 @@ class UserModel(BaseModel):
             print(f" ! Error occurred when updating user profile.")
             raise e
 
+    def update_insights_field(self, user_id, insight_field_map):
+        """
+        Update insights data field
+
+        :param user_id: User ID
+        :type user_id: str
+        :param insight_field_map: Field key-value pair
+        :type insight_field: dict
+        """
+        update_map = {}
+        for field_name in insight_field_map.keys():
+            if field_name not in [
+                self.personality_scores,
+                self.cluster_assignment,
+                self.inferred_from_post,
+            ]:
+                continue
+            update_map[f"{self.insights_key}.{field_name}"] = insight_field_map[
+                field_name
+            ]
+        if len(update_map) > 0:
+            super().update(user_id, update_map, True)
+
     def delete(self, user_id):
         """
         Delete user instance and related connections
@@ -145,6 +173,15 @@ class UserModel(BaseModel):
         except KeyError:
             pass
 
+    def scan_by_cluster_group(self, cluster_group):
+        """
+        Get all users by cluster group
+
+        :param cluster_group: Cluster group assignment tag
+        :type cluster_group: str
+        """
+        pass
+
     @property
     def table_name(self):
         return "User"
@@ -154,12 +191,36 @@ class UserModel(BaseModel):
         return "user_id"
 
     @property
+    def insights_key(self):
+        return "insights"
+
+    @property
     def profile_key(self):
         return "profile"
 
     @property
     def provider_key(self):
         return "provider"
+
+    @property
+    def personality_scores(self):
+        return "personality_scores"
+
+    @property
+    def inferred_from_post(self):
+        return "inferred_from_post"
+
+    @property
+    def cluster_assignment(self):
+        return "cluster_assignment"
+
+    @property
+    def user_name(self):
+        return "user_name"
+
+    @property
+    def short_bio(self):
+        return "short_bio"
 
 
 User = UserModel()

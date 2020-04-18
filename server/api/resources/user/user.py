@@ -1,7 +1,5 @@
 import pickle
 
-from functools import wraps
-
 from flask import make_response, session
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
@@ -9,8 +7,9 @@ from flask_restful.reqparse import Argument
 from config import Config
 from models.user import User
 from services import FacebookService, RedditService, SpotifyService, TwitterService
-from utils import parse_params, IdentityManager
+from utils import parse_params, IdentityManager, UserManager
 from utils.check_status_code import is_client_error, is_ok
+from utils.manage_user import SIGNED_IN_AS_FLAG
 
 
 SERVICES_FOR_AUTH = [FacebookService, RedditService, SpotifyService, TwitterService]
@@ -21,30 +20,6 @@ SERVICES_FOR_AUTH_PARAMS = {
     TwitterService: ["oauth_token", "oauth_token_secret"],
 }
 AUTH_SERVER_SESSION_KEY = "user_auth_info"
-SIGNED_IN_AS_FLAG = "is_signed_in"
-
-
-def parse_user_session(func):
-    """
-    Helper function decorator to parse user information from session data
-
-    :param func: Function object to be wrapped
-    :type func: func
-    :return: Function wrapper
-    :rtype: func
-    """
-
-    @wraps(func)
-    def read_user_info(*args, **kwargs):
-        """ Decorated function """
-
-        user_id = session.get(SIGNED_IN_AS_FLAG)
-        if user_id is None:
-            return "No identifier provided", 403
-        kwargs.update({"user_id": user_id})
-        return func(*args, **kwargs)
-
-    return read_user_info
 
 
 class UserRecord(Resource):
@@ -58,7 +33,7 @@ class UserRecord(Resource):
     """
 
     @staticmethod
-    @parse_user_session
+    @UserManager.parse_user_session
     def get(user_id):
         """
         Get endpoint to fetch user related record
@@ -72,7 +47,7 @@ class UserRecord(Resource):
         return user_data, 200
 
     @staticmethod
-    @parse_user_session
+    @UserManager.parse_user_session
     @parse_params(
         Argument("name", location="json", required=False),
         Argument("short_bio", location="json", required=False),
@@ -82,7 +57,7 @@ class UserRecord(Resource):
         return "OK", 200
 
     @staticmethod
-    @parse_user_session
+    @UserManager.parse_user_session
     @parse_params(Argument("provider", location="args", required=False),)
     def delete(user_id, provider):
         if provider is None:
@@ -355,7 +330,7 @@ class UserLogout(Resource):
     """
 
     @staticmethod
-    @parse_user_session
+    @UserManager.parse_user_session
     def post(user_id):
         """
         POST endpoint for user logout

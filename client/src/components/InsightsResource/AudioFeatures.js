@@ -112,7 +112,7 @@ const AudioFeatures = ({ features }) => {
                     boundaryMap={lodash.keyBy(AUDIO_FEATURE_KEYS, 'name')}
                 />
             </div>
-            <div className='mt-8 mb-4 lg:mt-4 lg:col-span-3 lg:order-2 lg:px-4 xl:col-span-4'>
+            <div className='mt-6 lg:mt-4 lg:col-span-3 lg:order-2 lg:px-4 xl:col-span-4'>
                 <TopTracks
                     trackCount={audioTracksCount}
                     trackReference={audioTrackReference}

@@ -6,9 +6,10 @@ from datetime import datetime
 
 from . import DB
 from boto3.dynamodb.conditions import Attr
+from boto3.dynamodb.types import Binary
 
 
-class DecimalEncoder(json.JSONEncoder):
+class Encoder(json.JSONEncoder):
     """
     Helper class to convert a DynamoDB item to JSON
 
@@ -21,7 +22,9 @@ class DecimalEncoder(json.JSONEncoder):
                 return float(o)
             else:
                 return int(o)
-        return super(DecimalEncoder, self).default(o)
+        if isinstance(o, Binary):
+            return o.value.decode("utf-8")
+        return super(Encoder, self).default(o)
 
 
 class BaseModel:
@@ -63,7 +66,7 @@ class BaseModel:
         try:
             item = self.table.get_item(Key={self.id_key: id})["Item"]
             if use_json:
-                return json.loads(json.dumps(item, cls=DecimalEncoder))
+                return json.loads(json.dumps(item, cls=Encoder))
             else:
                 return item
         except KeyError:
@@ -84,7 +87,7 @@ class BaseModel:
             Key={self.id_key: item_id}, UpdateExpression=f"remove {field_string}",
         )
 
-    def update(self, item_id, update_fields):
+    def update(self, item_id, update_fields, encode_string=False):
         """
         Update an item
 
@@ -95,6 +98,29 @@ class BaseModel:
         :return: Database response object
         :rtype: dict
         """
+
+        def transform_data(original_data):
+            """
+            Helper function to recursively convert float data to Decimal class
+
+            :param update_data: Data to be updated
+            :type update_data: dict
+            :return: New data format
+            :rtype: any
+            """
+            if isinstance(original_data, float):
+                return decimal.Decimal(str(original_data))
+            if isinstance(original_data, dict):
+                new_update_data = {}
+                for key in original_data.keys():
+                    new_update_data[key] = transform_data(original_data[key])
+                return new_update_data
+            if isinstance(original_data, list):
+                return list(map(lambda data: transform_data(data), original_data))
+            if encode_string and isinstance(original_data, str):
+                return original_data.encode("utf-8")
+            return original_data
+
         update_string = ", ".join(
             [
                 f"{key_name}=:val{index}"
@@ -102,7 +128,7 @@ class BaseModel:
             ]
         )
         update_value_map = {
-            f":val{index}": update_fields[key_name]
+            f":val{index}": transform_data(update_fields[key_name])
             for index, key_name in enumerate(update_fields.keys())
         }
         return self.table.update_item(

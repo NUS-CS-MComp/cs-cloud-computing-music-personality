@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 /**
  * Bar component rendering calculated feature values as percentage
  */
-const FeatureBar = ({ value, raw, min, max, unit }) => {
+const FeatureBar = ({ value, raw, min, max, unit, color }) => {
     const hasCustomBoundary = min !== 0 && max !== 100
     const displayString = (hasCustomBoundary ? raw : raw * 100).toFixed(2)
     const [displayMin, displayMax] = [
@@ -24,7 +24,7 @@ const FeatureBar = ({ value, raw, min, max, unit }) => {
         <div className='group'>
             <div className='relative w-full bg-background-secondary h-2 rounded-sm my-1'>
                 <div
-                    className='h-full bg-spotify duration-700 transition-width text-xs leading-none py-1 text-center text-white rounded-l-sm'
+                    className={`h-full bg-${color} duration-700 transition-width text-xs leading-none py-1 text-center text-white rounded-l-sm`}
                     style={{
                         width: `${widthPercentage}%`,
                     }}
@@ -72,12 +72,17 @@ FeatureBar.propTypes = {
      * Optional unit
      */
     unit: PropTypes.string,
+    /**
+     * Color string
+     */
+    color: PropTypes.string,
 }
 
 FeatureBar.defaultProps = {
     min: 0,
     max: 100,
     unit: '',
+    color: 'spotify',
 }
 
 export default FeatureBar

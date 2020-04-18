@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import Heading from '@components/Heading'
 import Icon from '@components/Icon'
@@ -10,6 +10,12 @@ import useSpotifyResource from '@hooks/use-spotify-resource'
  */
 export default () => {
     const [data, , , , loadData] = useSpotifyResource('recent-features')
+
+    useEffect(() => {
+        if (data.length <= 0) {
+            loadData()
+        }
+    }, [data, loadData])
 
     return (
         <div className='h-full'>

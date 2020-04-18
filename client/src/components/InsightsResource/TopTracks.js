@@ -43,7 +43,10 @@ const TopTracks = ({ trackCount, trackReference, topN }) => {
             </div>
             <div className='flex flex-1 overflow-x-auto md:h-64 md:overflow-y-auto md:block lg:flex-initial lg:w-full'>
                 {trackSorted.map((trackName, index) => (
-                    <div className='group duration-200 transition-colors flex flex-col flex-initial flex-shrink-0 max-w-40 mr-2 p-2 rounded md:max-w-none md:rounded-none md:border-b md:border-divider md:mr-0 md:w-auto md:flex-row md:justify-between md:items-end md:last:border-0 hover:bg-background-inner-dark'>
+                    <div
+                        key={trackName}
+                        className='group duration-200 transition-colors flex flex-col flex-initial flex-shrink-0 max-w-40 p-2 rounded md:max-w-none md:rounded-none md:border-b md:border-divider md:mr-0 md:w-auto md:flex-row md:justify-between md:items-end md:last:border-0 hover:bg-background-inner-dark'
+                    >
                         <div className='flex flex-col md:flex-row md:items-start'>
                             <div className='self-start mb-2 md:mb-0 md:mr-3 md:self-center'>
                                 <span className='inline-block bg-spotify rounded-full text-default-white text-xs font-bold flex w-5 h-5 justify-center items-center'>
@@ -51,7 +54,7 @@ const TopTracks = ({ trackCount, trackReference, topN }) => {
                                 </span>
                             </div>
                             <img
-                                className='rounded mr-2 w-24 mb-2 md:mb-0 md:w-12'
+                                className='rounded mr-2 h-24 w-24 mb-2 md:mb-0 md:h-12 md:w-12'
                                 src={trackReference[trackName].thumbnail}
                                 alt=''
                             />

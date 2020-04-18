@@ -33,5 +33,5 @@ export const userProfileSelector = createSelector(userInfoSelector, (info) =>
  */
 export const userInsightsSelector = createSelector(
     userInfoSelector,
-    (info) => lodash.pick(info, 'insights').insights
+    (info) => lodash.pick(info, 'insights').insights || {}
 )

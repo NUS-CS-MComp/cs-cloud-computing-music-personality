@@ -29,16 +29,16 @@ export const socialPostLoadingSelector = createSelector(
  */
 export const socialPostAggregatedSelector = createSelector(
     socialPostSelector,
-    (data) =>
-        Object.keys(data)
+    (socialPosts) =>
+        Object.keys(socialPosts)
             .reduce((acc, provider) => {
                 if (
-                    typeof data[provider] !== 'undefined' &&
-                    Array.isArray(data[provider])
+                    typeof socialPosts[provider].data !== 'undefined' &&
+                    Array.isArray(socialPosts[provider].data)
                 ) {
                     return [
                         ...acc,
-                        ...data[provider].map((post) => ({
+                        ...socialPosts[provider].data.map((post) => ({
                             ...post,
                             provider,
                         })),

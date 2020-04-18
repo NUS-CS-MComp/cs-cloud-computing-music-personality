@@ -29,6 +29,7 @@ class UserModel(BaseModel):
                     self.personality_scores: None,
                     self.inferred_from_post: None,
                     self.cluster_assignment: None,
+                    self.inferred_from_track: None,
                 },
                 self.profile_key: {self.user_name: None, self.short_bio: None},
                 self.provider_key: {provider: profile_info},
@@ -129,6 +130,7 @@ class UserModel(BaseModel):
                 self.personality_scores,
                 self.cluster_assignment,
                 self.inferred_from_post,
+                self.inferred_from_track,
             ]:
                 continue
             update_map[f"{self.insights_key}.{field_name}"] = insight_field_map[
@@ -209,6 +211,10 @@ class UserModel(BaseModel):
     @property
     def inferred_from_post(self):
         return "inferred_from_post"
+
+    @property
+    def inferred_from_track(self):
+        return "inferred_from_track"
 
     @property
     def cluster_assignment(self):

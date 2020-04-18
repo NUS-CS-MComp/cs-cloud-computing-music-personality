@@ -14,8 +14,8 @@ import {
     FETCH_SOCIAL_POST_SUCCESS,
     FETCH_SOCIAL_POST_CANCEL,
 } from '@redux/actions/social'
-import { providerValiditySelector } from '@redux/selectors/validate'
 import { socialPostLoadingSelector } from '@redux/selectors/social'
+import { providerValiditySelector } from '@redux/selectors/validate'
 import Api from '@services/api'
 
 /**

@@ -1,4 +1,5 @@
 import AudioFeatures from './AudioFeatures'
-import PersonalityScores from './PersonalityScores'
+import Inference from './Inference'
+import PersonalityInsights from './PersonalityInsights'
 
-export default { AudioFeatures, PersonalityScores }
+export default { AudioFeatures, Inference, PersonalityInsights }

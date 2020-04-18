@@ -10,7 +10,7 @@ import {
     OAUTH_INIT,
     OAUTH_PROCESS_SUCCESS,
     OAUTH_PROCESS_FAILURE,
-} from '../actions/oauth'
+} from '@redux/actions/oauth'
 
 /**
  * Helper function to create multiple OAuth reducers

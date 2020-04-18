@@ -7,6 +7,10 @@ import {
     USER_LOGOUT_ACTIONS,
     USER_DELETE_ACTIONS,
 } from '@redux/actions/user'
+import {
+    REQUEST_PERSONALITY_SCORE_ACTIONS,
+    REQUEST_INFERENCE_ACTIONS,
+} from '@redux/actions/insight'
 import { RELOAD_WINDOW } from '@redux/actions/window'
 import genericAPISaga from '@redux/sagas/fetch'
 import Api from '@services/api'
@@ -42,7 +46,11 @@ export const deleteUserSaga = genericAPISaga(
 export function* refreshUserProfileSaga() {
     yield fork(function* requestWatcher() {
         while (true) {
-            yield take([REQUEST_USER_INFO_CHANGE_ACTIONS[1]])
+            yield take([
+                REQUEST_USER_INFO_CHANGE_ACTIONS[1],
+                REQUEST_PERSONALITY_SCORE_ACTIONS[1],
+                REQUEST_INFERENCE_ACTIONS[1],
+            ])
             yield put({ type: REQUEST_USER_INFO_ACTIONS[0] })
         }
     })

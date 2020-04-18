@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Header from '@containers/Layout/Header'
 import Footer from '@containers/Layout/Footer'
+import Header from '@containers/Layout/Header'
 import Navigation from '@containers/Layout/Navigation'
 import TopBar from '@containers/Layout/TopBar'
 

@@ -28,7 +28,7 @@ export default (state = {}, { type, provider, data }) => {
                 [provider]: { failed: true },
             }
         case FETCH_SOCIAL_POST_SUCCESS:
-            return { ...state, [provider]: data }
+            return { ...state, [provider]: { data } }
         default:
             return state
     }

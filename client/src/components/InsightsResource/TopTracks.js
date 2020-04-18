@@ -11,7 +11,7 @@ const TopTracks = ({ trackCount, trackReference, topN }) => {
         .sort((trackA, trackB) => trackCount[trackB] - trackCount[trackA])
     const firstTrack = lodash.pullAt(trackSorted, 0)
     return (
-        <div className='flex bg-background-inner rounded-md p-4 lg:flex-col'>
+        <div className='flex bg-background-inner rounded-md p-3 lg:flex-col'>
             <div className='duration-200 transition-colors mr-2 p-2 rounded md:rounded-none lg:border-b lg:border-divider lg:pb-4 lg:flex lg:w-full lg:mr-0 hover:bg-background-inner-dark'>
                 <div className='mb-2 lg:mr-2 lg:mb-0'>
                     <img
@@ -48,7 +48,7 @@ const TopTracks = ({ trackCount, trackReference, topN }) => {
                         className='group duration-200 transition-colors flex flex-col flex-initial flex-shrink-0 max-w-40 p-2 rounded md:max-w-none md:rounded-none md:border-b md:border-divider md:mr-0 md:w-auto md:flex-row md:justify-between md:items-end md:last:border-0 hover:bg-background-inner-dark'
                     >
                         <div className='flex flex-col md:flex-row md:items-start'>
-                            <div className='self-start mb-2 md:mb-0 md:mr-3 md:self-center'>
+                            <div className='self-start mb-2 md:mb-0 md:mr-3 md:self-start lg:self-center'>
                                 <span className='inline-block bg-spotify rounded-full text-default-white text-xs font-bold flex w-5 h-5 justify-center items-center'>
                                     {index + 2}
                                 </span>

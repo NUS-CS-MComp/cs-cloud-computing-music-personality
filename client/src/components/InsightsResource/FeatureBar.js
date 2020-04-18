@@ -4,12 +4,19 @@ import PropTypes from 'prop-types'
 /**
  * Bar component rendering calculated feature values as percentage
  */
-const FeatureBar = ({ value, raw, min, max, unit, color }) => {
+const FeatureBar = ({ value, raw, min, max, unit, color, useString }) => {
     const hasCustomBoundary = min !== 0 && max !== 100
-    const displayString = (hasCustomBoundary ? raw : raw * 100).toFixed(2)
+    const displayString =
+        typeof raw === 'number'
+            ? (hasCustomBoundary ? raw : raw * 100).toFixed(2)
+            : raw
     const [displayMin, displayMax] = [
-        Math.min(Math.abs(min), Math.abs(max)) * (max < 0 ? -1 : 1),
-        Math.max(Math.abs(min), Math.abs(max)) * (min < 0 ? -1 : 1),
+        useString
+            ? min
+            : Math.min(Math.abs(min), Math.abs(max)) * (max < 0 ? -1 : 1),
+        useString
+            ? max
+            : Math.max(Math.abs(min), Math.abs(max)) * (min < 0 ? -1 : 1),
     ]
 
     const [widthPercentage, setWidthPercentage] = useState(0)
@@ -22,9 +29,9 @@ const FeatureBar = ({ value, raw, min, max, unit, color }) => {
 
     return (
         <div className='group'>
-            <div className='relative w-full bg-background-secondary h-2 rounded-sm my-1'>
+            <div className='relative w-full bg-background-inner-dark h-2 rounded-sm my-1'>
                 <div
-                    className={`h-full bg-${color} duration-700 transition-width text-xs leading-none py-1 text-center text-white rounded-l-sm`}
+                    className={`h-full bg-${color} duration-700 transition-width text-xs leading-none py-1 text-center text-white rounded-sm`}
                     style={{
                         width: `${widthPercentage}%`,
                     }}
@@ -32,7 +39,7 @@ const FeatureBar = ({ value, raw, min, max, unit, color }) => {
             </div>
             <div className='relative flex justify-between'>
                 <span
-                    className='font-semibold text-xs text-default-black absolute hidden z-10 group-hover:inline-block'
+                    className='font-semibold text-xs text-default-gray absolute hidden z-10 group-hover:inline-block'
                     style={{
                         left: `calc(${widthPercentage}%)`,
                     }}
@@ -40,10 +47,10 @@ const FeatureBar = ({ value, raw, min, max, unit, color }) => {
                     {hasCustomBoundary ? displayString : `${displayString}%`}{' '}
                     {unit}
                 </span>
-                <span className='font-semibold text-xs text-default-black relative l-0 group-hover:text-default-white'>
+                <span className='font-semibold text-xs text-default-gray relative l-0 group-hover:opacity-0'>
                     {displayMin}
                 </span>
-                <span className='font-semibold text-xs text-default-black relative r-0 group-hover:text-default-white'>
+                <span className='font-semibold text-xs text-default-gray relative r-0 group-hover:opacity-0'>
                     {displayMax}
                 </span>
             </div>
@@ -63,11 +70,11 @@ FeatureBar.propTypes = {
     /**
      * Optional minimum
      */
-    min: PropTypes.number,
+    min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
      * Optional maximum
      */
-    max: PropTypes.number,
+    max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
      * Optional unit
      */
@@ -76,6 +83,10 @@ FeatureBar.propTypes = {
      * Color string
      */
     color: PropTypes.string,
+    /**
+     * Boolean flag to deal with string value
+     */
+    useString: PropTypes.bool,
 }
 
 FeatureBar.defaultProps = {
@@ -83,6 +94,7 @@ FeatureBar.defaultProps = {
     max: 100,
     unit: '',
     color: 'spotify',
+    useString: false,
 }
 
 export default FeatureBar

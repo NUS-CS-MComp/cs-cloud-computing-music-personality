@@ -3,25 +3,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import FeatureMetrics from '@components/InsightsResource/FeatureMetrics'
-import RadarChart from '@components/RadarChart'
 import TopTracks from '@components/InsightsResource/TopTracks'
+import RadarChart from '@components/RadarChart'
 import useViewportSize from '@hooks/use-viewport-size'
-
-/**
- * Constants for Spotify audio features
- */
-
-const AUDIO_FEATURE_KEYS = [
-    { name: 'instrumentalness' },
-    { name: 'liveness' },
-    { name: 'danceability' },
-    { name: 'valence' },
-    { name: 'acousticness' },
-    { name: 'energy' },
-    { name: 'speechiness' },
-    { name: 'loudness', min: -60, max: 0, unit: 'dB' },
-    { name: 'tempo', min: 30, max: 280, unit: 'BPM' },
-]
+import { AUDIO_FEATURE_KEYS } from '@redux/selectors/spotify'
 
 const VISUAL_AUDIO_FEATURE_KEYS = [
     'instrumentalness',
@@ -33,68 +18,19 @@ const VISUAL_AUDIO_FEATURE_KEYS = [
 ]
 
 /**
- * Helper functions
- */
-
-// Pick all audio features from data
-const pickAudioFeatures = (features) =>
-    lodash.pick(
-        features,
-        AUDIO_FEATURE_KEYS.map((data) => data.name)
-    )
-
-// Calculate mean from audio feature data
-const calculateAudioFeaturesMean = (featureList, normalize = true) =>
-    AUDIO_FEATURE_KEYS.reduce((result, audioFeature) => {
-        let mean = lodash.meanBy(featureList, audioFeature.name)
-        if (normalize) {
-            if (
-                typeof audioFeature.min !== 'undefined' &&
-                typeof audioFeature.max !== 'undefined'
-            ) {
-                if (audioFeature.max === 0) {
-                    mean /= audioFeature.min
-                } else mean = (mean - audioFeature.min) / audioFeature.max
-            }
-        }
-        return Object.assign(result, {
-            [audioFeature.name]: mean,
-        })
-    }, {})
-
-/**
  * Visual component for rendering audio features of Spotify tracks
  */
-const AudioFeatures = ({ features }) => {
+const AudioFeatures = ({ tracks, mean, normalized }) => {
     const { width } = useViewportSize()
-
-    const averageFeatures = calculateAudioFeaturesMean(
-        features.map((trackWithFeature) =>
-            pickAudioFeatures(trackWithFeature.feature)
-        )
-    )
-    const averageFeaturesRaw = calculateAudioFeaturesMean(
-        features.map((trackWithFeature) =>
-            pickAudioFeatures(trackWithFeature.feature)
-        ),
-        false
-    )
-    const visualizeFeatures = lodash.pick(
-        averageFeatures,
-        VISUAL_AUDIO_FEATURE_KEYS
-    )
-
-    const audioTracks = features.map(
-        (trackWithFeature) => trackWithFeature.track
-    )
-    const audioTracksCount = lodash.countBy(audioTracks, 'name')
-    const audioTracksGroup = lodash.groupBy(audioTracks, 'name')
+    const visualizeFeatures = lodash.pick(normalized, VISUAL_AUDIO_FEATURE_KEYS)
+    const audioTracksCount = lodash.countBy(tracks, 'name')
+    const audioTracksGroup = lodash.groupBy(tracks, 'name')
     const audioTrackReference = Object.keys(audioTracksGroup).reduce(
         (all, key) => Object.assign(all, { [key]: audioTracksGroup[key][0] }),
         {}
     )
     return (
-        <div className='p-4 bg-default-white rounded-lg lg:grid lg:grid-cols-6 lg:items-center'>
+        <div className='p-6 bg-default-white rounded-lg lg:grid lg:grid-cols-6 lg:items-center'>
             <div className='block text-center lg:col-span-3 xl:col-span-2 lg:order-1'>
                 <RadarChart
                     round
@@ -105,14 +41,14 @@ const AudioFeatures = ({ features }) => {
                     className='max-w-md inline-block'
                 />
             </div>
-            <div className='block lg:col-span-6 lg:order-3 lg:my-4'>
+            <div className='block lg:col-span-6 lg:order-3 lg:mt-4'>
                 <FeatureMetrics
-                    featureMetrics={averageFeatures}
-                    rawMetrics={averageFeaturesRaw}
+                    featureMetrics={normalized}
+                    rawMetrics={mean}
                     boundaryMap={lodash.keyBy(AUDIO_FEATURE_KEYS, 'name')}
                 />
             </div>
-            <div className='mt-6 lg:mt-4 lg:col-span-3 lg:order-2 lg:px-4 xl:col-span-4'>
+            <div className='mt-6 md:mt-4 lg:mt-0 lg:col-span-3 lg:order-2 xl:col-span-4'>
                 <TopTracks
                     trackCount={audioTracksCount}
                     trackReference={audioTrackReference}
@@ -125,39 +61,47 @@ const AudioFeatures = ({ features }) => {
 
 AudioFeatures.propTypes = {
     /**
-     * Audio feature data
+     * Track information
      */
-    features: PropTypes.arrayOf(
+    tracks: PropTypes.arrayOf(
         PropTypes.shape({
-            track: PropTypes.shape({
-                name: PropTypes.string,
-                artist: PropTypes.string,
-                time: PropTypes.number,
-                url: PropTypes.string,
-                thumbnail: PropTypes.string,
-            }),
-            feature: PropTypes.shape({
-                danceability: PropTypes.number,
-                energy: PropTypes.number,
-                key: PropTypes.number,
-                loudness: PropTypes.number,
-                mode: PropTypes.number,
-                speechiness: PropTypes.number,
-                acousticness: PropTypes.number,
-                instrumentalness: PropTypes.number,
-                liveness: PropTypes.number,
-                valence: PropTypes.number,
-                tempo: PropTypes.number,
-                type: PropTypes.string,
-                id: PropTypes.string,
-                uri: PropTypes.string,
-                track_href: PropTypes.string,
-                analysis_url: PropTypes.string,
-                duration_ms: PropTypes.number,
-                time_signature: PropTypes.number,
-            }),
+            name: PropTypes.string,
+            artist: PropTypes.string,
+            time: PropTypes.number,
+            url: PropTypes.string,
+            thumbnail: PropTypes.string,
         })
     ),
+    /**
+     * Mean value calculated from audio features
+     */
+    mean: PropTypes.shape({
+        danceability: PropTypes.number,
+        energy: PropTypes.number,
+        key: PropTypes.number,
+        loudness: PropTypes.number,
+        speechiness: PropTypes.number,
+        acousticness: PropTypes.number,
+        instrumentalness: PropTypes.number,
+        liveness: PropTypes.number,
+        valence: PropTypes.number,
+        tempo: PropTypes.number,
+    }),
+    /**
+     * Normalized mean value calculated from audio features
+     */
+    normalized: PropTypes.shape({
+        danceability: PropTypes.number,
+        energy: PropTypes.number,
+        key: PropTypes.number,
+        loudness: PropTypes.number,
+        speechiness: PropTypes.number,
+        acousticness: PropTypes.number,
+        instrumentalness: PropTypes.number,
+        liveness: PropTypes.number,
+        valence: PropTypes.number,
+        tempo: PropTypes.number,
+    }),
 }
 
 export default AudioFeatures

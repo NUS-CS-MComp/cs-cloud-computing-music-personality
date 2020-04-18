@@ -1,3 +1,4 @@
-import AudioFeature from './AudioFeatures'
+import AudioFeatures from './AudioFeatures'
+import PersonalityScores from './PersonalityScores'
 
-export default { AudioFeature }
+export default { AudioFeatures, PersonalityScores }

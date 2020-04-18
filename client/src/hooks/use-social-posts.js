@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { startFetchSocialPosts } from '@redux/actions/social'
-import { availableSocialProviderSelector } from '@redux/selectors/validate'
 import { socialPostAggregatedSelector } from '@redux/selectors/social'
+import { availableSocialProviderSelector } from '@redux/selectors/validate'
 
 /**
  * Custom hook to fetch social posts from social media

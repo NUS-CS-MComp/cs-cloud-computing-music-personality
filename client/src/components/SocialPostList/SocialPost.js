@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Icon from '@components/Icon'
-import formatTimeStamp from '@utils/format-unix-time'
 import toCamelCase from '@utils/camel-case'
+import formatTimeStamp from '@utils/format-unix-time'
 
 /**
  * Component for individual social media post data

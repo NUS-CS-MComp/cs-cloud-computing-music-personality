@@ -2,18 +2,16 @@ import React from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import store from '@redux/store'
-
 import FallbackLayout from '@components/FallbackLayout'
+import NotFound from '@components/NotFound'
 import Layout from '@containers/Layout'
 import ThemeToggle from '@containers/ThemeToggle'
-import NotFound from '@components/NotFound'
 import SessionValidate from '@containers/SessionValidate'
-import OAuthCallbackPage from '@pages/OAuthCallbackPage'
 import InsightsPage from '@pages/InsightsPage'
+import OAuthCallbackPage from '@pages/OAuthCallbackPage'
 import OverviewPage from '@pages/OverviewPage'
 import UserPage from '@pages/UserPage'
-
+import store from '@redux/store'
 import OAUTH_CONFIG from '@services/oauth/config'
 
 /**

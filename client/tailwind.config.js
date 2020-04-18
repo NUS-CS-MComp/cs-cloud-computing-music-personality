@@ -33,9 +33,12 @@ module.exports = {
                 reddit: 'var(--provider-reddit)',
                 spotify: 'var(--provider-spotify)',
                 twitter: 'var(--provider-twitter)',
+                'bar-yellow': 'var(--bar-yellow)',
+                'bar-blue': 'var(--bar-blue)',
             },
             gridTemplateRows: {
                 '1-auto': 'repeat(1, minmax(0, auto))',
+                '1-min-content': 'minmax(300px, min-content)',
                 'user-page': 'min-content 1fr',
             },
             maxWidth: {

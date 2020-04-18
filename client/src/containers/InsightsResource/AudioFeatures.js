@@ -1,21 +1,28 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import Heading from '@components/Heading'
 import Icon from '@components/Icon'
 import InsightsResource from '@components/InsightsResource'
 import useSpotifyResource from '@hooks/use-spotify-resource'
+import { spotifyAudioFeaturesSelector } from '@redux/selectors/spotify'
 
 /**
  * Container for Spotify track audio features
  */
 export default () => {
-    const [data, , , , loadData] = useSpotifyResource('recent-features')
+    const [data, , , isLoading, loadData] = useSpotifyResource(
+        'recent-features'
+    )
+    const { mean, tracks, mean_normalized: meanNormalized } = useSelector(
+        spotifyAudioFeaturesSelector
+    )
 
     useEffect(() => {
-        if (data.length <= 0) {
+        if (data.length <= 0 && !isLoading) {
             loadData()
         }
-    }, [data, loadData])
+    }, [JSON.stringify(data), isLoading, loadData])
 
     return (
         <div className='h-full'>
@@ -29,7 +36,11 @@ export default () => {
                 </button>
             </div>
             {data.length > 0 && (
-                <InsightsResource.AudioFeature features={data} />
+                <InsightsResource.AudioFeatures
+                    mean={mean}
+                    normalized={meanNormalized}
+                    tracks={tracks}
+                />
             )}
         </div>
     )

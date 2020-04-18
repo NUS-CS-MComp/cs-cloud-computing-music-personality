@@ -8,10 +8,13 @@ import InsightsResource from '@containers/InsightsResource'
 export default () => (
     <div className='h-full text-left flex flex-col'>
         <div className='my-2 md:my-0'>
+            <InsightsResource.Inference />
+        </div>
+        <div className='my-2 md:my-0'>
             <InsightsResource.AudioFeatures />
         </div>
         <div className='my-2 md:my-0'>
-            <InsightsResource.PersonalityScores />
+            <InsightsResource.PersonalityInsights />
         </div>
     </div>
 )

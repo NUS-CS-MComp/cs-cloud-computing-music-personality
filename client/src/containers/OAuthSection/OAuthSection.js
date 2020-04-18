@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import OAuthLogin from '@containers/OAuthSection/OAuthLogin'
 import OAuthCard from '@components/OAuthCard'
+import OAuthLogin from '@containers/OAuthSection/OAuthLogin'
 
 /**
  * OAuth section container rendering card components

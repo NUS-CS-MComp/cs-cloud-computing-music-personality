@@ -36,6 +36,9 @@
     --radar-color-palette-1: #1db954;
     --radar-color-palette-2: #237bd3;
     --radar-color-palette-3: #bb1d5f;
+
+    --bar-yellow: #e9cf3e;
+    --bar-blue: #2098c7;
 }
 .theme-dark {
     --background-primary: #0d2438;
@@ -69,6 +72,9 @@
     --radar-color-palette-1: #1db954;
     --radar-color-palette-2: #237bd3;
     --radar-color-palette-3: #bb1d5f;
+
+    --bar-yellow: #f7dc44;
+    --bar-blue: #2aa9db;
 }
 
 html {

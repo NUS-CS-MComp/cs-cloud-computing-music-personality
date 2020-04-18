@@ -11,7 +11,6 @@ import {
     expiredProviderSelector,
 } from '@redux/selectors/validate'
 import Api from '@services/api'
-
 import OAUTH_CONFIG from '@services/oauth/config'
 
 const {

@@ -10,8 +10,13 @@ import assertRequestPattern from '@utils/assert-request-pattern'
  */
 export function* fetchAPIServiceRequestWorker(agent, actionTypes, { payload }) {
     try {
-        const { data } = yield call(agent, payload)
-        yield put({ type: actionTypes[1], data })
+        let result
+        if (Array.isArray(payload)) {
+            result = yield call(agent, ...payload)
+        } else {
+            result = yield call(agent, payload)
+        }
+        yield put({ type: actionTypes[1], data: result.data })
     } catch (e) {
         yield put({ type: actionTypes[2] })
     } finally {

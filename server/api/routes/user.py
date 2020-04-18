@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api
 
-from resources.personality import PersonalityScore
+from resources.personality import Inference, PersonalityScore
 from resources.social.facebook import FacebookUser
 from resources.social.reddit import RedditUser
 from resources.social.twitter import TwitterUser
@@ -21,3 +21,4 @@ Api(USER_BLUEPRINT).add_resource(UserAuthentication, "/authenticate")
 Api(USER_BLUEPRINT).add_resource(UserRecord, "/me")
 Api(USER_BLUEPRINT).add_resource(UserLogout, "/logout")
 Api(USER_BLUEPRINT).add_resource(PersonalityScore, "/personality")
+Api(USER_BLUEPRINT).add_resource(Inference, "/infer")

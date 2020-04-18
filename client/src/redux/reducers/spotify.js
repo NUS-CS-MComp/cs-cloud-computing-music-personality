@@ -28,7 +28,7 @@ export default (state = {}, { type, resourceType, data }) => {
                 [resourceType]: { failed: true },
             }
         case REQUEST_SPOTIFY_RESOURCE_SUCCESS:
-            return { ...state, [resourceType]: data }
+            return { ...state, [resourceType]: { data } }
         default:
             return state
     }

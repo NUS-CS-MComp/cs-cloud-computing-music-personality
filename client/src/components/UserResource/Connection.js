@@ -43,7 +43,9 @@ const Connection = ({
                         <div className='capitalize font-semibold'>
                             Display Name
                         </div>
-                        <div>{connections[connection].name}</div>
+                        <div className='block'>
+                            {connections[connection].name}
+                        </div>
                     </div>
                     <div className='mt-2 text-default-white flex flex-col xl:flex-row'>
                         {expiredConnections.includes(connection) &&

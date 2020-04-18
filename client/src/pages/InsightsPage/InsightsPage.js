@@ -1,15 +1,14 @@
 import React from 'react'
 
-import Heading from '@components/Heading'
+import AudioFeatures from '@containers/InsightsResource/AudioFeatures'
 
 /**
  * Insights visualization page container
  */
 export default () => (
     <div className='h-full text-left flex flex-col'>
-        <Heading
-            text='This is your insights page'
-            subheading='This is a subheading'
-        />
+        <div className='my-2 md:my-0'>
+            <AudioFeatures />
+        </div>
     </div>
 )

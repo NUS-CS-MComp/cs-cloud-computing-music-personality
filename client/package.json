@@ -14,11 +14,13 @@
     },
     "dependencies": {
         "axios": "^0.19.2",
+        "d3": "^5.15.1",
         "lodash": "^4.17.15",
         "loglevel": "^1.6.7",
         "moment": "^2.24.0",
         "prop-types": "^15.7.2",
         "react": "^16.13.0",
+        "react-d3-library": "^1.1.8",
         "react-dom": "^16.13.0",
         "react-redux": "^7.2.0",
         "react-router-dom": "^5.1.2",

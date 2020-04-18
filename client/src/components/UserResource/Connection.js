@@ -16,7 +16,7 @@ const Connection = ({
         {Object.keys(connections).map((connection) => (
             <div
                 key={connection}
-                className='bg-default-white w-56 mr-4 max-w-md rounded-lg flex flex-col flex-initial flex-shrink-0 sm:w-64 md:mb-3 md:w-1/3-m-4 md:max-w-none md:flex-auto md:flex-shrink-0 md:last:mr-0 lg:w-full'
+                className='bg-default-white w-56 mr-4 max-w-md rounded-lg flex flex-col flex-initial flex-shrink-0 sm:w-64 md:mb-3 md:w-1/3-m-3 md:max-w-none md:flex-auto md:flex-shrink-0 md:last:mr-0 lg:w-full'
             >
                 <div
                     className={`bg-${connection} rounded-t-lg relative h-18 py-2`}

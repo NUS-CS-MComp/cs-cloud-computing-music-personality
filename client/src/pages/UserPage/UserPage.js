@@ -27,11 +27,11 @@ export default () => {
             >
                 <UserResource.Profile />
             </div>
-            <div className='flex-1 my-2 last:mb-6 md:mb-0 lg:col-span-2 lg:row-span-2 lg:my-0'>
+            <div className='flex-1 my-2 last:mb-6 md:mb-0 md:last:mb-0 lg:col-span-2 lg:row-span-2 lg:my-0'>
                 <UserResource.Connection />
             </div>
             {hasIdentifier && (
-                <div className='mt-2 last:mb-6 md:m-0 lg:col-span-4 lg:mr-8 lg:row-start-2 lg:row-span-1'>
+                <div className='mt-2 last:mb-6 md:m-0 md:last:mb-0 lg:col-span-4 lg:mr-8 lg:row-start-2 lg:row-span-1'>
                     <UserResource.Action />
                 </div>
             )}

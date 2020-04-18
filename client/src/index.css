@@ -8,6 +8,8 @@
     --background-primary: #1db954;
     --background-primary-light: #31cf68;
     --background-secondary: #f7f7f7;
+    --background-inner: #f5f5f5da;
+    --background-inner-dark: #e2e2e2da;
 
     --default-black: #2b2b2b;
     --default-white: #ffffff;
@@ -16,6 +18,7 @@
     --default-header: #ffffff;
     --default-footer: #ffffff;
     --default-line-color: #718096;
+    --default-divider: #e2e2e2da;
     --default-nav: #ffffff;
 
     --provider-facebook: #1976d2;
@@ -27,11 +30,19 @@
     --button-alert-secondary: #dad614;
     --button-active: #3487ca;
     --button-inactive: #a89f9f;
+
+    --radar-plot-circle: #a8a8a8;
+    --radar-plot-circle-stroke: #c7c7c733;
+    --radar-color-palette-1: #1db954;
+    --radar-color-palette-2: #237bd3;
+    --radar-color-palette-3: #bb1d5f;
 }
 .theme-dark {
     --background-primary: #0d2438;
     --background-primary-light: #132e46;
     --background-secondary: #102c44;
+    --background-inner: #0e2941da;
+    --background-inner-dark: #0b2033da;
 
     --default-black: #ffffffe5;
     --default-white: #1e3951;
@@ -40,6 +51,7 @@
     --default-header: #23dd64;
     --default-footer: #8fa1bd;
     --default-line-color: #8fa1bd;
+    --default-divider: #0b2033da;
     --default-nav: #ffffffe5;
 
     --provider-facebook: #2a8ae9;
@@ -51,6 +63,12 @@
     --button-alert-secondary: #e7e419;
     --button-active: #489ce0;
     --button-inactive: #c0b4b4;
+
+    --radar-plot-circle: #000000b2;
+    --radar-plot-circle-stroke: inherit;
+    --radar-color-palette-1: #1db954;
+    --radar-color-palette-2: #237bd3;
+    --radar-color-palette-3: #bb1d5f;
 }
 
 html {
@@ -115,7 +133,6 @@ textarea:focus {
         grid-template-rows: repeat(1, minmax(430px, auto)) !important;
     }
 }
-
 
 @media (min-width: 768px) and (max-height: 500px) {
     .header {

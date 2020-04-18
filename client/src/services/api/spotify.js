@@ -34,5 +34,5 @@ export const RESOURCE_API_MAP = {
     category: getCategory,
     features: getAudioFeatures,
     recent: getRecentHistory,
-    recent_features: getRecentHistoryAudioFeatures,
+    'recent-features': getRecentHistoryAudioFeatures,
 }

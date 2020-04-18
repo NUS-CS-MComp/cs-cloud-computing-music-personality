@@ -40,7 +40,7 @@ class Spotify(BaseService):
             "browse/categories", headers=construct_auth_bearer(access_token)
         )
 
-    def get_recent_history(self, access_token, raw=False):
+    def get_recent_history(self, access_token, raw=False, limit=20):
         """
         Fetch recent listened songs of user
 
@@ -77,7 +77,9 @@ class Spotify(BaseService):
             }
 
         response = self.get(
-            "me/player/recently-played", headers=construct_auth_bearer(access_token)
+            "me/player/recently-played",
+            params={"limit": min(50, limit)},
+            headers=construct_auth_bearer(access_token),
         )
         if not raw:
             response.data = list(
@@ -109,17 +111,24 @@ class Spotify(BaseService):
         :return: Base service result object containing response data
         :rtype: BaseServiceResult
         """
-        recently_played = self.get_recent_history(access_token, True)
+        recently_played = self.get_recent_history(access_token, False, 50)
         audio_features = []
-        for track in recently_played.data["items"]:
-            track_id = track["track"]["id"]
-            track_feature = self.get_audio_features(
-                access_token=access_token, track_id=track_id
+        try:
+            track_ids = [track["id"] for track in recently_played.data]
+            track_features = self.get(
+                f"audio-features/",
+                params={"ids": ",".join(track_ids)},
+                headers=construct_auth_bearer(access_token),
             )
-            track_feature_data = track_feature.data
-            track_feature_data["track_name"] = track["track"]["name"]
-            audio_features.append(track_feature_data)
-        return BaseServiceResult(200, {"features": audio_features})
+            audio_features = [
+                {"track": track_info, "feature": track_feature}
+                for track_info, track_feature in zip(
+                    recently_played.data, track_features.data["audio_features"]
+                )
+            ]
+        except Exception as e:
+            return BaseServiceResult(502, {"error": str(e)})
+        return BaseServiceResult(200, audio_features)
 
     def get_user_profile(self, access_token):
         """

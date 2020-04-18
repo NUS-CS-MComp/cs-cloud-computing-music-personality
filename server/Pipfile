@@ -16,6 +16,7 @@ python-dotenv = "*"
 flask-cors = "*"
 redis = "*"
 boto3 = "*"
+ibm-watson = "*"
 
 [requires]
 python_version = "3.8"

@@ -55,7 +55,7 @@ EmptyData.defaultProps = {
     // eslint-disable-next-line react/prop-types
     render: ({ message, subtitle }) => (
         <>
-            <span className='text-default-black'>{message}</span>
+            <span className='text-default-black text-heading'>{message}</span>
             {subtitle !== '' && (
                 <span className='text-default-gray text-sm normal-case'>
                     {subtitle}

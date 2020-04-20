@@ -38,7 +38,8 @@ export default function RadarChart(
         /**
          * Tailwind CSS related specs
          */
-        legendClassName: 'font-bold uppercase inline-block text-base',
+        legendClassName:
+            'font-bold uppercase inline-block text-base text-2xl sm:text-lg',
         tooltipClassName: 'font-bold text-base',
         svgClassName: '',
     }
@@ -185,7 +186,7 @@ export default function RadarChart(
                 Math.sin(angleSlice * index - Math.PI / 2)
         )
         .style('font-family', 'inherit')
-        .style('fill', 'var(--default-black)')
+        .style('fill', 'var(--default-heading)')
         .text((value) => value)
         .call(wrap, defaultConfig.wrapWidth)
 

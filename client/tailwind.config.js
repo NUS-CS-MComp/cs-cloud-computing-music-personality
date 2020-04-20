@@ -25,6 +25,7 @@ module.exports = {
                     gray: 'var(--default-gray)',
                 },
                 header: 'var(--default-header)',
+                heading: 'var(--default-heading)',
                 footer: 'var(--default-footer)',
                 line: 'var(--default-line-color)',
                 divider: 'var(--default-divider)',
@@ -35,6 +36,9 @@ module.exports = {
                 twitter: 'var(--provider-twitter)',
                 'bar-yellow': 'var(--bar-yellow)',
                 'bar-blue': 'var(--bar-blue)',
+            },
+            fontSize: {
+                '2xxl': '1.625rem',
             },
             gridTemplateRows: {
                 '1-auto': 'repeat(1, minmax(0, auto))',
@@ -48,12 +52,14 @@ module.exports = {
             maxHeight: {
                 md: '28rem',
                 sm: '24rem',
+                xs: '18rem',
             },
             maxWidth: {
                 fhd: '1980px',
                 '32': '8rem',
                 '36': '9rem',
                 '40': '10rem',
+                'full-m': 'calc(100% - 4rem)',
             },
             minHeight: {
                 '64': '16rem',

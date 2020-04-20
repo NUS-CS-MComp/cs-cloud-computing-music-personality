@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-import { ReactComponent as Logo } from '@assets/spotlights.svg'
+import { ReactComponent as Logo } from '@assets/icons/spotlights.svg'
 
 /**
  * Component for fallback layout to serve certain non-essential contents

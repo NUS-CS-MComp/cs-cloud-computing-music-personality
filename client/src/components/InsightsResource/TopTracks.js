@@ -13,7 +13,7 @@ const TopTracks = ({ trackCount, trackReference, topN, focusHandler }) => {
     return (
         <div className='flex bg-background-inner rounded-md p-3 lg:flex-col'>
             <div
-                className='duration-200 transition-colors mr-2 p-2 rounded max-w-36 md:max-w-40 md:max-w-none md:rounded-none lg:border-b lg:border-divider lg:pb-4 lg:flex lg:w-full lg:mr-0 hover:bg-background-inner-dark'
+                className='duration-200 transition-colors mr-2 p-2 rounded max-w-32 md:max-w-40 md:max-w-none md:rounded-none lg:border-b lg:border-divider lg:pb-4 lg:flex lg:w-full lg:mr-0 hover:bg-background-inner-dark'
                 onMouseEnter={() =>
                     focusHandler(trackReference[firstTrack[0]].id)
                 }

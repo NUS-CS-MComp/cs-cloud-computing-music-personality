@@ -21,29 +21,23 @@ export default () => {
     const unconnectedProviders = useSelector(unconnectedProviderSelector)
     return (
         <div className='h-full text-left flex flex-col'>
-            <div className='flex justify-start mt-6 mb-2 justify-start'>
-                <Link to={`${url}`}>
-                    <div
-                        className={`duration-200 transition-colors uppercase font-bold mr-4 p-3 bg-default-white rounded-md hover:text-spotify ${
-                            pathname === url
-                                ? 'text-spotify'
-                                : 'text-default-black'
-                        }`}
-                    >
-                        Dashboard
-                    </div>
-                </Link>
-                <Link to={`${url}/similar`}>
-                    <div
-                        className={`duration-200 transition-colors uppercase font-bold mr-0 p-3 bg-default-white rounded-md hover:text-spotify ${
-                            pathname === `${url}/similar`
-                                ? 'text-spotify'
-                                : 'text-default-black'
-                        }`}
-                    >
-                        Who&apos;s Similar
-                    </div>
-                </Link>
+            <div className='flex justify-start mt-6 mb-2 justify-start whitespace-no-wrap overflow-x-auto flex-initial flex-shrink-0'>
+                <div
+                    className={`duration-200 transition-colors uppercase font-bold mr-4 p-3 bg-default-white rounded-md hover:text-spotify ${
+                        pathname === url ? 'text-spotify' : 'text-default-black'
+                    }`}
+                >
+                    <Link to={`${url}`}>Dashboard</Link>
+                </div>
+                <div
+                    className={`duration-200 transition-colors uppercase font-bold mr-0 p-3 bg-default-white rounded-md hover:text-spotify hover:opacity-100 ${
+                        pathname === `${url}/similar`
+                            ? 'text-spotify'
+                            : 'text-default-black'
+                    }`}
+                >
+                    <Link to={`${url}/similar`}>Interest Group</Link>
+                </div>
             </div>
             <Switch>
                 <Route exact path={path}>

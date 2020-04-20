@@ -47,7 +47,7 @@ const AudioFeatures = ({ features, tracks, mean, normalized }) => {
                     margin={width >= 768 ? 100 : 80}
                     max={1}
                     level={3}
-                    labelFactor={width >= 768 ? 1.2 : 1.1}
+                    labelFactor={width >= 768 ? 1.15 : 1.08}
                     className='max-w-md inline-block'
                 />
             </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { ReactComponent as Logo } from '@assets/spotlights.svg'
+import { ReactComponent as Logo } from '@assets/icons/spotlights.svg'
 
 /**
  * Header component as top visual bar for navigation purposes

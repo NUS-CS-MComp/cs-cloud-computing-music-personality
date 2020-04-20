@@ -1,30 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ReactComponent as FacebookLogo } from '@assets/facebook.svg'
-import { ReactComponent as RedditLogo } from '@assets/reddit.svg'
-import { ReactComponent as SpotifyLogo } from '@assets/spotify.svg'
-import { ReactComponent as TwitterLogo } from '@assets/twitter.svg'
+import { ReactComponent as FacebookLogo } from '@assets/icons/facebook.svg'
+import { ReactComponent as RedditLogo } from '@assets/icons/reddit.svg'
+import { ReactComponent as SpotifyLogo } from '@assets/icons/spotify.svg'
+import { ReactComponent as TwitterLogo } from '@assets/icons/twitter.svg'
 
-import {
-    ReactComponent as AIIcon,
-    ReactComponent as AlertIcon,
-} from '@assets/alert.svg'
-
-import { ReactComponent as DiscIcon } from '@assets/disc.svg'
-import { ReactComponent as ErrorIcon } from '@assets/error.svg'
-import { ReactComponent as HomeIcon } from '@assets/home.svg'
-import { ReactComponent as LogInIcon } from '@assets/log-in.svg'
-import { ReactComponent as LogOutIcon } from '@assets/log-out.svg'
-import { ReactComponent as MoonIcon } from '@assets/moon.svg'
-import { ReactComponent as MusicIcon } from '@assets/music.svg'
-import { ReactComponent as MusicNoteIcon } from '@assets/music-note.svg'
-import { ReactComponent as PlayButtonIcon } from '@assets/play.svg'
-import { ReactComponent as RefreshIcon } from '@assets/refresh.svg'
-import { ReactComponent as ScoreIcon } from '@assets/score.svg'
-import { ReactComponent as SocialIcon } from '@assets/social.svg'
-import { ReactComponent as SunIcon } from '@assets/sun.svg'
-import { ReactComponent as UserIcon } from '@assets/user.svg'
+import { ReactComponent as AIIcon } from '@assets/icons/ai.svg'
+import { ReactComponent as AlertIcon } from '@assets/icons/alert.svg'
+import { ReactComponent as DiscIcon } from '@assets/icons/disc.svg'
+import { ReactComponent as ErrorIcon } from '@assets/icons/error.svg'
+import { ReactComponent as HomeIcon } from '@assets/icons/home.svg'
+import { ReactComponent as LogInIcon } from '@assets/icons/log-in.svg'
+import { ReactComponent as LogOutIcon } from '@assets/icons/log-out.svg'
+import { ReactComponent as MoonIcon } from '@assets/icons/moon.svg'
+import { ReactComponent as MusicIcon } from '@assets/icons/music.svg'
+import { ReactComponent as MusicNoteIcon } from '@assets/icons/music-note.svg'
+import { ReactComponent as PlayButtonIcon } from '@assets/icons/play.svg'
+import { ReactComponent as RefreshIcon } from '@assets/icons/refresh.svg'
+import { ReactComponent as ScoreIcon } from '@assets/icons/score.svg'
+import { ReactComponent as SocialIcon } from '@assets/icons/social.svg'
+import { ReactComponent as SunIcon } from '@assets/icons/sun.svg'
+import { ReactComponent as UserIcon } from '@assets/icons/user.svg'
 
 const ICON_NAME_MAP = {
     facebook: FacebookLogo,

@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import useOAuthService from '@hooks/use-oauth-service'
 import URLParamParser from '@utils/param-parser'
+import DeviceDetect from '@utils/detect-device'
 
 /**
  * Page container to handler OAuth callback
@@ -26,7 +27,9 @@ export default () => {
             )
         }
         const parseResult = service.parseToken(urlParamEntries).output
-        if (!service.cleanupFromPopup()) postResult(parseResult)
+        if (DeviceDetect.isMobile || service.cleanupFromPopup()) {
+            postResult(parseResult)
+        }
     } else if (
         status.exchange.failed ||
         (status.verify && !status.verify.loading)

@@ -49,8 +49,8 @@ class UserRecord(Resource):
     @staticmethod
     @UserManager.parse_user_session
     @parse_params(
-        Argument("name", location="json", required=False),
-        Argument("short_bio", location="json", required=False),
+        Argument("name", location="form", required=False),
+        Argument("short_bio", location="form", required=False),
     )
     def post(user_id, name, short_bio):
         User.update_profile_info(user_id, user_name=name, short_bio=short_bio)
@@ -89,7 +89,7 @@ class UserAuthentication(Resource):
     @IdentityManager.read_cookies(
         SERVICES_FOR_AUTH, param_map=SERVICES_FOR_AUTH_PARAMS, kwarg_name="token_info"
     )
-    @parse_params(Argument("provider", location="json", required=False))
+    @parse_params(Argument("provider", location="form", required=False))
     def post(token_info, provider):
         """
         POST endpoint to authenticate user based on access token stored in cookies session

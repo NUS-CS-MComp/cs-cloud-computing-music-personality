@@ -2,10 +2,16 @@
 Main thread code for server application
 """
 
-from config import Config
+import os
+import sys
+
 from flask import Flask
 from flask.blueprints import Blueprint
 from flask_cors import CORS
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
+from config import Config
 from lib.flask_session import Session
 
 import routes
@@ -13,7 +19,11 @@ import routes
 app = Flask(__name__, instance_relative_config=False)
 app.config.from_object(Config)
 
-CORS(app, supports_credentials=True)
+CORS(
+    app,
+    supports_credentials=True,
+    origins=["https://prod.d1k66fuq0oedch.amplifyapp.com", "http://localhost:3000"],
+)
 Session(app)
 
 

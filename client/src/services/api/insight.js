@@ -1,3 +1,5 @@
+import queryString from 'query-string'
+
 import http from './common'
 
 /**
@@ -5,7 +7,10 @@ import http from './common'
  * @param {Record<string, string>[]} text List of text content to be aggregated
  */
 export const getPersonalityScore = (text) =>
-    http.post('user/personality', { text_content: text })
+    http.post(
+        'user/personality',
+        queryString.stringify({ text_content: JSON.stringify(text) })
+    )
 
 /**
  * Endpoint to get clustering inference based on audio features and personality scores
@@ -14,11 +19,14 @@ export const getPersonalityScore = (text) =>
  * @param {string[]} tracks List of track ID as reference
  */
 export const getInference = (audioFeatures, personalityScores, tracks) =>
-    http.post('user/infer', {
-        audio_features: audioFeatures,
-        personality_scores: personalityScores,
-        track_ids: tracks,
-    })
+    http.post(
+        'user/infer',
+        queryString.stringify({
+            audio_features: JSON.stringify(audioFeatures),
+            personality_scores: JSON.stringify(personalityScores),
+            track_ids: JSON.stringify(tracks),
+        })
+    )
 
 /**
  * Endpoint to get user cluster group details

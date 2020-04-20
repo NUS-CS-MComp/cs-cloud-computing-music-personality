@@ -30,7 +30,9 @@ export default () => {
     const { cluster_assignment: clusterAssignment } = useSelector(
         userInsightsSelector
     )
-    const groupData = useSelector(userGroupSelector)
+    const { data: groupData, loading: groupDataLoading } = useSelector(
+        userGroupSelector
+    )
 
     const isInputReady =
         !lodash.isEmpty(inputData.audio) &&
@@ -87,7 +89,7 @@ export default () => {
             setRenderingComponent(
                 <InsightsResource.SimilarGroup data={groupData} />
             )
-        } else if (!isAssignmentExisting) {
+        } else if (!isAssignmentExisting || groupDataLoading) {
             setRenderingComponent(
                 <EmptyData
                     message='Learning you preference'

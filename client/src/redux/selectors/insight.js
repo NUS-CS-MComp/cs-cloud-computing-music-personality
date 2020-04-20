@@ -1,4 +1,3 @@
-import lodash from 'lodash'
 import { createSelector } from 'reselect'
 
 import { spotifyAudioFeaturesSelector } from '@redux/selectors/spotify'
@@ -34,5 +33,5 @@ export const inferenceInputSelector = createSelector(
  */
 export const userGroupSelector = createSelector(
     userInsightSelector,
-    (insights) => lodash.pick(insights.group, 'data').data
+    (insights) => insights.group
 )

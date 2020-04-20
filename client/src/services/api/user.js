@@ -1,3 +1,5 @@
+import queryString from 'query-string'
+
 import http from './common'
 
 /**
@@ -6,7 +8,7 @@ import http from './common'
  */
 export const getUserValidationStatus = (provider = null) => {
     if (provider === null) return http.post(`user/authenticate`)
-    return http.post(`user/authenticate`, { provider })
+    return http.post(`user/authenticate`, queryString.stringify({ provider }))
 }
 
 /**
@@ -18,7 +20,8 @@ export const getUserInfo = () => http.get(`user/me`)
  * Endpoint to change user profile information
  * @param {Record<string, string>} payload Information to be changed on user profile
  */
-export const updateUserProfile = (payload) => http.post(`user/me`, payload)
+export const updateUserProfile = (payload) =>
+    http.post(`user/me`, queryString.stringify(payload))
 
 /**
  * Endpoint to disconnect provider session

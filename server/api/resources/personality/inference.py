@@ -1,3 +1,4 @@
+import json
 import random
 
 from flask_restful import Resource
@@ -107,9 +108,9 @@ class Inference(Resource):
     @staticmethod
     @UserManager.parse_user_session
     @parse_params(
-        Argument("personality_scores", location="json", required=True, type=dict),
-        Argument("audio_features", location="json", required=True, type=dict),
-        Argument("track_ids", location="json", required=True, type=list),
+        Argument("personality_scores", location="form", required=True, type=str),
+        Argument("audio_features", location="form", required=True, type=str),
+        Argument("track_ids", location="form", required=True, type=str),
     )
     def post(user_id, personality_scores, audio_features, track_ids):
         """
@@ -125,6 +126,9 @@ class Inference(Resource):
         :rtype: BaseResponse
         """
         try:
+            personality_scores = json.loads(personality_scores)
+            audio_features = json.loads(audio_features)
+            track_ids = json.loads(track_ids)
             personality_scores_raw = [
                 personality_scores[key] for key in PERSONALITY_SCORE_KEY_ORDER
             ]
@@ -145,5 +149,5 @@ class Inference(Resource):
                 },
             )
             return assignment, 200
-        except KeyError as e:
+        except (KeyError, json.JSONDecodeError) as e:
             return {"message": str(e)}, 400

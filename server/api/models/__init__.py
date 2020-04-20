@@ -3,7 +3,6 @@ import json
 import os
 from typing import List
 
-from config import Config
 from models.db import DB
 from models.base import BaseModel
 from models.generator import UserGenerator
@@ -66,7 +65,8 @@ def create_table_non_exist(models: List[BaseModel], delete_original=True):
                 {"AttributeName": table_secondary_key, "AttributeType": "S"}
             )
 
-        DB.create_table(**table_creation_kwargs)
+        new_table = DB.create_table(**table_creation_kwargs)
+        new_table.meta.client.get_waiter("table_exists").wait(TableName=table_name)
         print(f" * Created table {table_name} on DynamoDB instance")
 
         if table_name in LOAD_FILES:
@@ -87,6 +87,5 @@ def create_table_non_exist(models: List[BaseModel], delete_original=True):
             print(f" * Added preloaded data in table {table_name}")
 
 
-if Config.DEBUG:
-    # UserGenerator.generate()
-    create_table_non_exist(INCLUDE_MODELS, False)
+# UserGenerator.generate()
+create_table_non_exist(INCLUDE_MODELS, False)

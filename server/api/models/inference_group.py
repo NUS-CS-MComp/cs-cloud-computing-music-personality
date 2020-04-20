@@ -53,7 +53,9 @@ class InferenceGroupModel(BaseModel):
         result = super().query(
             True,
             IndexName=self.global_secondary_index,
-            KeyConditionExpression=Key(self.secondary_key).eq(str(cluster_group)),
+            KeyConditionExpression=Key(self.secondary_key).eq(
+                str(float(cluster_group))
+            ),
         )
         return result
 

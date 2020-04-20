@@ -135,8 +135,10 @@ class RedisSessionInterface(SessionInterface):
             app.session_cookie_name,
             session_id,
             expires=expires,
+            max_age=60 * 60 * 24 * 7,
             httponly=httponly,
             domain=domain,
             path=path,
             secure=secure,
+            samesite="None",
         )

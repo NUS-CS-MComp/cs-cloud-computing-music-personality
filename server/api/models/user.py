@@ -1,5 +1,9 @@
+import itertools
+
 from .base import BaseModel
 from .social_connect import SocialConnect
+from boto3.dynamodb.conditions import Key
+from models.inference_group import InferenceGroup
 
 
 class UserModel(BaseModel):
@@ -30,6 +34,7 @@ class UserModel(BaseModel):
                     self.inferred_from_post: None,
                     self.cluster_assignment: None,
                     self.inferred_from_track: None,
+                    self.average_audio_features: None,
                 },
                 self.profile_key: {self.user_name: None, self.short_bio: None},
                 self.provider_key: {provider: profile_info},
@@ -131,6 +136,7 @@ class UserModel(BaseModel):
                 self.cluster_assignment,
                 self.inferred_from_post,
                 self.inferred_from_track,
+                self.average_audio_features,
             ]:
                 continue
             update_map[f"{self.insights_key}.{field_name}"] = insight_field_map[
@@ -175,14 +181,42 @@ class UserModel(BaseModel):
         except KeyError:
             pass
 
-    def scan_by_cluster_group(self, cluster_group):
+    def query_multiple_users(self, user_id_list):
+        """
+        Get all user info by list of user IDs
+
+        :param user_id_list: List of user ID
+        :type user_id_list: list
+        """
+
+        return list(
+            itertools.chain.from_iterable(
+                map(
+                    lambda user_id: self.query(
+                        True,
+                        KeyConditionExpression=Key(self.id_key).eq(user_id),
+                        ProjectionExpression="user_id, created_at, insights, provider, profile",
+                    ),
+                    user_id_list,
+                )
+            )
+        )
+
+    def query_by_user_cluster_group(self, user_id):
         """
         Get all users by cluster group
 
         :param cluster_group: Cluster group assignment tag
         :type cluster_group: str
         """
-        pass
+        try:
+            user_data = self.get(user_id)
+            cluster_group = user_data["insights"]["cluster_assignment"][
+                "closest_cluster"
+            ]
+            return InferenceGroup.get_by_cluster(cluster_group)
+        except (KeyError, TypeError):
+            pass
 
     @property
     def table_name(self):
@@ -203,6 +237,10 @@ class UserModel(BaseModel):
     @property
     def provider_key(self):
         return "provider"
+
+    @property
+    def average_audio_features(self):
+        return "average_audio_features"
 
     @property
     def personality_scores(self):

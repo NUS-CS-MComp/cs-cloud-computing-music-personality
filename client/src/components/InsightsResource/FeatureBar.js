@@ -4,7 +4,16 @@ import PropTypes from 'prop-types'
 /**
  * Bar component rendering calculated feature values as percentage
  */
-const FeatureBar = ({ value, raw, min, max, unit, color, useString }) => {
+const FeatureBar = ({
+    value,
+    raw,
+    min,
+    max,
+    unit,
+    color,
+    useString,
+    showScale,
+}) => {
     const hasCustomBoundary = min !== 0 && max !== 100
     const displayString =
         typeof raw === 'number'
@@ -25,11 +34,11 @@ const FeatureBar = ({ value, raw, min, max, unit, color, useString }) => {
         return () => {
             clearTimeout(timeout)
         }
-    }, [])
+    }, [value])
 
     return (
-        <div className='group'>
-            <div className='relative w-full bg-background-inner-dark h-2 rounded-sm my-1'>
+        <div className='group w-full'>
+            <div className='relative bg-background-inner-dark h-2 rounded-sm my-1'>
                 <div
                     className={`h-full bg-${color} duration-700 transition-width text-xs leading-none py-1 text-center text-white rounded-sm`}
                     style={{
@@ -37,23 +46,27 @@ const FeatureBar = ({ value, raw, min, max, unit, color, useString }) => {
                     }}
                 ></div>
             </div>
-            <div className='relative flex justify-between'>
-                <span
-                    className='font-semibold text-xs text-default-gray absolute hidden z-10 group-hover:inline-block'
-                    style={{
-                        left: `calc(${widthPercentage}%)`,
-                    }}
-                >
-                    {hasCustomBoundary ? displayString : `${displayString}%`}{' '}
-                    {unit}
-                </span>
-                <span className='font-semibold text-xs text-default-gray relative l-0 group-hover:opacity-0'>
-                    {displayMin}
-                </span>
-                <span className='font-semibold text-xs text-default-gray relative r-0 group-hover:opacity-0'>
-                    {displayMax}
-                </span>
-            </div>
+            {showScale && (
+                <div className='relative flex justify-between'>
+                    <span
+                        className='font-semibold text-xs text-default-gray absolute hidden z-10 group-hover:inline-block'
+                        style={{
+                            left: `calc(${widthPercentage}%)`,
+                        }}
+                    >
+                        {hasCustomBoundary
+                            ? displayString
+                            : `${displayString}%`}{' '}
+                        {unit}
+                    </span>
+                    <span className='font-semibold text-xs text-default-gray relative l-0 group-hover:opacity-0'>
+                        {displayMin}
+                    </span>
+                    <span className='font-semibold text-xs text-default-gray relative r-0 group-hover:opacity-0'>
+                        {displayMax}
+                    </span>
+                </div>
+            )}
         </div>
     )
 }
@@ -87,6 +100,10 @@ FeatureBar.propTypes = {
      * Boolean flag to deal with string value
      */
     useString: PropTypes.bool,
+    /**
+     * Boolean flag to show scale
+     */
+    showScale: PropTypes.bool,
 }
 
 FeatureBar.defaultProps = {
@@ -95,6 +112,7 @@ FeatureBar.defaultProps = {
     unit: '',
     color: 'spotify',
     useString: false,
+    showScale: true,
 }
 
 export default FeatureBar

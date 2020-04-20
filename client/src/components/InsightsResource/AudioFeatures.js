@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import FeatureMetrics from '@components/InsightsResource/FeatureMetrics'
@@ -8,7 +8,7 @@ import RadarChart from '@components/RadarChart'
 import useViewportSize from '@hooks/use-viewport-size'
 import { AUDIO_FEATURE_KEYS } from '@redux/selectors/spotify'
 
-const VISUAL_AUDIO_FEATURE_KEYS = [
+export const VISUAL_AUDIO_FEATURE_KEYS = [
     'instrumentalness',
     'liveness',
     'danceability',
@@ -20,9 +20,18 @@ const VISUAL_AUDIO_FEATURE_KEYS = [
 /**
  * Visual component for rendering audio features of Spotify tracks
  */
-const AudioFeatures = ({ tracks, mean, normalized }) => {
+const AudioFeatures = ({ features, tracks, mean, normalized }) => {
     const { width } = useViewportSize()
+    const [focusItem, setFocusItem] = useState(null)
     const visualizeFeatures = lodash.pick(normalized, VISUAL_AUDIO_FEATURE_KEYS)
+    const focusItemFeatures = features[focusItem] || {}
+    const focusItemVisualizeFeatures = lodash.pick(
+        focusItemFeatures.normalized,
+        VISUAL_AUDIO_FEATURE_KEYS
+    )
+    const [displayItem, rawItem] = lodash.isEmpty(focusItemFeatures)
+        ? [visualizeFeatures, mean]
+        : [focusItemVisualizeFeatures, focusItemFeatures.raw]
     const audioTracksCount = lodash.countBy(tracks, 'name')
     const audioTracksGroup = lodash.groupBy(tracks, 'name')
     const audioTrackReference = Object.keys(audioTracksGroup).reduce(
@@ -34,8 +43,9 @@ const AudioFeatures = ({ tracks, mean, normalized }) => {
             <div className='block text-center lg:col-span-3 xl:col-span-2 lg:order-1'>
                 <RadarChart
                     round
-                    data={[visualizeFeatures]}
+                    data={[displayItem]}
                     margin={width >= 768 ? 100 : 80}
+                    max={1}
                     level={3}
                     labelFactor={width >= 768 ? 1.2 : 1.1}
                     className='max-w-md inline-block'
@@ -43,8 +53,8 @@ const AudioFeatures = ({ tracks, mean, normalized }) => {
             </div>
             <div className='block lg:col-span-6 lg:order-3 lg:mt-4'>
                 <FeatureMetrics
-                    featureMetrics={normalized}
-                    rawMetrics={mean}
+                    featureMetrics={focusItemFeatures.normalized || normalized}
+                    rawMetrics={rawItem}
                     boundaryMap={lodash.keyBy(AUDIO_FEATURE_KEYS, 'name')}
                 />
             </div>
@@ -53,6 +63,7 @@ const AudioFeatures = ({ tracks, mean, normalized }) => {
                     trackCount={audioTracksCount}
                     trackReference={audioTrackReference}
                     topN={10}
+                    focusHandler={setFocusItem}
                 />
             </div>
         </div>
@@ -61,7 +72,11 @@ const AudioFeatures = ({ tracks, mean, normalized }) => {
 
 AudioFeatures.propTypes = {
     /**
-     * Track information
+     * Feature information grouped by track ID
+     */
+    features: PropTypes.object.isRequired,
+    /**
+     * Track information in array form
      */
     tracks: PropTypes.arrayOf(
         PropTypes.shape({

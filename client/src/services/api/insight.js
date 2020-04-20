@@ -9,8 +9,8 @@ export const getPersonalityScore = (text) =>
 
 /**
  * Endpoint to get clustering inference based on audio features and personality scores
- * @param {number[]} audioFeatures List of audio feature data
- * @param {number[]} personalityScores List of personality score data
+ * @param {Record<string, number>} audioFeatures Average audio feature data
+ * @param {Record<string, number>} personalityScores Personality score data
  * @param {string[]} tracks List of track ID as reference
  */
 export const getInference = (audioFeatures, personalityScores, tracks) =>
@@ -19,3 +19,8 @@ export const getInference = (audioFeatures, personalityScores, tracks) =>
         personality_scores: personalityScores,
         track_ids: tracks,
     })
+
+/**
+ * Endpoint to get user cluster group details
+ */
+export const getUserGroup = () => http.get('user/infer')

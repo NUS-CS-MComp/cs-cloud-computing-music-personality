@@ -4,6 +4,7 @@ from .spotify import (
     RecentHistory,
     RecentHistoryWithAudioFeatures,
     User,
+    TrackInformation,
 )
 
 __all__ = [
@@ -12,4 +13,5 @@ __all__ = [
     "RecentHistory",
     "RecentHistoryWithAudioFeatures",
     "User",
+    "TrackInformation",
 ]

@@ -10,8 +10,8 @@ export const REQUEST_SPOTIFY_RESOURCE_CANCEL = 'REQUEST_SPOTIFY_RESOURCE_CANCEL'
  * @param {string} resourceType Spotify resource type
  * @param {any[]} payload Request payload data in array type
  */
-export const requestSpotifyResource = (resourceType, payload) => ({
+export const requestSpotifyResource = (resourceType, ...payload) => ({
     type: REQUEST_SPOTIFY_RESOURCE,
-    resourceType,
     payload,
+    resourceType,
 })

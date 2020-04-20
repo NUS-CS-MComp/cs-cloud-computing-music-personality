@@ -65,7 +65,7 @@ const pickAudioFeatures = (features) =>
  * @param {Record<string, number>[]} featureList List of feature maps from multiple tracks
  * @param {boolean} normalize Boolean flag to normalize the data
  */
-const calculateAudioFeaturesMean = (featureList, normalize = true) =>
+export const calculateAudioFeaturesMean = (featureList, normalize = true) =>
     AUDIO_FEATURE_KEYS.reduce((result, audioFeature) => {
         let mean = lodash.meanBy(featureList, audioFeature.name)
         if (normalize) {
@@ -94,6 +94,18 @@ export const spotifyAudioFeaturesSelector = createSelector(
             pickAudioFeatures(trackWithFeature.feature)
         )
         return {
+            features: lodash.mapValues(
+                lodash.keyBy(
+                    features.map(
+                        (trackWithFeature) => trackWithFeature.feature
+                    ),
+                    'id'
+                ),
+                (trackFeature) => ({
+                    normalized: calculateAudioFeaturesMean([trackFeature]),
+                    raw: calculateAudioFeaturesMean([trackFeature], false),
+                })
+            ),
             tracks: features.map((trackWithFeature) => trackWithFeature.track),
             mean_normalized: lodash.isEmpty(pickedFeatures)
                 ? {}

@@ -40,6 +40,34 @@ class CategoryList(Resource):
         return response.data, response.status_code
 
 
+class TrackInformation(Resource):
+    """
+    Spotify track information resource
+
+    :param Resource: Inherit from base flask-restful resource class
+    :type Resource: Resource
+    :return: Spotify track information resource class
+    :rtype: Resource
+    """
+
+    @staticmethod
+    @IdentityManager.read_cookie(SpotifyService, ["access_token"])
+    @parse_params(Argument("track_ids", location="args", required=True))
+    def get(access_token, track_ids):
+        """
+        GET endpoint to return multiple track records
+
+        :param token: Spotify API access token
+        :type token: str
+        :param track_ids: List of track IDs in concatenated form
+        :type track_ids: str
+        :return: JSON data of track information
+        :rtype: BaseResponse
+        """
+        response = SpotifyService.get_multiple_tracks(access_token, track_ids)
+        return response.data, response.status_code
+
+
 class RecentHistory(Resource):
     """
     Spotify user listening history resource

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import FallbackLayout from '@components/FallbackLayout'
@@ -37,10 +37,9 @@ const PublicLayoutComponent = () => (
         <SessionValidate>
             <Switch>
                 <Route exact path='/' component={OverviewPage} />
-                <Route exact path='/insights' component={InsightsPage} />
-                <Route exact path='/me' component={UserPage} />
-                <Route exact path='/not-found' component={NotFound} />
-                <Redirect exact to='/not-found' />
+                <Route path='/insights' component={InsightsPage} />
+                <Route path='/me' component={UserPage} />
+                <Route path='*' component={NotFound} />
             </Switch>
         </SessionValidate>
     </Layout>

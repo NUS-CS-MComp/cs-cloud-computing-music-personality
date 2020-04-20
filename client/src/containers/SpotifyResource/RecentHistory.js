@@ -15,7 +15,7 @@ export default () => {
         loadData()
     }, [loadData])
     return (
-        <div className='md:flex md:flex-col md:max-h-full md:min-h-full'>
+        <div className='h-full md:flex md:flex-col md:max-h-full md:min-h-full'>
             <div className='flex items-center justify-between text-default-black'>
                 <Heading
                     text='Play History'

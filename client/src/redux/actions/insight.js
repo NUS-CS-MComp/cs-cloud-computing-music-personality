@@ -6,6 +6,9 @@ export const REQUEST_PERSONALITY_SCORE_ACTIONS = getFetchResourceActionList(
 export const REQUEST_INFERENCE_ACTIONS = getFetchResourceActionList(
     'PERSONALITY_INFERENCE'
 )
+export const REQUEST_USER_GROUP_ACTIONS = getFetchResourceActionList(
+    'PERSONALITY_GROUP'
+)
 
 /**
  * Action to fetch user information
@@ -18,8 +21,8 @@ export const requestPersonalityScore = (text) => ({
 
 /**
  * Action to get inference from user data
- * @param {number[]} audioFeatures List of audio feature data
- * @param {number[]} personalityScores List of personality score data
+ * @param {Record<string, number>} audioFeatures Average audio feature data
+ * @param {Record<string, number>} personalityScores Personality score data
  * @param {string[]} tracks List of track ID as reference
  */
 export const requestPersonalityInference = (
@@ -29,4 +32,11 @@ export const requestPersonalityInference = (
 ) => ({
     type: REQUEST_INFERENCE_ACTIONS[0],
     payload: [audioFeatures, personalityScores, tracks],
+})
+
+/**
+ * Action to get user cluster insights data
+ */
+export const requestPersonalityGroup = () => ({
+    type: REQUEST_USER_GROUP_ACTIONS[0],
 })

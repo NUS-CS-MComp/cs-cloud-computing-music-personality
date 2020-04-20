@@ -112,10 +112,8 @@ a {
     user-select: none;
 }
 
-button:focus {
-    outline: none;
-}
-
+button:focus,
+div:focus,
 input:focus,
 textarea:focus {
     outline: none;

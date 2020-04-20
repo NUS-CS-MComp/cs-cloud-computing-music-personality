@@ -6,8 +6,13 @@ import { ReactComponent as RedditLogo } from '@assets/reddit.svg'
 import { ReactComponent as SpotifyLogo } from '@assets/spotify.svg'
 import { ReactComponent as TwitterLogo } from '@assets/twitter.svg'
 
-import { ReactComponent as AlertIcon } from '@assets/alert.svg'
+import {
+    ReactComponent as AIIcon,
+    ReactComponent as AlertIcon,
+} from '@assets/alert.svg'
+
 import { ReactComponent as DiscIcon } from '@assets/disc.svg'
+import { ReactComponent as ErrorIcon } from '@assets/error.svg'
 import { ReactComponent as HomeIcon } from '@assets/home.svg'
 import { ReactComponent as LogInIcon } from '@assets/log-in.svg'
 import { ReactComponent as LogOutIcon } from '@assets/log-out.svg'
@@ -16,6 +21,7 @@ import { ReactComponent as MusicIcon } from '@assets/music.svg'
 import { ReactComponent as MusicNoteIcon } from '@assets/music-note.svg'
 import { ReactComponent as PlayButtonIcon } from '@assets/play.svg'
 import { ReactComponent as RefreshIcon } from '@assets/refresh.svg'
+import { ReactComponent as ScoreIcon } from '@assets/score.svg'
 import { ReactComponent as SocialIcon } from '@assets/social.svg'
 import { ReactComponent as SunIcon } from '@assets/sun.svg'
 import { ReactComponent as UserIcon } from '@assets/user.svg'
@@ -25,8 +31,10 @@ const ICON_NAME_MAP = {
     reddit: RedditLogo,
     spotify: SpotifyLogo,
     twitter: TwitterLogo,
+    ai: AIIcon,
     alert: AlertIcon,
     disc: DiscIcon,
+    error: ErrorIcon,
     home: HomeIcon,
     login: LogInIcon,
     logout: LogOutIcon,
@@ -35,6 +43,7 @@ const ICON_NAME_MAP = {
     'music-note': MusicNoteIcon,
     play: PlayButtonIcon,
     refresh: RefreshIcon,
+    score: ScoreIcon,
     social: SocialIcon,
     sun: SunIcon,
     user: UserIcon,

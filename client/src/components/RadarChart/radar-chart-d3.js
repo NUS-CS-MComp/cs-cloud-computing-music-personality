@@ -222,6 +222,7 @@ export default function RadarChart(
             (data, index) => `var(--radar-color-palette-${index + 1})`
         )
         .style('fill-opacity', defaultConfig.opacityArea)
+        .style('transition', '.7s')
         .on('mouseover', function onMouseOver() {
             d3.selectAll('.radar-area')
                 .transition()
@@ -251,6 +252,7 @@ export default function RadarChart(
         )
         .style('fill', 'none')
         .style('filter', 'url(#glow)')
+        .style('transition', '.7s')
 
     // Append the circles
     blobWrapper
@@ -277,6 +279,7 @@ export default function RadarChart(
         )
         .style('fill', (data) => `var(--radar-color-palette-${data.group + 1})`)
         .style('fill-opacity', 0.8)
+        .style('transition', '.7s')
 
     /**
      * Append invisible circles for tooltip

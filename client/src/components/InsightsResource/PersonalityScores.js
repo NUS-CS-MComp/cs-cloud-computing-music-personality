@@ -33,7 +33,12 @@ const formatConsumptionPattern = (pattern) => {
 /**
  * Component for personality scores
  */
-const PersonalityScores = ({ scores }) => {
+const PersonalityScores = ({
+    scores,
+    compact,
+    showConsumption,
+    withBackground,
+}) => {
     const personalityScores = lodash.pick(
         scores,
         Object.keys(PERSONALITY_DIMENSION_KEYS)
@@ -45,40 +50,64 @@ const PersonalityScores = ({ scores }) => {
         )
     )
     return (
-        <div className='bg-default-white rounded-lg md:grid md:grid-rows-1-min-content md:grid-cols-7 md:items-center'>
-            <div className='px-6 pt-6 md:pb-6 md:row-span-1 md:row-span-1 md:col-span-3'>
-                {Object.keys(personalityScores).map((metricName) => (
-                    <div key={metricName}>
-                        <span className='capitalize font-bold text-sm text-default-black'>
-                            {PERSONALITY_DIMENSION_KEYS[metricName].label}
-                        </span>
-                        <FeatureBar
-                            value={scores[metricName]}
-                            raw={scores[metricName]}
-                            color='bar-yellow'
-                        />
-                    </div>
-                ))}
-            </div>
-            <div className='p-3 md:row-span-1 md:col-span-4'>
-                <div className='p-3 bg-background-inner h-48 overflow-y-auto rounded-md md:h-64 lg:flex lg:justify-between lg:flex-wrap'>
-                    {Object.keys(consumptionScores).map((metricName) => (
-                        <div key={metricName} className='lg:w-1/2-m-2'>
-                            <span className='capitalize font-bold text-sm text-default-black break-words'>
-                                {formatConsumptionPattern(metricName)}
+        <div
+            className={`rounded-lg ${
+                withBackground ? 'bg-default-white' : ''
+            } ${
+                showConsumption
+                    ? 'md:grid md:grid-rows-1-min-content md:grid-cols-7 md:items-center'
+                    : ''
+            }`}
+        >
+            <div
+                className={`${compact ? 'flex' : ''}
+                    ${
+                        showConsumption
+                            ? 'px-6 pt-6 md:pb-6 md:row-span-1 md:row-span-1 md:col-span-3'
+                            : ''
+                    }`}
+            >
+                {Object.keys(personalityScores).map((metricName) => {
+                    const { label } = PERSONALITY_DIMENSION_KEYS[metricName]
+                    return (
+                        <div
+                            key={metricName}
+                            className={compact ? 'mr-2 flex-1 last:mr-0' : ''}
+                        >
+                            <span className='capitalize font-bold text-sm text-default-black'>
+                                {compact ? label[0] : label}
                             </span>
                             <FeatureBar
-                                useString
+                                color='bar-yellow'
                                 value={scores[metricName]}
                                 raw={scores[metricName]}
-                                color='bar-blue'
-                                min='NO'
-                                max='YES'
+                                showScale={!compact}
                             />
                         </div>
-                    ))}
-                </div>
+                    )
+                })}
             </div>
+            {showConsumption && (
+                <div className='p-3 md:row-span-1 md:col-span-4'>
+                    <div className='p-3 bg-background-inner h-48 overflow-y-auto rounded-md md:h-64 lg:flex lg:justify-between lg:flex-wrap'>
+                        {Object.keys(consumptionScores).map((metricName) => (
+                            <div key={metricName} className='lg:w-1/2-m-2'>
+                                <span className='capitalize font-bold text-sm text-default-black break-words'>
+                                    {formatConsumptionPattern(metricName)}
+                                </span>
+                                <FeatureBar
+                                    useString
+                                    value={scores[metricName]}
+                                    raw={scores[metricName]}
+                                    color='bar-blue'
+                                    min='NO'
+                                    max='YES'
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
@@ -97,6 +126,24 @@ PersonalityScores.propTypes = {
         }),
         PropTypes.objectOf(PropTypes.number),
     ]).isRequired,
+    /**
+     * Boolean flag to show scores in compact form
+     */
+    compact: PropTypes.bool,
+    /**
+     * Boolean flag to show consumption score
+     */
+    showConsumption: PropTypes.bool,
+    /**
+     * Boolean flag to show background
+     */
+    withBackground: PropTypes.bool,
+}
+
+PersonalityScores.defaultProps = {
+    compact: false,
+    showConsumption: true,
+    withBackground: true,
 }
 
 export default PersonalityScores

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
+import EmptyData from '@components/EmptyData'
 import Heading from '@components/Heading'
 import Icon from '@components/Icon'
 import InsightsResource from '@components/InsightsResource'
@@ -14,9 +15,12 @@ export default () => {
     const [data, , , isLoading, loadData] = useSpotifyResource(
         'recent-features'
     )
-    const { mean, tracks, mean_normalized: meanNormalized } = useSelector(
-        spotifyAudioFeaturesSelector
-    )
+    const {
+        features,
+        tracks,
+        mean,
+        mean_normalized: meanNormalized,
+    } = useSelector(spotifyAudioFeaturesSelector)
 
     useEffect(() => {
         if (data.length <= 0 && !isLoading) {
@@ -35,11 +39,18 @@ export default () => {
                     <Icon name='refresh' className='h-6 fill-current' />
                 </button>
             </div>
-            {data.length > 0 && (
+            {data.length > 0 ? (
                 <InsightsResource.AudioFeatures
+                    features={features}
+                    tracks={tracks}
                     mean={mean}
                     normalized={meanNormalized}
-                    tracks={tracks}
+                />
+            ) : (
+                <EmptyData
+                    message='Connect to Spotify to view'
+                    icon='music-note'
+                    iconClassName='h-10'
                 />
             )}
         </div>

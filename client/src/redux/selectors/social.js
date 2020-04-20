@@ -7,7 +7,7 @@ import { createSelector } from 'reselect'
 export const socialPostSelector = (state) => state.social
 
 /**
- * Select for social post fetch task loading status
+ * Selector for social post fetch task loading status
  */
 export const socialPostLoadingSelector = createSelector(
     socialPostSelector,

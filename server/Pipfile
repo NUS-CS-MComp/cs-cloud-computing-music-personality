@@ -17,6 +17,7 @@ flask-cors = "*"
 redis = "*"
 boto3 = "*"
 ibm-watson = "*"
+faker = "*"
 
 [requires]
 python_version = "3.8"

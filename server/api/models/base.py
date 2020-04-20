@@ -4,7 +4,7 @@ import time
 import uuid
 from datetime import datetime
 
-from . import DB
+from .db import DB
 from boto3.dynamodb.conditions import Attr
 from boto3.dynamodb.types import Binary
 
@@ -137,7 +137,7 @@ class BaseModel:
             ExpressionAttributeValues=update_value_map,
         )
 
-    def query(self, field_attributes={}):
+    def query(self, use_json=False, field_attributes={}, **kwargs):
         """
         Query an item by field attributes
 
@@ -152,12 +152,18 @@ class BaseModel:
                 expression = Attr(attr).eq(field_attributes[attr])
             else:
                 expression = expression & Attr(attr).eq(field_attributes[attr])
+        if expression is not None:
+            kwargs.update({"FilterExpression": expression})
         try:
-            return self.table.query(FilterExpression=expression)["Items"]
+            items = self.table.query(**kwargs)["Items"]
+            if use_json:
+                return json.loads(json.dumps(items, cls=Encoder))
+            else:
+                return items
         except KeyError:
             return []
 
-    def scan(self):
+    def scan(self, use_json=False, **kwargs):
         """
         Scan through the entire table
 
@@ -165,7 +171,11 @@ class BaseModel:
         :rtype: dict
         """
         try:
-            return self.table.scan()["Items"]
+            items = self.table.scan(**kwargs)["Items"]
+            if use_json:
+                return json.loads(json.dumps(items, cls=Encoder))
+            else:
+                return items
         except KeyError:
             return []
 
@@ -181,9 +191,19 @@ class BaseModel:
         return self.table.delete_item(Key={self.id_key: item_id})
 
     @property
+    def global_secondary_index(self):
+        if not self.secondary_key:
+            return None
+        return f"{self.secondary_key}_index"
+
+    @property
     def table_name(self):
         raise NotImplementedError("Table name property not implemented.")
 
     @property
     def id_key(self):
         return "id"
+
+    @property
+    def secondary_key(self):
+        return None

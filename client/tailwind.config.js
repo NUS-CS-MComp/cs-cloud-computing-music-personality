@@ -41,8 +41,18 @@ module.exports = {
                 '1-min-content': 'minmax(300px, min-content)',
                 'user-page': 'min-content 1fr',
             },
+            height: {
+                md: '28rem',
+                sm: '24rem',
+            },
+            maxHeight: {
+                md: '28rem',
+                sm: '24rem',
+            },
             maxWidth: {
                 fhd: '1980px',
+                '32': '8rem',
+                '36': '9rem',
                 '40': '10rem',
             },
             minHeight: {
@@ -54,10 +64,13 @@ module.exports = {
             },
             transitionProperty: {
                 width: 'width',
+                'content-height': 'opacity, color, height',
+                'content-width': 'opacity, color, width',
             },
             width: {
                 '1/3-m-3': 'calc(33.3333333% - 0.75rem)',
                 '1/2-m-2': 'calc(50% - 0.5rem)',
+                'full-m': 'calc(100% - 3.5rem)',
             },
         },
     },

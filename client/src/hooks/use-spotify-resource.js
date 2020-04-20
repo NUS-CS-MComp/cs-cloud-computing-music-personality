@@ -30,11 +30,14 @@ const useSpotifyResource = (resourceType) => {
         SPOTIFY_PROVIDER_NAME
     )
     const dispatch = useDispatch()
-    const dispatchCallback = useCallback(() => {
-        if (Api.spotify.RESOURCE_API_MAP[resourceType] && isAuthenticated) {
-            dispatch(requestSpotifyResource(resourceType))
-        }
-    }, [isAuthenticated, dispatch])
+    const dispatchCallback = useCallback(
+        (...payload) => {
+            if (Api.spotify.RESOURCE_API_MAP[resourceType] && isAuthenticated) {
+                dispatch(requestSpotifyResource(resourceType, ...payload))
+            }
+        },
+        [isAuthenticated, dispatch]
+    )
     const data = useSelector(spotifyResourceDataSelector(resourceType)) || []
     const isLoading =
         useSelector(spotifyResourceLoadingSelector)[resourceType] || false

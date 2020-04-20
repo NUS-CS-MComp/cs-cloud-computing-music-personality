@@ -63,7 +63,7 @@ const RadarChart = ({
             svgClassName: className,
         })
         setNode(plotNode)
-    }, [labelFactor, margin])
+    }, [data, labelFactor, margin])
 
     return <RD3Component data={node} />
 }

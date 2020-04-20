@@ -5,14 +5,20 @@ import PropTypes from 'prop-types'
 /**
  * Component for displaying top tracks
  */
-const TopTracks = ({ trackCount, trackReference, topN }) => {
+const TopTracks = ({ trackCount, trackReference, topN, focusHandler }) => {
     const trackSorted = Object.keys(trackCount)
         .slice(0, topN)
         .sort((trackA, trackB) => trackCount[trackB] - trackCount[trackA])
     const firstTrack = lodash.pullAt(trackSorted, 0)
     return (
         <div className='flex bg-background-inner rounded-md p-3 lg:flex-col'>
-            <div className='duration-200 transition-colors mr-2 p-2 rounded md:rounded-none lg:border-b lg:border-divider lg:pb-4 lg:flex lg:w-full lg:mr-0 hover:bg-background-inner-dark'>
+            <div
+                className='duration-200 transition-colors mr-2 p-2 rounded max-w-36 md:max-w-40 md:max-w-none md:rounded-none lg:border-b lg:border-divider lg:pb-4 lg:flex lg:w-full lg:mr-0 hover:bg-background-inner-dark'
+                onMouseEnter={() =>
+                    focusHandler(trackReference[firstTrack[0]].id)
+                }
+                onMouseLeave={() => focusHandler(null)}
+            >
                 <div className='mb-2 lg:mr-2 lg:mb-0'>
                     <img
                         className='rounded w-32 lg:w-20'
@@ -45,7 +51,11 @@ const TopTracks = ({ trackCount, trackReference, topN }) => {
                 {trackSorted.map((trackName, index) => (
                     <div
                         key={trackName}
-                        className='group duration-200 transition-colors flex flex-col flex-initial flex-shrink-0 max-w-40 p-2 rounded md:max-w-none md:rounded-none md:border-b md:border-divider md:mr-0 md:w-auto md:flex-row md:justify-between md:items-end md:last:border-0 hover:bg-background-inner-dark'
+                        className='group duration-200 transition-colors flex flex-col flex-initial flex-shrink-0 max-w-full p-2 rounded md:max-w-none md:rounded-none md:border-b md:border-divider md:mr-0 md:w-auto md:flex-row md:justify-between md:items-end md:last:border-0 hover:bg-background-inner-dark'
+                        onMouseEnter={() =>
+                            focusHandler(trackReference[trackName].id)
+                        }
+                        onMouseLeave={() => focusHandler(null)}
                     >
                         <div className='flex flex-col md:flex-row md:items-start'>
                             <div className='self-start mb-2 md:mb-0 md:mr-3 md:self-start lg:self-center'>
@@ -54,7 +64,7 @@ const TopTracks = ({ trackCount, trackReference, topN }) => {
                                 </span>
                             </div>
                             <img
-                                className='rounded mr-2 h-24 w-24 mb-2 md:mb-0 md:h-12 md:w-12'
+                                className='rounded mr-2 w-24 mb-2 md:mb-0 md:w-12'
                                 src={trackReference[trackName].thumbnail}
                                 alt=''
                             />
@@ -92,10 +102,15 @@ TopTracks.propTypes = {
      * Number of tracks to display
      */
     topN: PropTypes.number,
+    /**
+     * Handler for focus event
+     */
+    focusHandler: PropTypes.func,
 }
 
 TopTracks.defaultProps = {
     topN: 10,
+    focusHandler: () => {},
 }
 
 export default TopTracks

@@ -40,6 +40,34 @@ class Spotify(BaseService):
             "browse/categories", headers=construct_auth_bearer(access_token)
         )
 
+    def get_multiple_tracks(self, access_token, track_ids, maximum_allowed=50):
+        """
+        Fetch multiple track information
+
+        :param access_token: Spotify API access token
+        :type access_token: str
+        :param track_id_list: Concatenated list of track IDs
+        :type track_id_list: str
+        :return: Base service result object containing response data
+        :rtype: BaseServiceResult
+        """
+        track_id_list = track_ids.split(",")
+        concatenated_response = []
+        try:
+            for index in range(0, len(track_id_list), maximum_allowed):
+                track_id_chunk = track_id_list[index : index + maximum_allowed]
+                response = self.get(
+                    "tracks",
+                    headers=construct_auth_bearer(access_token),
+                    params={"ids": ",".join(track_id_chunk)},
+                )
+                print(response.data)
+                concatenated_response += response.data["tracks"]
+        except Exception:
+            pass
+        finally:
+            return BaseServiceResult(200, concatenated_response)
+
     def get_recent_history(self, access_token, raw=False, limit=20):
         """
         Fetch recent listened songs of user

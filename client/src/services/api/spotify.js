@@ -12,6 +12,17 @@ export const getAudioFeatures = (trackID) =>
     )
 
 /**
+ * Endpoint to get track information
+ * @param {string[]} trackID List of track IDs
+ */
+export const getTrackInformation = (trackID) =>
+    http.get(
+        `/spotify/track?${new URLSearchParams({
+            track_ids: Array.from(new Set(trackID)).join(','),
+        }).toString()}`
+    )
+
+/**
  * Endpoint to get music category
  */
 export const getCategory = () => http.get(`/spotify/category`)
@@ -35,4 +46,5 @@ export const RESOURCE_API_MAP = {
     features: getAudioFeatures,
     recent: getRecentHistory,
     'recent-features': getRecentHistoryAudioFeatures,
+    track: getTrackInformation,
 }

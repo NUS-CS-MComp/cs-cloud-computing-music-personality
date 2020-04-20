@@ -42,7 +42,7 @@ export default () => {
                 >
                     <Heading
                         text='Connect'
-                        subheading='Sync with your social media'
+                        subheading='Sync with your third-party accounts'
                     />
                 </div>
                 {!isSpotifyAvailable && (

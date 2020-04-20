@@ -9,7 +9,8 @@ import Icon from '@components/Icon'
  */
 const Tab = ({ icon, title, to }) => {
     const { pathname } = useLocation()
-    const isFocusTab = pathname === to
+    const isFocusTab =
+        pathname === to || (pathname.startsWith(to) && to !== '/')
     return (
         <div className='inline-block md:w-full md:block md:mb-4 md:last:mb-0'>
             <Link to={to}>

@@ -102,7 +102,7 @@ export default class OAuthService {
      * @returns {boolean} Boolean flag determine whether cleanup is executed
      */
     cleanupFromPopup() {
-        if (window.opener) {
+        if (!DeviceDetect.isMobile && window.opener) {
             window.opener.postMessage(this.result.output, window.opener)
             window.close()
             return true

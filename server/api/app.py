@@ -22,7 +22,12 @@ app.config.from_object(Config)
 CORS(
     app,
     supports_credentials=True,
-    origins=["https://prod.d1k66fuq0oedch.amplifyapp.com", "http://localhost:3000"],
+    origins=[
+        "https://spotlightpersonality.com",
+        "https://www.spotlightpersonality.com",
+        "https://prod.d1k66fuq0oedch.amplifyapp.com",
+        "http://localhost:3000",
+    ],
 )
 Session(app)
 
@@ -33,6 +38,11 @@ for blueprint in vars(routes).values():
     """
     if isinstance(blueprint, Blueprint):
         app.register_blueprint(blueprint, url_prefix=blueprint.url_prefix)
+
+
+@app.route("/", methods=["GET"])
+def get_status():
+    return {"status": "success"}, 200
 
 
 @app.errorhandler(404)

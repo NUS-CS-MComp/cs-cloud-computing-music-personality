@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import Spinner from '@components/Spinner'
 import { initFullValidation } from '@redux/actions/validate'
 import { validitySelector } from '@redux/selectors/validate'
 
@@ -25,8 +26,11 @@ const SessionValidate = ({ children }) => {
 
     if (lodash.isEmpty(verification) || verification.loading)
         return (
-            <div className='h-full flex items-center justify-center'>
-                <span className='uppercase font-bold'>Logging You In</span>
+            <div className='h-full flex-1 flex justify-center items-center'>
+                <div className='uppercase font-bold text-lg text-spotify'>
+                    <Spinner />
+                    Validating your session
+                </div>
             </div>
         )
     return children

@@ -36,7 +36,7 @@ const useOAuthService = (providerName) => {
     }, [dispatch])
 
     useEffect(() => {
-        if (oauthStatus.completed) {
+        if (typeof oauthStatus !== 'undefined' && oauthStatus.completed) {
             dispatch(clearOAuth(providerName))
             dispatch(initValidation(providerName))
         }

@@ -18,7 +18,7 @@ const Layout = ({ children }) => (
             <div className='absolute m-4 sm:m-5 right-0 top-0 text-nav md:text-default-gray md:m-0 md:flex md:flex-row-reverse md:relative md:mb-2'>
                 <TopBar />
             </div>
-            <div className='block min-h-0 flex-1 md:overflow-y-auto'>
+            <div className='min-h-0 flex-1 flex flex-col md:block md:overflow-y-auto'>
                 {children}
             </div>
         </div>

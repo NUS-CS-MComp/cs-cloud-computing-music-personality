@@ -1,0 +1,13 @@
+{
+    "prod": {
+        "app_function": "api.app.app",
+        "profile_name": "terry",
+        "project_name": "server",
+        "runtime": "python3.8",
+        "s3_bucket": "zappa-sn9mzhuxl",
+        "aws_region": "ap-southeast-1",
+        "cors": true,
+        "certificate_arn": "arn:aws:acm:ap-southeast-1: 164735209448:certificate/77774f17-87a3-48cf-9bb3-c023b5e3aef7",
+        "domain": "api.spotlightpersonality.com"
+    }
+}

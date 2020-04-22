@@ -1,0 +1,10 @@
+*.ico
+*.png
+*.svg
+*.txt
+.eslintignore
+.prettierignore
+
+build
+config
+scripts

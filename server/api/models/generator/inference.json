@@ -1,0 +1,390 @@
+[
+    {
+        "user_id": "5a2b1510-059e-4884-9a1e-9ee4e2e5cc86",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "81f29756-71f6-41b9-9012-af6f63b39aa4",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "f258131d-efe9-49eb-8dd4-35a9120145df",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "7131a806-4997-4823-942b-8c809a011496",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "49c334d5-642d-4085-86b2-7fef70ae54a7",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "aa55e82e-a9eb-4815-81b8-fcdafb7c6a87",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "d65ba3d5-bdba-4e8d-8419-061bacabbd6a",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "fe6561fa-5ec3-4710-b460-ec9c219c0994",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "ade5b1ff-8313-46f3-ad6a-6505b49d105f",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "f2d28828-58ce-4d5b-b7da-a9576139f4bf",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "f2dfabc0-f800-4e63-a3e6-98c04034987c",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "a6ec9af0-7a0b-47b7-a9fa-2bb79ac7820e",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "7dd7c42e-5f69-4db1-b5b8-98a63483c9e9",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "acd6f6b9-18a9-4be9-8cc9-7ea7eb073f13",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "12fa68fe-434b-4d30-b018-d9db3cfad14c",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "877fd26e-cfe9-4fc4-872c-3acdb7b66d2b",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "6144e1f2-1ab7-46b9-87e6-0887a431a189",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "aba09f74-6b31-4efd-a931-b591e7e7da83",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "6e01d88b-7cda-46ed-b687-d35a54bb22ad",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "3219e4e8-1a24-4cc8-941a-e73b3d5e92dc",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "9b2cb40a-4eb6-40c6-9b97-aed092ed77a9",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "9f3973cd-32e3-4236-b37c-5c805ee2b1c0",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "e91eb003-1779-47f1-a42d-cb873927e527",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "2027c9d1-8af7-49ae-bdd1-39d10906e461",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "91d6008d-c2ad-4757-941c-132eb364074d",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "9300346b-a2f9-40e8-ade3-1d65ba3af87d",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "a8bf9a2d-60b8-4f54-b418-e1b4693e974b",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "792fadd4-c49c-4e11-bf71-ec909f32f745",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "b2ffa514-22b2-4c8a-a3a9-5b1eee42cf5f",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "d0b2c931-900f-44ed-a483-8c90f1e449b5",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "9280624c-b4da-47f7-b331-924053ca8a1f",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "986933c3-66db-4b11-8fb6-b71e6d2c9bfd",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "eae38a3f-fa64-44b5-8517-a8b731bf4bf5",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "8ed47372-162b-4049-a02d-ca40343c140a",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "2e087d21-fd6c-4c4d-b9c1-05eae8c9fa51",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "1f78c713-b9bf-4a35-8c1a-310e792d701b",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "62ba0236-94b9-49ea-aef9-8ec17cc7f4d0",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "ade05f19-9bdd-4cf8-85c2-dce21185a0d3",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "634766c8-1b3f-44cc-b088-e0714d6e7b31",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "a7f10d21-8942-4d91-a544-d7b88f7ba0a9",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "df1f1194-c122-4c68-835b-420156c5e527",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "32479444-be7a-4114-8d51-0e7a1ca43b66",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "a1d8e26c-1ca0-4bfa-b1b2-2eae6d00fa0b",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "b206d931-9b32-4bb2-b363-60814c04a385",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "a13ffc45-8d34-433a-8ab0-6c502d664f47",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "1a710e6f-69c7-4cab-9f88-e5244a9468aa",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "66fac6fb-2f94-42e8-9996-2c334f55f195",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "ba555765-ad59-4647-892d-cbc755c2cb2a",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "1aebf024-daa0-46f5-a678-44ace636d596",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "1b17fb55-7d20-4746-b4a6-2ea882d8f3d0",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "8f70a527-9302-43c7-9fb3-aed188b48d6a",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "7abebc24-d626-4c2d-9bb3-9d62d3d87be4",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "a316bf2b-a176-49e3-b2dd-c2154daa53ad",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "48fe63a4-15b3-4074-870c-4e0e4c2112c9",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "5476c56e-d185-49fd-b40c-4876836792fb",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "8b516a69-30b3-4ffb-939a-19560cf748a6",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "7e0d87fb-d84b-43b0-aa1b-e03160345b39",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "80f34bf9-d7f5-40eb-b2f6-1b82ecd35e54",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "063d395a-c7bb-4467-afc0-3316f7ded320",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "84cb7eb9-19cb-43aa-b6e3-c9bc13cb9bb3",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "f02c5556-9cc5-4949-9482-b8c5f5beace7",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "4bfc3963-2844-4708-a0b7-962589bbe669",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "4c3c5d14-d80e-4508-aa46-a61746a003e7",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "de3bd9e3-d1cb-4ef3-a1ec-e9ed35c2f628",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "21d03a56-b4c1-4ce0-ab57-d51a26ca862f",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "af214b0d-fc91-4b83-b3e6-a1eed1932ffc",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "6e8ea307-6700-406b-82d6-02f42b813ec8",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "25882e37-cf92-4461-8399-7cbea6d7ca39",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "841913fc-2f54-49f5-8f74-6dac58d57880",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "4ba67bba-875c-4104-a778-5d32d0044ffb",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "bef48d43-4966-46ff-9395-541aea108aaf",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "48d15ae2-a943-4046-95ce-f6abbc95f9ec",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "a146076f-38d8-4fbb-a93c-3d2bd4f62dd9",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "43f1d607-d80b-4bca-8e89-01adf0a3170c",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "b4ee2f21-0aa4-4d3a-96ba-3d82d899e549",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "5279a599-f09a-4e03-a92a-0b3233896fe5",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "069db001-39ac-432d-854a-fe14fcc2b0d0",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "f454fb2b-35a4-4980-9ccf-eda08a4c4143",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "a1ab75a2-5e6d-488b-8898-a771aaa61f8a",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "9d52052d-5d65-43e0-9282-b3686db8e524",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "fdf3a45d-55bd-460c-90c1-534e0ffe7617",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "ea6a153c-367a-4568-af9b-ab96ac3be88a",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "60f764c7-21cf-4fb9-91ef-ebc6c50734ab",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "d12e43a0-842c-4d21-90e4-6a61897a6308",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "a55ff3e7-1662-4618-a1ef-b11e65e523b4",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "864700a0-c445-42a8-9789-447e336aa39c",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "0e60af35-77db-4bc0-822d-068a841962ae",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "66df8fec-13a0-456a-a628-3453ec360f76",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "5bd6c402-6af7-4892-86dc-adbf3456dce1",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "1679439a-805f-4888-bbc5-130fa640fa82",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "445008fc-bada-4e62-bc18-7d79833058d1",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "a0a5c62b-cc9a-409a-b7af-5012f41a13d9",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "39eb554e-1587-4f79-ad95-2e2c23b808c2",
+        "cluster_group": "0.0"
+    },
+    {
+        "user_id": "f585b67b-1e7e-4289-83c2-ae3c980a6acc",
+        "cluster_group": "1.0"
+    },
+    {
+        "user_id": "e2feb323-fa53-4ae8-ba2b-5e26962010c7",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "88b0dbde-b2d6-49b3-bb6a-b45dfa253c08",
+        "cluster_group": "2.0"
+    },
+    {
+        "user_id": "cf3b6b68-03ca-49ce-b6d9-929d43c701c2",
+        "cluster_group": "1.0"
+    }
+]

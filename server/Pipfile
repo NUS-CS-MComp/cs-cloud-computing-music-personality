@@ -1,0 +1,30 @@
+[[source]]
+name = "spotlight"
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+black = "*"
+zappa = "*"
+
+[packages]
+flask = "*"
+requests = "*"
+flask-restful = "*"
+flask-script = "*"
+python-dotenv = "*"
+flask-cors = "*"
+redis = "*"
+boto3 = "*"
+ibm-watson = "*"
+faker = "*"
+
+[requires]
+python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true
+
+[scripts]
+server = "python api/app.py"

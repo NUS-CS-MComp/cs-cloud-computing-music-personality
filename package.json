@@ -1,50 +1,48 @@
 {
-  "name": "spotlight",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@blueprintjs/core": "^3.24.0",
-    "@blueprintjs/docs-theme": "^3.4.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "axios": "^0.19.2",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "express-pino-logger": "^4.0.0",
-    "nodemon": "^2.0.2",
-    "npm-run-all": "^4.1.5",
-    "pino-colada": "^1.5.1",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-facebook-login": "^4.1.1",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0",
-    "redux": "^4.0.5"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "node server --exec nodemon | pino-colada",
-    "dev": "run-p server start"
-  },
-  "proxy": "http://localhost:3001",
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+    "name": "cs-spotlight-personality-in-music",
+    "version": "0.1.0",
+    "description": "SpotLight: Shed Light on your Personality with Spotify",
+    "workspaces": [
+        "./client",
+        "./server"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "scripts": {
+        "install:all": "npm install && npm run install:frontend && npm run install:backend",
+        "install:frontend": "cd ./client && npm install",
+        "install:backend": "cd ./server && pipenv install --dev",
+        "start": "concurrently --names \"DB,SERVER,FRONTEND\" -c \"bgMagenta.bold,bgCyan.bold,bgBlue.bold\" --restart-tries 99 --restart-after 5000 \"npm run start:backend:db\" \"npm run start:backend:flask\" \"npm run start:frontend\"",
+        "start:backend:db": "concurrently --names \"DYNAMO,REDIS\" -c \"magenta.bold,magenta.bold\" \"npm run start:backend:dynamo\" \"npm run start:backend:redis\"",
+        "start:backend:flask": "cd ./server && pipenv run server",
+        "start:backend:dynamo": "java -Djava.library.path=./.dynamodb -jar ./.dynamodb/DynamoDBLocal.jar -sharedDb",
+        "start:backend:redis": "redis-server",
+        "start:frontend": "cd ./client && npm start"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/terryluzj/cs-spotlight-personality-in-music.git"
+    },
+    "keywords": [
+        "aws",
+        "flask",
+        "natural-language-processing",
+        "personality-insights",
+        "reactjs",
+        "recommendation-system",
+        "spotify"
+    ],
+    "author": "Chua Beverly Julia, Lu Zijian, Ng Keng Hwee, Yap Ying Ying",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/terryluzj/cs-spotlight-personality-in-music/issues"
+    },
+    "homepage": "https://github.com/terryluzj/cs-spotlight-personality-in-music#readme",
+    "husky": {
+        "hooks": {
+            "pre-commit": "cd ./client && npm run lint:staged"
+        }
+    },
+    "devDependencies": {
+        "concurrently": "^5.1.0",
+        "husky": "^4.2.3"
+    }
 }

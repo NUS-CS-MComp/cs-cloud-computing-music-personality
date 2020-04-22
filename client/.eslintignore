@@ -1,0 +1,8 @@
+*.d.ts
+*.svg
+build
+config
+dist
+node_modules
+scripts
+serviceWorker.js

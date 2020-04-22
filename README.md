@@ -1,8 +1,16 @@
 # SpotLight: Shed Light on your Personality with Spotify
 
-> Picture this: You are in a social gathering with an unfamiliar stranger, and you do not really how to continue the conversation. The background music changes to a cheery song, ”Happy” to liven the atmosphere. You may find yourself nodding and smiling to the rhythm, and the stranger smilingly comments: ”Nice song right, what kind of artists or songs are you into”. The conversation can then pick up from there, as you both start to find similar interests together.
+![SpotLight](./.image/spotlights.svg)
 
-Interestingly, in a fast-changing world, the appreciation of music still remains a very relevant theme across different generations. Researchers have concluded that an individual’s taste in music is in fact related to his or her own personality and attitudes. This exciting insight motivated our group to embark on this project, where we want to make use of a person’s Spotify music feed to shed light on his or her personality; therefore, SpotLight!
+**https://www.spotlightpersonality.com/**
+
+> Picture this: You are in a social gathering with an unfamiliar stranger, and you do not really how to continue the conversation. The background music changes to a cheery song, ”Happy” to liven the atmosphere. You may find yourself nodding and smiling to the rhythm, and the stranger smilingly comments: ”Nice song right, what kind of artists or songs are you into”. The conversation can then pick up from there, as you both start to find similar interests together.
+>
+> Interestingly, in a fast-changing world, the appreciation of music still remains a very relevant theme across different generations. Researchers have concluded that an individual’s taste in music is in fact related to his or her own personality and attitudes. This exciting insight motivated our group to embark on this project, where we want to make use of a person’s Spotify music feed to shed light on his or her personality; therefore, SpotLight!
+
+SpotLight is a Software-as-a-Service (SaaS) aimed at understanding an individual’s personality based from his or her music taste. A high level overview of our pipeline would be as follows: We first retrieve relevant data from multiple data sources: Spotify and each user's social media feed, specifically Facebook, Twitter and Reddit. We then proceed to use commercial SaaS such as IBM Personality Insights and AWS SageMaker where we can essentially profile each user through both their social media content and music taste into different personality groups using machine learning techniques. We can then render these analysis results to the user by delivering SpotLight as a SaaS - a user-friendly web application built on popular frameworks: ReactJS and Flask backend.
+
+![SpotLight Home Page](./.image/homepage.png)
 
 ## Table of Content
 
@@ -65,6 +73,20 @@ Latest Node.js runtime can be downloaded from its [official website](https://nod
 v12.13.0
 ```
 
+#### Redis and Local DynamoDB instance
+
+Redis can be installed via `brew` on MacOS or WSL (Windows Linux Subsystem).
+
+```bash
+redis-server
+22586:C 22 Apr 2020 21:47:36.599 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+22586:C 22 Apr 2020 21:47:36.599 # Redis version=5.0.8, bits=64, commit=00000000, modified=0, pid=22586, just started
+22586:C 22 Apr 2020 21:47:36.599 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+22586:M 22 Apr 2020 21:47:36.600 * Increased maximum number of open files to 10032 (it was originally set to 8192).
+```
+
+SpotLight data is stored on AWS DynamoDB. For local development, a downloadable version is available on [AWS documentation page](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html).
+
 ## Getting Started
 
 > Please read the previous section [Before Starting the Project](#before-starting-the-project) before you starting the project.
@@ -99,30 +121,16 @@ If you get "pip is configured with locations that require TLS/SSL, however the s
 -   `$USER_HOME\Anaconda3\Library\bin`
 -   `$USER_HOME\Anaconda3]\Scripts`
 
-## Register your Application
-
-### Register the app to spotify
-
--   Follow https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app
--   Whitelist the redirectUri in Home.js
--   Replace `spotifyClientId` with your clientId
-
-### Register the app to Facebook
-
--   Go to https://developers.facebook.com/apps to create a Facebook application
--   Get your `facebookAppId` and insert it into Home.js
-
 ## Miscellaneous
 
 ### To-dos
 
 -   :white_check_mark: Modularize Flask app code
--   :white_large_square: Refinement on React code (migrating to React Hooks)
--   :white_large_square: Connection to AWS services for testing
--   :white_large_square: Deployment to AWS Elastic Beanstalk
--   :white_large_square: Enable CI/CD
--   :white_large_square: TDD
--   :white_large_square: Move from SCSS and Styled Components to Tailwind CSS (including staged linting, configurations etc.)
+-   :white_check_mark: Refinement on React code (migrating to React Hooks)
+-   :white_check_mark: Connection to AWS services for testing
+-   :white_check_mark: Deployment to AWS Amplify and API Gateway
+-   :white_check_mark: Enable CI/CD
+-   :white_check_mark: Move from SCSS and Styled Components to Tailwind CSS (including staged linting, configurations etc.)
 
 ### Things to note
 

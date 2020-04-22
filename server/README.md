@@ -33,3 +33,7 @@ For user information related endpoints:
 
 -   `POST /user/authenticate` Authenticate user by session cookies
 -   `GET /user/profile/{provider_name}` Retrieve user information from OAuth provider
+-   `GET /me` Get user profile
+-   `POST /logout` Logout user
+-   `GET /personality` Get personality scores from IBM watson
+-   `GET, POST /infer` Get clustering inference scores
